@@ -1,0 +1,90 @@
+
+# Greenline
+PAZ_RAC =
+  (DESCRIPTION =
+    (ADDRESS_LIST=
+        (ADDRESS = (PROTOCOL = TCP)(HOST = 132.0.200.3)(PORT = 1521))
+        (ADDRESS = (PROTOCOL = TCP)(HOST = 132.0.200.4)(PORT = 1521))
+        (LOAD_BALANCE = yes)
+    )
+    (CONNECT_DATA = (SERVICE_NAME = PAZ_RAC) (FAILOVER_MODE = (TYPE = SELECT) (METHOD = BASIC) (RETRIES = 180) (DELAY = 5) ) )
+  )
+
+PAZ1 =
+  (DESCRIPTION =
+    (ADDRESS_LIST= (ADDRESS = (PROTOCOL = TCP)(HOST = 132.0.200.1)(PORT = 1521))
+                   (ADDRESS = (PROTOCOL = TCP)(HOST = 132.0.200.3)(PORT = 1521))
+     )             (CONNECT_DATA = (SID = PAZ1) )
+  )
+
+PAZ2 =
+  (DESCRIPTION =
+    (ADDRESS_LIST= (ADDRESS = (PROTOCOL = TCP)(HOST = 132.0.200.2)(PORT = 1521))
+                   (ADDRESS = (PROTOCOL = TCP)(HOST = 132.0.200.4)(PORT = 1521))
+     )             (CONNECT_DATA = (SID = PAZ2) )
+  )
+
+greenasm1 =
+  (DESCRIPTION =
+    (ADDRESS_LIST= (ADDRESS = (PROTOCOL = TCP)(HOST = 132.0.200.1)(PORT = 1521))
+                   (ADDRESS = (PROTOCOL = TCP)(HOST = 132.0.200.3)(PORT = 1521))
+     )             (CONNECT_DATA = (SID = +ASM1) )
+  )
+
+
+PAZ_RAC =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = greenrp1-vip)(PORT = 1521))
+    (ADDRESS = (PROTOCOL = TCP)(HOST = greenrp2-vip)(PORT = 1521))
+    (LOAD_BALANCE = yes)
+    (CONNECT_DATA =
+      (SERVICE_NAME = PAZ_RAC) (SERVER = DEDICATED)
+      (FAILOVER_MODE = (TYPE = SELECT) (METHOD = BASIC) (RETRIES = 180) (DELAY = 5) )
+    )
+  )
+
+PAZ =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = greenrp1-vip)(PORT = 1521))
+    (ADDRESS = (PROTOCOL = TCP)(HOST = greenrp2-vip)(PORT = 1521))
+    (LOAD_BALANCE = yes)
+    (CONNECT_DATA =
+      (SERVICE_NAME = PAZ) (SERVER = DEDICATED)
+      (FAILOVER_MODE = (TYPE = SELECT) (METHOD = BASIC) (RETRIES = 180) (DELAY = 5) )
+    )
+  )
+
+
+P1 =
+  (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = 132.0.200.1 )(PORT = 1521))
+    (CONNECT_DATA =
+      #(SERVICE_NAME = PAZ)
+      (sid = paz1)
+    )
+  )
+
+P2 =
+  (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = 132.0.200.2 )(PORT = 1521))
+    (CONNECT_DATA =
+      #(SERVICE_NAME = PAZ)
+      (sid = paz1)
+    )
+  )
+
+P3 =
+  (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = 132.0.200.3 )(PORT = 1521))
+    (CONNECT_DATA =
+      #(SERVICE_NAME = PAZ)
+      (sid = paz1)
+    )
+  )
+
+P4 =
+  (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = 132.0.200.4 )(PORT = 1521))
+    (CONNECT_DATA =
+      #(SERVICE_NAME = PAZ)
+      (sid = paz1)
+    )
+  )
+
+

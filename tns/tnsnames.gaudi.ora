@@ -1,0 +1,8 @@
+
+###### Telefonica
+
+GAUDI       = (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = 10.20.142.147)(PORT = 1521)) (CONNECT_DATA = (SERVICE_NAME = prob)                      ) )
+GAUDIPE     = (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = 10.226.4.131) (PORT = 1521)) (CONNECT_DATA = (SERVICE_NAME = gaud)                      ) )
+PRU3        = (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = 10.249.12.29) (PORT = 1521)) (CONNECT_DATA = (SERVICE_NAME = PRU3) (SERVER = DEDICATED) ) )
+gaudidesb   = (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = 10.249.12.11) (PORT = 1525)) (CONNECT_DATA = (SID          = desb)                      ) )
+

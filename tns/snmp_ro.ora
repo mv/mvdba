@@ -1,0 +1,3 @@
+snmp.visibleservices = ()
+ifile = C:\oracle\snmp_rw.ora
+ifile = C:\oracle\sqlnet.ora

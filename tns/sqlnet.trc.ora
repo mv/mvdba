@@ -1,0 +1,40 @@
+# $Id$
+# sqlnet.ora
+# Log and Trace options: client Win32
+#                        for unix: adjust local file paths
+#
+
+###   trcasst: parse trace files and show statistics
+###            http://download.oracle.com/docs/cd/B19306_01/network.102/b14212/troublestng.htm#sthref1806
+
+###  Referece: http://download.oracle.com/docs/cd/B19306_01/network.102/b14212/troublestng.htm#i444121
+# Default: current directory
+LOG_DIRECTORY_CLIENT=C:\tmp\sqlnet\log
+
+# Default: sqlnet.log
+LOG_FILE_CLIENT=my_sqlnet.log
+
+
+###  Referece: http://download.oracle.com/docs/cd/B19306_01/network.102/b14212/troublestng.htm#sthref1709
+# Default: $ORACLE_HOME/network/trace
+TRACE_DIRECTORY_CLIENT=c:\tmp\sqlnet\trc
+
+# Default: sqlnet.trc
+TRACE_FILE_CLIENT=my_sqlnet.trc
+
+# Options
+#   off
+#   user
+#   admin
+#   support
+TRACE_LEVEL_CLIENT=admin
+TRACE_TIMESTAMP_CLIENT=on
+TRACE_UNIQUE_CLIENT=on
+
+TNSPING.TRACE_DIRECTORY=c:\tmp\sqlnet\tnsping
+# Options
+#   off
+#   user
+#   admin
+#   support
+TNSPING.TRACE_LEVEL=admin

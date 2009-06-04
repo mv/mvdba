@@ -1,0 +1,50 @@
+
+FSW2        =(DESCRIPTION=              (ADDRESS=(PROTOCOL=tcp)(HOST=mdbdevdb014.mdb.com.br)(PORT=1546)) (CONNECT_DATA=(SID = fsw2    )))
+pex         =(DESCRIPTION=              (ADDRESS=(PROTOCOL=tcp)(HOST=mdbdevdb014.mdb.com.br)(PORT=1545)) (CONNECT_DATA=(SID = devfs   )))
+DBWLRP01    =(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=192.168.5.36          )(PORT=1521)))(CONNECT_DATA=(SID = dbwlrp01)))
+
+DEVFS_tst   =(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=mdbdbtst              )(PORT=1528)))(CONNECT_DATA=(SID = devfs   )))
+DEVFS_sb    =(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=mdbsb01               )(PORT=1545)))(CONNECT_DATA=(SID = devfs   )))
+FSW_sb      =(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=mdbsb01               )(PORT=1546)))(CONNECT_DATA=(SID = fsw2    )))
+
+DEV2        =(DESCRIPTION              =(ADDRESS=(PROTOCOL=tcp)(HOST=mdbdbtst              )(PORT=1529)) (CONNECT_DATA=(SID = DEV2    )))
+QA2         =(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=tcp)(HOST=mdbdevdb014.mdb.com.br)(PORT=1551)))(CONNECT_DATA=(SID = QA2     )))
+DEV4        =(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=tcp)(HOST=mdbsb01               )(PORT=1548)))(CONNECT_DATA=(SID = DEV4    )))
+crp3        =(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=tcp)(HOST=mdbsb01               )(PORT=1542)))(CONNECT_DATA=(SID = crp3    )))
+crpfull     =(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=mdbdevdb004.mdb.com.br)(PORT=1524)))(CONNECT_DATA=(sid = crpfull )))
+EBSTREINA   =(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=tcp)(HOST=mdbdevdb013           )(PORT=1521)))(CONNECT_DATA=(SID = TREINA  )))
+
+FNDFS_MDBEBSGOLD                 = (DESCRIPTION= (ADDRESS=(PROTOCOL=tcp)(HOST=MDBEBSGOLD.mdb.com.br)(PORT=1633)) (CONNECT_DATA= (SID=FNDFS)))
+FNDFS_MDBEBSGOLD.mdb.com.br      = (DESCRIPTION= (ADDRESS=(PROTOCOL=tcp)(HOST=MDBEBSGOLD.mdb.com.br)(PORT=1633)) (CONNECT_DATA= (SID=FNDFS)))
+FNDFS_DEVFS_MDBEBSGOLD           = (DESCRIPTION= (ADDRESS=(PROTOCOL=tcp)(HOST=MDBEBSGOLD.mdb.com.br)(PORT=1633)) (CONNECT_DATA= (SID=FNDFS)))
+FNDFS_DEVFS_MDBEBSGOLD.mdb.com.br= (DESCRIPTION= (ADDRESS=(PROTOCOL=tcp)(HOST=MDBEBSGOLD.mdb.com.br)(PORT=1633)) (CONNECT_DATA= (SID=FNDFS)))
+FNDSM_MDBEBSGOLD_DEVFS           = (DESCRIPTION= (ADDRESS=(PROTOCOL=tcp)(HOST=MDBEBSGOLD.mdb.com.br)(PORT=1633)) (CONNECT_DATA= (SID=FNDSM)))
+FNDSM_MDBEBSGOLD.mdb.com.br_DEVFS= (DESCRIPTION= (ADDRESS=(PROTOCOL=tcp)(HOST=MDBEBSGOLD.mdb.com.br)(PORT=1633)) (CONNECT_DATA= (SID=FNDSM)))
+DEVFS_806_BALANCE                = (DESCRIPTION= (ADDRESS=(PROTOCOL=tcp)(HOST=mdbdbtst.mdb.com.br  )(PORT=1528)) (CONNECT_DATA= (SID=DEVFS)))
+
+
+CRPFULL =
+    (DESCRIPTION =
+        (ADDRESS = (PROTOCOL = TCP)(HOST = mdbebsdb001-vip.mdb.com.br)(PORT = 1521))
+        (ADDRESS = (PROTOCOL = TCP)(HOST = mdbebsdb002-vip.mdb.com.br)(PORT = 1521))
+        (LOAD_BALANCE = yes)
+        (CONNECT_DATA = (SERVICE_NAME = ebsdb.mdb.com.br) )
+    )
+
+DEV5 =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = mdbdevdb004-vip.mdb.com.br)(PORT = 1521))
+    (ADDRESS = (PROTOCOL = TCP)(HOST = mdbdevdb005-vip.mdb.com.br)(PORT = 1521))
+    (LOAD_BALANCE = yes)
+    (CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = ebsdev.mdb.com.br) )
+  )
+
+EBSTREINA =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = mdbebsdb001-vip.mdb.com.br)(PORT = 1521))
+    (ADDRESS = (PROTOCOL = TCP)(HOST = mdbebsdb002-vip.mdb.com.br)(PORT = 1521))
+    (LOAD_BALANCE = yes)
+    (CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = ebsdb.mdb.com.br) )
+  )
+
+
