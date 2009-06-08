@@ -52,6 +52,8 @@ SELECT /*+ choose */ s.status   "Status"
    AND (s.sql_address    = area.address AND
         s.sql_hash_value = area.hash_value)
 -- AND s.status = 'ACTIVE'
-   AND s.audsid <> USERENV('SESSIONID')
+   AND s.audsid <> USERENV('SESSIONID') -- exclude my monitoring session
 -- and (area.sql_text like '%delete%' or area.sql_text like '%DELETE%')
- ORDER BY s.status, si.physical_reads DESC -- area.sql_TEXT --
+ ORDER BY s.status
+        , si.physical_reads DESC
+     -- , area.sql_TEXT
