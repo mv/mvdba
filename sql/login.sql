@@ -69,8 +69,8 @@
     SET TRIMSPOOL       ON
     SET WRAP            ON
     -- DBMS_METADATA
-    SET LONG            1024000
-    SET LONGCHUNKSIZE   1024000
+    SET LONG            102400
+    SET LONGCHUNKSIZE   102400
 -- }
 
 -- Pretty::Globals {
