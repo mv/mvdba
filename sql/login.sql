@@ -60,7 +60,6 @@
     SET TERMOUT ON
 -- }
 
-
 -- Spool Results {
     SET SERVEROUTPUT    ON SIZE UNLIMITED
     SET PAGESIZE        200
@@ -93,6 +92,12 @@
     -- DB_Links
     COLUMN db_link      FORMAT A20
     COLUMN host         FORMAT A20
+
+    -- Sessions
+    COLUMN username     FORMAT A30
+    COLUMN module       FORMAT A20
+    COLUMN action       FORMAT A20
+
 -- }
 
 -- Trace/Tuning {
@@ -141,4 +146,6 @@
 -- }
 
 DEFINE _EDITOR=vim
+
+-- vim: ft=plsql foldlevel=0:
 
