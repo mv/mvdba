@@ -1,0 +1,56 @@
+
+10.2.0.4
+--------
+
+Mac OS X
+
+    # Existing user/groups
+    dscl . -list /users  uid
+    dscl . -list /groups gid  | egrep 'oinstall|dba|oper'
+
+    # Removing user and groups
+    sudo dscl . -delete /users/oracle
+    sudo dscl . -delete /groups/oinstall
+    sudo dscl . -delete /groups/dba
+    sudo dscl . -delete /groups/oper
+
+    # Creating 
+    sudo dscl . -create /groups/oinstall 
+    sudo dscl . -append /groups/oinstall gid 1500 
+    sudo dscl . -append /groups/oinstall passwd "*" 
+
+    sudo dscl . -create /groups/dba 
+    sudo dscl . -append /groups/dba  gid 1501
+    sudo dscl . -append /groups/dba  passwd "*" 
+
+    sudo dscl . -create /groups/oper 
+    sudo dscl . -append /groups/oper gid 1502
+    sudo dscl . -append /groups/oper passwd "*" 
+
+    sudo dscl . -delete /users/oracle
+    sudo dscl . -create /users/oracle 
+    sudo dscl . -append /users/oracle uid 1500 
+    sudo dscl . -append /users/oracle gid 1500  
+    sudo dscl . -append /users/oracle shell /bin/bash 
+    sudo dscl . -append /users/oracle home /Users/oracle 
+    sudo dscl . -append /users/oracle realname "Oracle Software" 
+    sudo dscl . -append /groups/dba  GroupMembership oracle
+    sudo dscl . -append /groups/oper GroupMembership oracle
+    
+    sudo mkdir /Users/oracle 
+    sudo chown oracle:oinstall /Users/oracle 
+
+    id -a oracle
+    
+    sudo dscl . -append /groups/dba  GroupMembership marcus
+    sudo dscl . -append /groups/oper GroupMembership marcus
+    sudo dscl . -append /groups/dba  GroupMembership mferreira
+    sudo dscl . -append /groups/oper GroupMembership mferreira
+    
+    ### ~/.profile  or /etc/rc.common
+    # Must match kern.maxprocperuid
+    ulimit -Hu 512
+    ulimit -Su 512
+    # Must match kern.maxfilesperproc
+    ulimit -Hn 10240
+    ulimit -Sn 10240

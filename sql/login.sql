@@ -90,7 +90,9 @@
     COLUMN object_name  FORMAT A30
 
     -- DB_Links
+    COLUMN db           FORMAT A20
     COLUMN db_link      FORMAT A20
+    COLUMN global_name  FORMAT A20
     COLUMN host         FORMAT A20
 
     -- Sessions
@@ -120,21 +122,21 @@
     SET SQLPROMPT       "- &&_user@&&_connect_identifier > "
 
     -- == Pre-10g
-    UNDEFINE usr db
-    col usr new_value usr
-    col db  new_value db
-
-    SET TERMOUT OFF
-    select lower(user) AS usr
-         , lower(decode( instr(global_name, '.' )
-                       , 0 , global_name
-                       , substr(global_name, 1, instr(global_name, '.')-1)) 
-            )          AS db
-      from global_name -- v$database
-/
-    SET TERMOUT ON
-    SET SQLPROMPT   '- &&usr.@&&db. > '
-    UNDEFINE usr db
+--     UNDEFINE usr db
+--     col usr new_value usr
+--     col db  new_value db
+--
+--     SET TERMOUT OFF
+--     select lower(user) AS usr
+--          , lower(decode( instr(global_name, '.' )
+--                        , 0 , global_name
+--                        , substr(global_name, 1, instr(global_name, '.')-1))
+--             )          AS db
+--       from global_name -- v$database
+-- /
+--     SET TERMOUT ON
+--     SET SQLPROMPT   '- &&usr.@&&db. > '
+--     UNDEFINE usr db
     -- == Pre-10g - END
 
 -- }
