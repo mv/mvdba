@@ -1,0 +1,222 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0063)http://diagnostics.us.oracle.com/templates/readme_template.html -->
+<HTML lang=en-US><HEAD><TITLE>[SQLAREAT.SQL] - [SQL Area, Plan and Statistics for Top DML (Logical/Physical)]</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=windows-1252">
+<STYLE type=text/css>.OraHeaderSub {
+	FONT-WEIGHT: bold; FONT-SIZE: 14pt; COLOR: #336699; FONT-FAMILY: Arial, Helvetica, Geneva, sans-serif
+}
+.OraTableCellText {
+	FONT-SIZE: 10pt; COLOR: #000000; FONT-FAMILY: Arial, Helvetica, Geneva, sans-serif; BACKGROUND-COLOR: #f7f7e7
+}
+.OraTableRowHeader {
+	FONT-WEIGHT: bold; FONT-SIZE: 10pt; COLOR: #336699; TEXT-INDENT: 1px; FONT-FAMILY: Arial, Helvetica, Geneva, sans-serif; BACKGROUND-COLOR: #cccc99; TEXT-ALIGN: left
+}
+.OraErrorText {
+	FONT-WEIGHT: bold; FONT-SIZE: 10pt; COLOR: #cc0000; FONT-FAMILY: Arial, Helvetica, Geneva, sans-serif
+}
+.OraBGColorDark {
+	BACKGROUND-COLOR: #336699
+}
+</STYLE>
+
+<META content="Microsoft FrontPage 5.0" name=GENERATOR></HEAD>
+<BODY background="">
+<TABLE width=620 summary="">
+  <TBODY>
+  <TR>
+    <TD>
+      <TABLE cellSpacing=0 cellPadding=0 width="100%" summary="" border=0>
+        <TBODY>
+        <TR>
+          <TD class=OraBGColorDark vAlign=top width="100%" 
+        height=14>&nbsp;</TD></TR></TBODY></TABLE>
+      <TABLE cellPadding=3 width="100%" summary="" border=0>
+        <TBODY>
+        <TR>
+          <TH class=OraTableRowHeader colSpan=2>Abstract </TH></TR>
+        <TR>
+          <TD class=OraTableCellText colSpan=2><b>SQLAREAT.SQL - SQL Area, Plan and 
+          Statistics for Top DML (expensive SQL in terms of logical or physical 
+          reads)</b><p>Reports V$SQLAREA, V$SQL_PLAN, 
+          V$SQL_PLAN_STATISTICS and V$SQL_WORKAREA for Top x DML commands 
+          according to<br>BUFFER_GETS and DISK_READS (logical and physical reads).&nbsp; 
+          Once it identifies top SQL in terms of logical or 
+          physical reads (usually<br>top 10), it reports the actual SQL 
+          statements (full text), as well as their explain plan (actual 
+          execution plan if used on 9i).&nbsp; It also reports<br>CBO stats for accessed objects and indexed columns.&nbsp;
+          When used on an Oracle Apps database, it may  report the actual 
+          application<br>user who issued the expensive SQL through a FORM or 
+          Concurrent Program.<p>
+          Carlos Sierra<br>Apps Engineering CoE<br>Oracle Support</TD></TR>
+        <TR>
+          <TD colSpan=2>&nbsp; </TD></TR>
+        <TR>
+          <TH class=OraTableRowHeader noWrap>
+            <p align="left">Product Name, Product Version</p>
+ </TH>
+          <TD class=OraTableCellText width="100%"><br>SQLAERAT.SQL can be used on 
+          any database 8.1.6 or higher, and it 
+          is not constrained to Oracle Apps.<br>SQLAREAT.SQL supersedes the 
+          coe_sqlarea.sql script.<br>
+            <br>
+            </TD></TR>
+        <TR>
+          <TH class=OraTableRowHeader noWrap>Platform </TH>
+          <TD class=OraTableCellText width="100%">Platform Independent</TD></TR>
+        <TR>
+          <TH class=OraTableRowHeader noWrap>Date Created </TH>
+          <TD class=OraTableCellText width="100%">May 2003 (updated on 
+          01-DEC-03)</TD></TR>
+        <TR>
+          <TD colSpan=2>&nbsp; </TD></TR>
+        <TR>
+          <TH class=OraTableRowHeader colSpan=2>Instructions </TH></TR>
+        <TR>
+          <TD class=OraTableCellText colSpan=2><PRE>Execution Environment:
+     SQL*Plus
+
+Access Privileges:
+     Requires to access some V$ dynamic views.  If used on an Apps instance, connect as APPS.  
+     In general, connect into SQL*Plus as main application schema owner, or as SYSTEM.
+     If application schema owner (APPS or any other) does not have access to data dictionary
+     dynamic views, use included script SQLAGRNT.SQL to grant access to required views.
+
+Usage:
+     sqlplus apps/&lt;pwd&gt;
+     SQL&gt;START SQLAREAT;
+
+Instructions:
+
+ 1. Unzip file <a title="SQLA.ZIP" href="/cgi-bin/cr/getfile.cgi?p_attid=238684.1:1">SQLA.zip</a> into dedicated directory on db server preserving case
+    on all scripts (UPPER CASE). Example: SQLAREAT.SQL
+
+ 2. If you are using script SQLAREAT.SQL for the first time, connect as main
+    application user (APPS if using Oracle Apps) and execute:
+    
+    # sqlplus apps/&lt;pwd&gt; 
+    SQL&gt; START SQLACREA.SQL;
+
+    This step creates a staging repository that is used by SQLAREAT.SQL
+
+    If not sure if the staging repository has been created or not, simply
+    execute SQLACREA.SQL and it will re-create it.
+
+    If you get PLS-00201 errors, execute SQLAGRNT.SQL as SYSTEM, SYS or
+    INTERNAL
+
+ 3. Once the staging repository is created, execute:
+
+    # sqlplus apps/&lt;pwd&gt; 
+    SQL&gt; START SQLAREAT.SQL;
+
+ 4. SQLAREAT.SQL creates an HTML spool file with most expensive SQL.
+
+    Execute this script manually or within a cron job. Suggested frequency
+    is every 15 minutes during peak time (high system load window).
+
+ 5. If SQLAREAT.SQL is used over a period of time (i.e. peak hours), use
+    included SQLAREAR.SQL to extract most expensive SQL observed during a
+    range of snapshots captured previously by SQLAREAT.SQL:
+
+    # sqlplus apps/&lt;pwd&gt; 
+    SQL&gt; START SQLAREAR.SQL &lt;p_process_type&gt; &lt;p_snap_id_from&gt; &lt;p_snap_id_to&gt;;
+    SQL&gt; START SQLAREAR.SQL LR 1 4;
+
+    Where p_process_type is LR for logical reads or PR for physical reads
+
+ 6. In addition to SQLAREAT.SQL and SQLAREAR.SQL, use the SQLAREAS.SQL to
+    report additional statistics.
+
+    # sqlplus apps/&lt;pwd&gt; 
+    SQL&gt; START SQLAREAS.SQL;
+
+ 7. If you need to uninstall this tool, execute commands below and remove 
+    scripts SQLA* from dedicated directory
+
+    # sqlplus apps/&lt;pwd&gt; 
+    SQL&gt; START SQLADROP.SQL
+
+    If you ever executed SQLAGRNT.SQL, use SQLAREVK.SQL when uninstalling
+
+ 8. For feedback, email author carlos.sierra@oracle.com
+
+
+PROOFREAD THIS SCRIPT BEFORE USING IT! Due to differences in the way text 
+editors, e-mail packages, and operating systems handle text formatting (spaces, 
+tabs, and carriage returns), this script may not be in an executable state
+when you first receive it. Check over the script to ensure that errors of
+this type are corrected. The script will produce an output file named
+SQLAREATnnnn.HTML. This file can be viewed in a browser or uploaded for support
+analysis.
+</PRE></TD></TR>
+        <TR>
+          <TD colSpan=2>&nbsp; </TD></TR>
+        <TR>
+          <TH class=OraTableRowHeader colSpan=2>Description </TH></TR>
+        <TR>
+          <TD class=OraTableCellText colSpan=2><PRE>Use SQLAREAT.SQL to identify expensive SQL in terms of logical and physical reads.<br>
+Once the most expensive SQLs are identified, use the module name to determine their origin,
+and use the explain plan and list of indexed columns to start troubleshooting these SQLs.<br>
+SQLAREAT.SQL becomes useful when you experience overall performance degradation.  In other
+words, you may notice all processes are performing poorly (possible back-end tuning issue).<br>
+This script does not replace the eventual need to use the StatsPack.  The latter is a very
+comprehensive tool that queries several dynamic views on your overall system performance.
+In the other hand, SQLAREAT.SQL provides valuable details on your most expensive SQL.  These
+details are commonly used to diagnose expensive SQL commands (SQL tuning).<br>
+Another common use of the SQLAREAT.SQL is when a single process 'hangs' (i.e. it never completes).
+In these cases, killing the hanging process, just to turn trace on and execute again, may
+lead to unnecessary delays.  By using this script before or just after the hanging process is
+killed, you may capture the expensive SQL in which the process 'hangs'.<br>
+If you want to supress the html output of SQLAREAT.SQL in order to schedule periodic snapshots
+using any scheduler like DBMS_JOB, execute SQLA$.SNAPSHOT.  This procedure takes one parameter
+with a default of 10 (number of 'top' statements to snapshot).<br>
+When the initialization parameter 'statistics_level' is set to 'ALL' (9i databases), some of
+the dynamic views queried by SQLAREAT.SQL are populated.  You can set this parameter on your
+initialization file, or by using the following dynamic command on 9i:   </PRE><PRE>SQL> ALTER SYSTEM SET statistics_level = 'ALL';<br>
+SQLAREAT.SQL is capable of reporting the ERP user when executed on an Apps instance, if the
+profile 'Sign-On:Audit Level' is set to 'FORM' at the Site level.  This capability is very
+useful to determine which user executed the expensive SQL (online or concurrent program).</PRE><PRE>Keep in mind that setting the 'statistics_level' parameter or the 'Sign-On:Audit Level' profile
+option, do not have an immediate effect on the SQLAREAT.SQL.
+</PRE></TD></TR>
+        <TR>
+          <TD colSpan=2>&nbsp; </TD></TR>
+        <TR>
+          <TH class=OraTableRowHeader colSpan=2>References and Related Notes</TH></TR>
+        <TR>
+          <TD class=OraTableCellText colSpan=2><PRE>Troubleshooting Oracle Apps Performance Issues <a title="MetaLink Note:169935.1" target="_blank" href="http://metalink.oracle.com/metalink/plsql/showdoc?db=NOT&id=169935.1">169935.1</a>
+SQLTXPLAIN.SQL - Enhanced Explain Plan and diagnostic info for one SQL statement <a title="MetaLink Note:215187.1" target="_blank" href="http://metalink.oracle.com/metalink/plsql/showdoc?db=NOT&id=215187.1">215187.1</a>
+profiler.sql - Implementing and Using the PL/SQL Profiler <a title="MetaLink Note:243755.1" target="_blank" href="http://metalink.oracle.com/metalink/plsql/showdoc?db=NOT&id=243755.1">243755.1</a>
+TRCANLZR.sql - Trace Analyzer (Interpreting Raw SQL Traces generated by EVENT 10046) <a title="MetaLink Note:224270.1" target="_blank" href="http://metalink.oracle.com/metalink/plsql/showdoc?db=NOT&id=224270.1">224270.1</a>
+</PRE></TD></TR>
+        <tr>
+          <TD colSpan=2>&nbsp; </TD>
+        </tr>
+        <tr>
+          <TH class=OraTableRowHeader colSpan=2>Scripts </TH>
+        </tr>
+        <tr>
+           <TD class=OraTableCellText colSpan=2><PRE>The following files are included in the <a title="SQLA.ZIP" href="/cgi-bin/cr/getfile.cgi?p_attid=238684.1:1">SQLA.zip</a> compressed file:<br>
+  Installation and Staging Repository Maintenance:
+    SQLACREA.SQL - Creates Schema Objects for 'SQL Area Top DML'
+    SQLADROP.SQL - Drops Schema Objects used by the 'SQL Area Top DML' tool
+    SQLAREPO.SQL - Creates Staging Repository for 'SQL Area Top DML'
+    SQLAPKGS.SQL - Creates Package Specs for SQLA$
+    SQLAPKGP.SQL - Creates Package Body for SQLA$
+    SQLAGRNT.SQL - Grants Object Privileges to USER of SQL Area scripts
+    SQLAREVK.SQL - Revokes Object Privileges to USER of SQL Area scripts
+    SQLAPURG.SQL - Purges Staging Repository of 'SQL Area Top DML'
+    
+  SQL Area reporting:
+    SQLAREAT.SQL - SQL Area, Plan and Statistics for Top DML (Logical/Physical)
+    SQLAREAR.SQL - SQL Area, Plan and Statistics for Top DML (range of snaps)
+    SQLAREAS.SQL - SQL Area Statistics
+
+  Other files:
+    INSTRUCTIONS_238684.TXT - Short instructions
+    NOTE_238684.HTML - This document
+    EXAMPLE_SQLAREAT0003.HTML - Example of spool file generated by SQLAREAT.SQL
+    EXAMPLE_SQLAREAR0001.HTML - Example of spool file generated by SQLAREAR.SQL
+    EXAMPLE_SQLAREAS.HTML - Example of spool file generated by SQLAREAS.SQL
+</PRE></TD>
+        </tr>
+</TBODY></TABLE>

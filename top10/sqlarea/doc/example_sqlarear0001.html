@@ -1,0 +1,1409 @@
+<html><head><title>SQLAREAR0001.HTML</title>
+<style type="text/css">
+h1  { font-family:Arial,Helvetica,Geneva,sans-serif;font-size:16pt }
+h2  { font-family:Arial,Helvetica,Geneva,sans-serif;font-size:12pt }
+h3  { font-family:Arial,Helvetica,Geneva,sans-serif;font-size:10pt }
+pre { font-family:Courier New,Geneva;font-size:8pt }
+</style></head><body><pre>
+<h1>SQLAREAR.SQL - SQL Area, Plan and Statistics for Top DML (Logical/Physical)</h1>
+METALINK_NOTE       = <a title="MetaLink Note:238684.1" target="_blank" href="http://metalink.oracle.com/metalink/plsql/showdoc?db=NOT&id=238684.1">238684.1</a>
+PLATFORM            = HPUX 64bit Production
+DATABASE            = VISUS19(3744477655)
+INSTANCE            = VISUS19(1)
+STARTUP_TIME        = 18-MAY-2003 15:36
+RDBMS_RELEASE       = 9.2.0.2.0
+CPU_COUNT           = 4
+
+P_TOP               = 10
+P_PROCESS_TYPE      = LR (logical reads)
+P_SNAP_ID_FROM      = 0001(2003-MAY-18 18:29)
+P_SNAP_ID_TO        = 0004(2003-MAY-18 18:48)
+
+SYSDATE             = 18-MAY-2003 19:03
+
+
+<h2>V$LIBRARYCACHE (BETWEEN 18-MAY-2003 15:36 AND 18-MAY-2003 19:03)</h2>
+
+                                              GET HIT                               PIN HIT
+NAMESPACE                 GETS        GETHITS   RATIO           PINS        PINHITS   RATIO        RELOADS  INVAL
+--------------- -------------- -------------- ------- -------------- -------------- ------- -------------- ------
+SQL AREA                 46713          42378    90.7       14641197       14636473   100.0            117    241
+TABLE/PROCEDURE          76596          73594    96.1         268141         263564    98.3              5      0
+BODY                     23098          22884    99.1          23117          22894    99.0              0      0
+TRIGGER                    791            767    97.0            791            767    97.0              0      0
+INDEX                     2307           2166    93.9           2312           2126    92.0              0      0
+CLUSTER                    487            479    98.4            623            613    98.4              0      0
+OBJECT                       0              0   100.0              0              0   100.0              0      0
+PIPE                      5416           5406    99.8           5416           5406    99.8              0      0
+JAVA SOURCE                  0              0   100.0              0              0   100.0              0      0
+JAVA RESOURCE                0              0   100.0              0              0   100.0              0      0
+JAVA DATA                    6              4    66.7             17             13    76.5              0      0
+
+
+<h2>SHARED POOL - SGA</h2>
+
+NAME                        SIZE(MB)
+-------------------------- ---------
+sql area                          48
+library cache                     26
+free memory                       23
+miscellaneous                     17
+KGLS heap                         11
+PL/SQL MPCODE                      9
+event statistics per sess          7
+FileOpenBlock                      6
+PL/SQL DIANA                       5
+KQR L PO                           4
+KQR M PO                           3
+kgl simulator                      3
+dictionary cache                   3
+sessions                           2
+enqueue resources                  2
+Checkpoint queue                   2
+1M buffer                          2
+enqueue                            1
+transaction                        1
+
+
+<h2>SHARED POOL - PARAMETERS</h2>
+
+PARAMETER                           VALUE
+----------------------------------- ---------------
+shared_pool_size                    134217728
+shared_pool_reserved_size           13000000
+_shared_pool_reserved_min_alloc     4100
+
+
+<hr>
+
+
+<h2>SQL AREA TOP DML COMMANDS IN TERMS OF LR (logical reads) BETWEEN SNAPS 0001(2003-MAY-18 18:29) AND 0004(2003-MAY-18 18:48)</h2>
+
+  TOP         TOP
+RANGE  SNAP  SNAP   BUFFER_GETS    DISK_READS CPU_SECONDS ELAPSED_SEC SHARABLE_MEM  INVAL  LOADS  SORTS PARSING_USER     VERSN DETAILS
+----- ----- ----- ------------- ------------- ----------- ----------- ------------ ------ ------ ------ --------------- ------ ------------------------------
+    1     1     5     638944313           567     7654.87                    52776      0      1      0 APPS                 1 <a href="#1-5">details</a>
+    2     1     6      70089095            30     1057.30                    46209      0      1      0 APPS                 1 <a href="#1-6">details</a>
+    3     1     7      21182000             0      248.76      248.13       172061      0      1      0 APPS                 1 <a href="#1-7">details</a>
+    4     1     8      18863750           666      251.28      250.95       283366      0      1      0 APPS                 1 <a href="#1-8">details</a>
+    5     1    10       6798614            19      146.81      146.99       299766      0      1      0 APPS                 1 <a href="#1-10">details</a>
+    6     1     1       3589778       2328004      314.99                    57762      0      1      0 APPS                 1 <a href="#1-1">details</a>
+    7     4     1        545688        428177       31.69       32.48       276875      0      1    187 APPS                 1 <a href="#4-1">details</a>
+    8     1     3        258861        181896       17.49       17.53        26450      0      1      0 APPS                 1 <a href="#1-3">details</a>
+    9     3     7        153017           141        7.42                    39337      0      3      0 APPS                 3 <a href="#3-7">details</a>
+   10     1     4        151235        128008       23.72       23.29        14368      0      1      1 SYS                  1 <a href="#1-4">details</a>
+
+  TOP         TOP
+RANGE  SNAP  SNAP      PARSES  EXECUTIONS     FETCHES          ROWS MODULE_ACTION                                      COMMAND DETAILS
+----- ----- ----- ----------- ----------- ----------- ------------- -------------------------------------------------- ------- ------------------------------
+    1     1     5           1       23364    11681510      11681510 FNDWFPR - Concurrent Request                       SELECT  <a href="#1-5">details</a>
+    2     1     6           1    11681515    11681515      11681515 FNDWFPR - Concurrent Request                       SELECT  <a href="#1-6">details</a>
+    3     1     7          70         560           0             0 CMCTCM - Concurrent Request                        UPDATE  <a href="#1-7">details</a>
+    4     1     8          70         560           0             0 CMCTCM - Concurrent Request                        UPDATE  <a href="#1-8">details</a>
+    5     1    10          70         350         350           350 CMCTCM - Concurrent Request                        SELECT  <a href="#1-10">details</a>
+    6     1     1          35        7770           0             0 CMCTCM - Concurrent Request                        UPDATE  <a href="#1-1">details</a>
+    7     4     1         187         187           0             0 MRCRLF - Concurrent Request                        INSERT  <a href="#4-1">details</a>
+    8     1     3          70         560         560           560 CMCTCM - Concurrent Request                        SELECT  <a href="#1-3">details</a>
+    9     3     7         499       55036       55036         41588  -                                                 SELECT  <a href="#3-7">details</a>
+   10     1     4           1           1           1             0  -                                                 SELECT  <a href="#1-4">details</a>
+
+  TOP         TOP
+RANGE  SNAP  SNAP  CHILD   BUFFER_GETS    DISK_READS CPU_SECONDS ELAPSED_SEC SHARABLE_MEM  INVAL  LOADS  SORTS PARSING_USER    DETAILS
+----- ----- ----- ------ ------------- ------------- ----------- ----------- ------------ ------ ------ ------ --------------- ------------------------------
+    9     3     7      0        137936            94        6.59                    14512      0      1      0 APPS            <a href="#3-7">details</a>
+    9     3     7      1          4512            20        0.25        0.34        15224      0      1      0 APPS            <a href="#3-7">details</a>
+    9     3     7      2         10569            27        0.58                    15920      0      1      0 APPS            <a href="#3-7">details</a>
+
+  TOP         TOP
+RANGE  SNAP  SNAP  CHILD      PARSES  EXECUTIONS     FETCHES          ROWS MODULE_ACTION                                      DETAILS
+----- ----- ----- ------ ----------- ----------- ----------- ------------- -------------------------------------------------- ------------------------------
+    9     3     7      0         451       49678       49678         37303  -                                                 <a href="#3-7">details</a>
+    9     3     7      1          13        1601        1601          1298  -                                                 <a href="#3-7">details</a>
+    9     3     7      2          35        3757        3757          2987  -                                                 <a href="#3-7">details</a>
+
+<hr>
+
+<a name="1-5"></a>
+TOP_RANGE:1  SNAP_ID:1  TOP_SNAP:5  BUFFER_GETS:638944313  DISK_READS:567  HASH_VALUE:2018420820  ADDRESS:C000000027994328
+
+SELECT /*+ FIRST_ROWS */ WI.ITEM_TYPE, WI.ITEM_KEY     from  WF_
+ITEMS WI     where WI.ITEM_KEY like :b2      and  WI.ITEM_TYPE l
+ike :b1      and exists         (select null          from WF_IT
+EM_TYPES WIT          where WI.END_DATE+nvl(WIT.PERSISTENCE_DAYS
+,0)&lt;=:b4          and WI.ITEM_TYPE = WIT.NAME          and WIT.P
+ERSISTENCE_TYPE = :b3)
+
+TOP_RANGE:1  SNAP_ID:1  TOP_SNAP:5  CHILD:0  BUFFER_GETS:638958965  DISK_READS:567  PLAN_HASH_VALUE:1328751824  COST:8438
+
+|OPER EXEC
+|  ID  ORD RUNTIME ACCESS PATH (ACTUAL EXCECUTION PLAN)
++---- ---- ----------------------------------------------------------
+|   0 SELECT STATEMENT  (COST=8438 )
+|   1  FILTER
+|   2 . TABLE ACCESS (BY INDEX ROWID) OF 'APPLSYS.WF_ITEMS'  (COST=4850 CARD=1794 BYTES=41262 IO_COST=4850 )
+|   3 .. INDEX (RANGE SCAN) OF 'APPLSYS.WF_ITEMS_N4' SEARCH_COLUMNS=1  (COST=331 CARD=35880 IO_COST=331 )
+|   4 . TABLE ACCESS (BY INDEX ROWID) OF 'APPLSYS.WF_ITEM_TYPES'  (COST=2 CARD=1 BYTES=16 IO_COST=2 )
+|   5 .. INDEX (UNIQUE SCAN) OF 'APPLSYS.WF_ITEM_TYPES_PK' SEARCH_COLUMNS=1  (COST=1 CARD=529 IO_COST=1 )
+
+TOP_RANGE:1  SNAP_ID:1  TOP_SNAP:5  CHILD:0  PLAN STATISTICS FOR LAST EXECUTION
+
+|OPER                                                           OUTPUT CR BUFFER CU BUFFER      DISK      DISK   ELAPSED
+|  ID OPERATION (OPTIONS) OBJECT_NAME                 STARTS      ROWS      GETS      GETS     READS    WRITES      TIME
++---- -------------------------------------------- --------- --------- --------- --------- --------- --------- ---------
+|   1  FILTER                                              0         0         0         0         0         0      0.00
+|   2 . TABLE ACCESS (BY INDEX ROWID) WF_ITEMS             0         0         0         0         0         0      0.00
+|   3 .. INDEX (RANGE SCAN) WF_ITEMS_N4                    0         0         0         0         0         0      0.00
+|   4 . TABLE ACCESS (BY INDEX ROWID) WF_ITEM_TYPE         0         0         0         0         0         0      0.00
+|   5 .. INDEX (UNIQUE SCAN) WF_ITEM_TYPES_PK              0         0         0         0         0         0      0.00
+
+TOP_RANGE:1  SNAP_ID:1  TOP_SNAP:5  CHILD:0  PLAN STATISTICS FOR ALL EXECUTIONS
+
+|OPER                                                           OUTPUT CR BUFFER CU BUFFER      DISK      DISK   ELAPSED
+|  ID OPERATION (OPTIONS) OBJECT_NAME                 STARTS      ROWS      GETS      GETS     READS    WRITES      TIME
++---- -------------------------------------------- --------- --------- --------- --------- --------- --------- ---------
+|   1  FILTER                                              0         0         0         0         0         0      0.00
+|   2 . TABLE ACCESS (BY INDEX ROWID) WF_ITEMS             0         0         0         0         0         0      0.00
+|   3 .. INDEX (RANGE SCAN) WF_ITEMS_N4                    0         0         0         0         0         0      0.00
+|   4 . TABLE ACCESS (BY INDEX ROWID) WF_ITEM_TYPE         0         0         0         0         0         0      0.00
+|   5 .. INDEX (UNIQUE SCAN) WF_ITEM_TYPES_PK              0         0         0         0         0         0      0.00
+
+OWNER.TABLE_NAME
+...owner.index_name                                     num rows     blocks     sample last analyzed date
+----------------------------------------------------- ---------- ---------- ---------- -------------------
+APPLSYS.WF_ITEMS.....................................      35880        454       3588 2003-05-13 16:17:49
+...applsys.wf_items_n1...............................       6463         40       6463 2003-05-13 16:17:56
+...applsys.wf_items_n2...............................      35623        123      35623 2003-05-13 16:17:56
+...applsys.wf_items_n3...............................      25359         93      25359 2003-05-13 16:17:57
+...applsys.wf_items_n4...............................      35623        329      35623 2003-05-13 16:17:54
+...applsys.wf_items_n5...............................       8890         69       8890 2003-05-13 16:17:50
+...applsys.wf_items_n6...............................      22883        101      22883 2003-05-13 16:17:49
+...applsys.wf_items_pk...............................      35623        185      35623 2003-05-13 16:17:55
+...applsys.wf_items_u1...............................      35623        196      35623 2003-05-13 16:17:50
+APPLSYS.WF_ITEM_TYPES................................        529          4        529 2003-05-13 16:20:23
+...applsys.wf_item_types_pk..........................        529          2        529 2003-05-13 16:20:23
+
+INDEX_NAME (UNIQUENESS) [indexed columns]
+-------------------------------------------------------------------------------------------------------------------
+WF_ITEMS_N1 (NONUNIQUE) [parent_item_type parent_item_key]
+WF_ITEMS_N2 (NONUNIQUE) [begin_date]
+WF_ITEMS_N3 (NONUNIQUE) [end_date]
+WF_ITEMS_N4 (NONUNIQUE) [item_type root_activity owner_role]
+WF_ITEMS_N5 (NONUNIQUE) [user_key]
+WF_ITEMS_N6 (NONUNIQUE) [owner_role]
+WF_ITEMS_PK (UNIQUE) [item_type item_key]
+WF_ITEMS_U1 (UNIQUE) [ha_migration_flag item_type item_key]
+WF_ITEM_TYPES_PK (UNIQUE) [name]
+
+LOGON_TIME                  SID      AUDSID     PROCESS         PID        SPID
+------------------- ----------- ----------- ----------- ----------- -----------
+2003-05-18 15:37:26          57      355687       18918          33       18993  USER: MFILAKOS  MODULE: CONC REQ 1515501 Purge Obsolete Workflow Runtime Data
+
+<hr>
+
+<a name="1-6"></a>
+TOP_RANGE:2  SNAP_ID:1  TOP_SNAP:6  BUFFER_GETS:70089095  DISK_READS:30  HASH_VALUE:4175514516  ADDRESS:C0000000279935C8
+
+SELECT     count(1)     FROM       WF_ITEMS WIC, WF_ITEMS WIP
+WHERE      WIC.ITEM_TYPE   = :b2     AND        WIC.ITEM_KEY
+= :b1     AND        WIC.PARENT_ITEM_TYPE is not null     AND
+WIP.ITEM_TYPE   = WIC.PARENT_ITEM_TYPE     AND        WIP
+.ITEM_KEY    = WIC.PARENT_ITEM_KEY     AND        WIP.END_DATE i
+s null
+
+TOP_RANGE:2  SNAP_ID:1  TOP_SNAP:6  CHILD:0  BUFFER_GETS:70092065  DISK_READS:30  PLAN_HASH_VALUE:308936765  COST:3
+
+|OPER EXEC
+|  ID  ORD RUNTIME ACCESS PATH (ACTUAL EXCECUTION PLAN)
++---- ---- ----------------------------------------------------------
+|   0 SELECT STATEMENT  (COST=3 )
+|   1  SORT (AGGREGATE)  (CARD=1 BYTES=45 )
+|   2 . NESTED LOOPS  (COST=3 CARD=1 BYTES=45 IO_COST=3 )
+|   3 .. TABLE ACCESS (BY INDEX ROWID) OF 'APPLSYS.WF_ITEMS'  (COST=2 CARD=1 BYTES=22 IO_COST=2 )
+|   4 ... INDEX (UNIQUE SCAN) OF 'APPLSYS.WF_ITEMS_PK' SEARCH_COLUMNS=2  (COST=1 CARD=35880 IO_COST=1 )
+|   5 .. TABLE ACCESS (BY INDEX ROWID) OF 'APPLSYS.WF_ITEMS'  (COST=1 CARD=1 BYTES=23 IO_COST=1 )
+|   6 ... INDEX (UNIQUE SCAN) OF 'APPLSYS.WF_ITEMS_PK' SEARCH_COLUMNS=2  (CARD=3 )
+
+TOP_RANGE:2  SNAP_ID:1  TOP_SNAP:6  CHILD:0  PLAN STATISTICS FOR LAST EXECUTION
+
+|OPER                                                           OUTPUT CR BUFFER CU BUFFER      DISK      DISK   ELAPSED
+|  ID OPERATION (OPTIONS) OBJECT_NAME                 STARTS      ROWS      GETS      GETS     READS    WRITES      TIME
++---- -------------------------------------------- --------- --------- --------- --------- --------- --------- ---------
+|   1  SORT (AGGREGATE)                                    0         0         0         0         0         0      0.00
+|   2 . NESTED LOOPS                                       0         0         0         0         0         0      0.00
+|   3 .. TABLE ACCESS (BY INDEX ROWID) WF_ITEMS            0         0         0         0         0         0      0.00
+|   4 ... INDEX (UNIQUE SCAN) WF_ITEMS_PK                  0         0         0         0         0         0      0.00
+|   5 .. TABLE ACCESS (BY INDEX ROWID) WF_ITEMS            0         0         0         0         0         0      0.00
+|   6 ... INDEX (UNIQUE SCAN) WF_ITEMS_PK                  0         0         0         0         0         0      0.00
+
+TOP_RANGE:2  SNAP_ID:1  TOP_SNAP:6  CHILD:0  PLAN STATISTICS FOR ALL EXECUTIONS
+
+|OPER                                                           OUTPUT CR BUFFER CU BUFFER      DISK      DISK   ELAPSED
+|  ID OPERATION (OPTIONS) OBJECT_NAME                 STARTS      ROWS      GETS      GETS     READS    WRITES      TIME
++---- -------------------------------------------- --------- --------- --------- --------- --------- --------- ---------
+|   1  SORT (AGGREGATE)                                    0         0         0         0         0         0      0.00
+|   2 . NESTED LOOPS                                       0         0         0         0         0         0      0.00
+|   3 .. TABLE ACCESS (BY INDEX ROWID) WF_ITEMS            0         0         0         0         0         0      0.00
+|   4 ... INDEX (UNIQUE SCAN) WF_ITEMS_PK                  0         0         0         0         0         0      0.00
+|   5 .. TABLE ACCESS (BY INDEX ROWID) WF_ITEMS            0         0         0         0         0         0      0.00
+|   6 ... INDEX (UNIQUE SCAN) WF_ITEMS_PK                  0         0         0         0         0         0      0.00
+
+OWNER.TABLE_NAME
+...owner.index_name                                     num rows     blocks     sample last analyzed date
+----------------------------------------------------- ---------- ---------- ---------- -------------------
+APPLSYS.WF_ITEMS.....................................      35880        454       3588 2003-05-13 16:17:49
+...applsys.wf_items_n1...............................       6463         40       6463 2003-05-13 16:17:56
+...applsys.wf_items_n2...............................      35623        123      35623 2003-05-13 16:17:56
+...applsys.wf_items_n3...............................      25359         93      25359 2003-05-13 16:17:57
+...applsys.wf_items_n4...............................      35623        329      35623 2003-05-13 16:17:54
+...applsys.wf_items_n5...............................       8890         69       8890 2003-05-13 16:17:50
+...applsys.wf_items_n6...............................      22883        101      22883 2003-05-13 16:17:49
+...applsys.wf_items_pk...............................      35623        185      35623 2003-05-13 16:17:55
+...applsys.wf_items_u1...............................      35623        196      35623 2003-05-13 16:17:50
+
+INDEX_NAME (UNIQUENESS) [indexed columns]
+-------------------------------------------------------------------------------------------------------------------
+WF_ITEMS_N1 (NONUNIQUE) [parent_item_type parent_item_key]
+WF_ITEMS_N2 (NONUNIQUE) [begin_date]
+WF_ITEMS_N3 (NONUNIQUE) [end_date]
+WF_ITEMS_N4 (NONUNIQUE) [item_type root_activity owner_role]
+WF_ITEMS_N5 (NONUNIQUE) [user_key]
+WF_ITEMS_N6 (NONUNIQUE) [owner_role]
+WF_ITEMS_PK (UNIQUE) [item_type item_key]
+WF_ITEMS_U1 (UNIQUE) [ha_migration_flag item_type item_key]
+
+LOGON_TIME                  SID      AUDSID     PROCESS         PID        SPID
+------------------- ----------- ----------- ----------- ----------- -----------
+2003-05-18 15:37:26          57      355687       18918          33       18993  USER: MFILAKOS  MODULE: CONC REQ 1515501 Purge Obsolete Workflow Runtime Data
+
+<hr>
+
+<a name="1-7"></a>
+TOP_RANGE:3  SNAP_ID:1  TOP_SNAP:7  BUFFER_GETS:21182000  DISK_READS:0  HASH_VALUE:2263199767  ADDRESS:C000000027310A58
+
+update mtl_material_transactions MMT  set transaction_group_id=:
+b0,last_update_date=sysdate ,last_updated_by=:b1,last_update_log
+in=:b2,program_application_id=:b3,program_id=:b4,program_update_
+date=sysdate  where ((costed_flag='N' and  not exists (select nu
+ll   from mtl_material_transactions MMT1 where ((((MMT1.transact
+ion_source_type_id=5 and NVL(MMT1.flow_schedule,'N')='Y') and MM
+T1.transaction_action_id in (1,27,33,34)) and MMT1.organization_
+id=MMT.organization_id) and MMT1.transaction_id=MMT.transaction_
+id))) and ((exists (select null   from mtl_interorg_parameters M
+IP where ((((((MMT.transaction_action_id=12 and MMT.transaction_
+source_type_id in (13,7)) and MMT.transfer_organization_id=:b5)
+and MIP.from_organization_id=MMT.transfer_organization_id) and M
+IP.to_organization_id=MMT.organization_id) and MIP.fob_point=1)
+and exists (select null   from mtl_parameters where ((organizati
+on_id=MMT.organization_id and primary_cost_method=1) and MMT.tra
+nsaction_date&lt;NVL(cost_cutoff_date,(sysdate +1)))))) or exists (
+select null   from mtl_interorg_parameters MIP where ((((((MMT.t
+ransaction_action_id=21 and MMT.transaction_source_type_id in (1
+3,8)) and MMT.transfer_organization_id=:b5) and MIP.to_organizat
+ion_id=MMT.transfer_organization_id) and MIP.from_organization_i
+d=MMT.organization_id) and MIP.fob_point=2) and exists (select n
+ull   from mtl_parameters where ((organization_id=MMT.organizati
+on_id and primary_cost_method=1) and MMT.transaction_date&lt;NVL(co
+st_cutoff_date,(sysdate +1))))))) or (((MMT.transaction_action_i
+d=3 and MMT.transfer_organization_id=:b5) and MMT.primary_quanti
+ty&lt;0) and exists (select null   from mtl_parameters where ((orga
+nization_id=MMT.organization_id and primary_cost_method=1) and M
+MT.transaction_date&lt;NVL(cost_cutoff_date,(sysdate +1)))))))
+
+TOP_RANGE:3  SNAP_ID:1  TOP_SNAP:7  CHILD:0  BUFFER_GETS:21182000  DISK_READS:0  PLAN_HASH_VALUE:1926977443  COST:3
+
+|OPER EXEC
+|  ID  ORD RUNTIME ACCESS PATH (ACTUAL EXCECUTION PLAN)
++---- ---- ----------------------------------------------------------
+|   0 UPDATE STATEMENT  (COST=3 )
+|   1  UPDATE
+|   2 . FILTER
+|   3 .. TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_MATERIAL_TRANSACTIONS'  (COST=1 CARD=1 BYTES=67 IO_COST=1 )
+|   4 ... INDEX (RANGE SCAN) OF 'INV.MTL_MATERIAL_TRANSACTIONS_N10' SEARCH_COLUMNS=1  (COST=1 CARD=1 IO_COST=1 )
+|   5 .. TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_MATERIAL_TRANSACTIONS'  (COST=2 CARD=1 BYTES=18 IO_COST=2 )
+|   6 ... INDEX (UNIQUE SCAN) OF 'INV.MTL_MATERIAL_TRANSACTIONS_U1' SEARCH_COLUMNS=1  (COST=1 CARD=100550 IO_COST=1 )
+|  12 .. FILTER
+|  13 ... TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_INTERORG_PARAMETERS'  (COST=1 CARD=1 BYTES=11 IO_COST=1 )
+|  14 .... INDEX (UNIQUE SCAN) OF 'INV.MTL_INTERORG_PARAMETERS_U1' SEARCH_COLUMNS=2  (CARD=92 )
+|  15 ... TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_PARAMETERS'  (COST=1 CARD=1 BYTES=8 IO_COST=1 )
+|  16 .... INDEX (UNIQUE SCAN) OF 'INV.MTL_PARAMETERS_U1' SEARCH_COLUMNS=1  (CARD=90 )
+|  17 .. TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_PARAMETERS'  (COST=1 CARD=1 BYTES=8 IO_COST=1 )
+|  18 ... INDEX (UNIQUE SCAN) OF 'INV.MTL_PARAMETERS_U1' SEARCH_COLUMNS=1  (CARD=90 )
+
+TOP_RANGE:3  SNAP_ID:1  TOP_SNAP:7  CHILD:0  PLAN STATISTICS FOR LAST EXECUTION
+
+|OPER                                                           OUTPUT CR BUFFER CU BUFFER      DISK      DISK   ELAPSED
+|  ID OPERATION (OPTIONS) OBJECT_NAME                 STARTS      ROWS      GETS      GETS     READS    WRITES      TIME
++---- -------------------------------------------- --------- --------- --------- --------- --------- --------- ---------
+|   1  UPDATE                                              2         0     75650         0         0         0      0.88
+|   2 . FILTER                                             2         0     75650         0         0         0      0.88
+|   3 .. TABLE ACCESS (BY INDEX ROWID) MTL_MATERIA         2     16916      1510         0         0         0      0.14
+|   4 ... INDEX (RANGE SCAN) MTL_MATERIAL_TRANSACT         2     16916       104         0         0         0      0.03
+|   5 .. TABLE ACCESS (BY INDEX ROWID) MTL_MATERIA     16916      3630     50748         0         0         0      0.31
+|   6 ... INDEX (UNIQUE SCAN) MTL_MATERIAL_TRANSAC     16916     16916     33832         0         0         0      0.15
+|  12 .. FILTER                                         6054         0         0         0         0         0      0.00
+|  13 ... TABLE ACCESS (BY INDEX ROWID) MTL_INTERO         0         0         0         0         0         0      0.00
+|  14 .... INDEX (UNIQUE SCAN) MTL_INTERORG_PARAME         0         0         0         0         0         0      0.00
+|  15 ... TABLE ACCESS (BY INDEX ROWID) MTL_PARAME      5848      1108     11696         0         0         0      0.09
+|  16 .... INDEX (UNIQUE SCAN) MTL_PARAMETERS_U1        5848      5848      5848         0         0         0      0.04
+|  17 .. TABLE ACCESS (BY INDEX ROWID) MTL_PARAMET         0         0         0         0         0         0      0.00
+|  18 ... INDEX (UNIQUE SCAN) MTL_PARAMETERS_U1            0         0         0         0         0         0      0.00
+
+TOP_RANGE:3  SNAP_ID:1  TOP_SNAP:7  CHILD:0  PLAN STATISTICS FOR ALL EXECUTIONS
+
+|OPER                                                           OUTPUT CR BUFFER CU BUFFER      DISK      DISK   ELAPSED
+|  ID OPERATION (OPTIONS) OBJECT_NAME                 STARTS      ROWS      GETS      GETS     READS    WRITES      TIME
++---- -------------------------------------------- --------- --------- --------- --------- --------- --------- ---------
+|   1  UPDATE                                            560         0  21182000         0         0         0    247.87
+|   2 . FILTER                                           560         0  21182000         0         0         0    247.87
+|   3 .. TABLE ACCESS (BY INDEX ROWID) MTL_MATERIA       560   4736480    422800         0         0         0   5247.69
+|   4 ... INDEX (RANGE SCAN) MTL_MATERIAL_TRANSACT       560   4736480     29120         0         0         0      7.30
+|   5 .. TABLE ACCESS (BY INDEX ROWID) MTL_MATERIA   4736480   1016400  14209440         0         0         0  11984.76
+|   6 ... INDEX (UNIQUE SCAN) MTL_MATERIAL_TRANSAC   4736480   4736480   9472960         0         0         0   3529.23
+|  12 .. FILTER                                      1695120         0         0         0         0         0      1.04
+|  13 ... TABLE ACCESS (BY INDEX ROWID) MTL_INTERO         0         0         0         0         0         0      0.00
+|  14 .... INDEX (UNIQUE SCAN) MTL_INTERORG_PARAME         0         0         0         0         0         0      0.00
+|  15 ... TABLE ACCESS (BY INDEX ROWID) MTL_PARAME   1637440    310240   3274880         0         0         0   2047.10
+|  16 .... INDEX (UNIQUE SCAN) MTL_PARAMETERS_U1     1637440   1637440   1637440         0         0         0     10.26
+|  17 .. TABLE ACCESS (BY INDEX ROWID) MTL_PARAMET         0         0         0         0         0         0      0.00
+|  18 ... INDEX (UNIQUE SCAN) MTL_PARAMETERS_U1            0         0         0         0         0         0      0.00
+
+OWNER.TABLE_NAME
+...owner.index_name                                     num rows     blocks     sample last analyzed date
+----------------------------------------------------- ---------- ---------- ---------- -------------------
+INV.MTL_INTERORG_PARAMETERS..........................         92          5         92 2003-05-13 18:38:12
+...inv.mtl_interorg_parameters_n1....................         92          1         92 2003-05-13 18:38:12
+...inv.mtl_interorg_parameters_u1....................         92          1         92 2003-05-13 18:38:12
+INV.MTL_MATERIAL_TRANSACTIONS........................     100550       3881      10055 2003-05-13 18:40:13
+...inv.mtl_material_transactions_n1..................     101200        396     101200 2003-05-13 18:39:46
+...inv.mtl_material_transactions_n10.................      12520         51      12520 2003-05-13 18:39:42
+...inv.mtl_material_transactions_n11.................      98079        186      98079 2003-05-13 18:39:51
+...inv.mtl_material_transactions_n12.................     100313        246     100313 2003-05-13 18:39:44
+...inv.mtl_material_transactions_n13.................        402          1        402 2003-05-13 18:39:50
+...inv.mtl_material_transactions_n14.................      54533        134      54533 2003-05-13 18:39:23
+...inv.mtl_material_transactions_n15.................     101200        413     101200 2003-05-13 18:39:41
+...inv.mtl_material_transactions_n16.................      14728         32      14728 2003-05-13 18:39:34
+...inv.mtl_material_transactions_n17.................      14811         33      14811 2003-05-13 18:39:33
+...inv.mtl_material_transactions_n18.................      15279         35      15279 2003-05-13 18:39:33
+...inv.mtl_material_transactions_n19.................       2006          5       2006 2003-05-13 18:39:51
+...inv.mtl_material_transactions_n2..................     101200        414     101200 2003-05-13 18:39:50
+...inv.mtl_material_transactions_n20.................        231          1        231 2003-05-13 18:39:51
+...inv.mtl_material_transactions_n21.................         11          1         11 2003-05-13 18:39:51
+...inv.mtl_material_transactions_n22.................         96          1         96 2003-05-13 18:39:51
+...inv.mtl_material_transactions_n3..................     101200        413     101200 2003-05-13 18:39:27
+...inv.mtl_material_transactions_n4..................          1          1          1 2003-05-13 18:39:37
+...inv.mtl_material_transactions_n5..................     101200        338     101200 2003-05-13 18:39:22
+...inv.mtl_material_transactions_n6..................      15553         38      15553 2003-05-13 18:39:22
+...inv.mtl_material_transactions_n7..................     101200        279     101200 2003-05-13 18:39:29
+...inv.mtl_material_transactions_n8..................     101200        400     101200 2003-05-13 18:39:37
+...inv.mtl_material_transactions_n9..................     101200        430     101200 2003-05-13 18:39:32
+...inv.mtl_material_transactions_u1..................     101200        233     101200 2003-05-13 18:39:33
+...inv.mtl_material_transactions_u2..................     101200        369     101200 2003-05-13 18:39:42
+INV.MTL_PARAMETERS...................................         90          8         90 2003-05-13 18:40:27
+...inv.mtl_parameters_n1.............................         90          1         90 2003-05-13 18:40:28
+...inv.mtl_parameters_u1.............................         90          1         90 2003-05-13 18:40:28
+
+INDEX_NAME (UNIQUENESS) [indexed columns]
+-------------------------------------------------------------------------------------------------------------------
+MTL_INTERORG_PARAMETERS_N1 (NONUNIQUE) [to_organization_id]
+MTL_INTERORG_PARAMETERS_U1 (UNIQUE) [to_organization_id from_organization_id]
+MTL_MATERIAL_TRANSACTIONS_N1 (NONUNIQUE) [inventory_item_id organization_id transaction_date]
+MTL_MATERIAL_TRANSACTIONS_N10 (NONUNIQUE) [costed_flag transaction_group_id]
+MTL_MATERIAL_TRANSACTIONS_N11 (NONUNIQUE) [invoiced_flag]
+MTL_MATERIAL_TRANSACTIONS_N12 (NONUNIQUE) [transaction_set_id]
+MTL_MATERIAL_TRANSACTIONS_N13 (NONUNIQUE) [pm_cost_collected pm_cost_collector_group_id]
+MTL_MATERIAL_TRANSACTIONS_N14 (NONUNIQUE) [completion_transaction_id]
+MTL_MATERIAL_TRANSACTIONS_N15 (NONUNIQUE) [transaction_action_id transaction_type_id transaction_source_type_id transaction_date]
+MTL_MATERIAL_TRANSACTIONS_N16 (NONUNIQUE) [pick_slip_number]
+MTL_MATERIAL_TRANSACTIONS_N17 (NONUNIQUE) [move_order_line_id]
+MTL_MATERIAL_TRANSACTIONS_N18 (NONUNIQUE) [picking_line_id]
+MTL_MATERIAL_TRANSACTIONS_N19 (NONUNIQUE) [rcv_transaction_id]
+MTL_MATERIAL_TRANSACTIONS_N2 (NONUNIQUE) [transaction_source_id organization_id transaction_date]
+MTL_MATERIAL_TRANSACTIONS_N20 (NONUNIQUE) [project_id]
+MTL_MATERIAL_TRANSACTIONS_N21 (NONUNIQUE) [to_project_id]
+MTL_MATERIAL_TRANSACTIONS_N22 (NONUNIQUE) [source_project_id]
+MTL_MATERIAL_TRANSACTIONS_N3 (NONUNIQUE) [subinventory_code organization_id transaction_date]
+MTL_MATERIAL_TRANSACTIONS_N4 (NONUNIQUE) [vendor_lot_number]
+MTL_MATERIAL_TRANSACTIONS_N5 (NONUNIQUE) [organization_id transaction_date]
+MTL_MATERIAL_TRANSACTIONS_N6 (NONUNIQUE) [shipment_number]
+MTL_MATERIAL_TRANSACTIONS_N7 (NONUNIQUE) [acct_period_id organization_id]
+MTL_MATERIAL_TRANSACTIONS_N8 (NONUNIQUE) [transaction_source_type_id organization_id transaction_date transaction_source_name]
+MTL_MATERIAL_TRANSACTIONS_N9 (NONUNIQUE) [transaction_action_id organization_id transaction_type_id transaction_date]
+MTL_MATERIAL_TRANSACTIONS_U1 (UNIQUE) [transaction_id]
+MTL_MATERIAL_TRANSACTIONS_U2 (UNIQUE) [transaction_action_id transaction_type_id transaction_source_type_id transaction_id]
+MTL_PARAMETERS_N1 (NONUNIQUE) [master_organization_id]
+MTL_PARAMETERS_U1 (UNIQUE) [organization_id]
+
+<hr>
+
+<a name="1-8"></a>
+TOP_RANGE:4  SNAP_ID:1  TOP_SNAP:8  BUFFER_GETS:18863750  DISK_READS:666  HASH_VALUE:2541991011  ADDRESS:C000000027375EF0
+
+update mtl_material_transactions MMT  set transaction_group_id=:
+b0,last_update_date=sysdate ,last_updated_by=:b1,last_update_log
+in=:b2,program_application_id=:b3,program_id=:b4,program_update_
+date=sysdate  where ((((costed_flag='N' and (transaction_date&lt;TO
+_DATE(:b5,'YYYY/MM/DD HH24:MI:SS') or ((:b6=0 and :b7=0) and ((t
+ransaction_date&lt;TO_DATE(:b8,'YYYY/MM/DD HH24:MI:SS') and transac
+tion_date&lt;(TO_DATE(:b9,'YYYY/MM/DD')+1)) and transaction_id&lt;:b10
+)))) and DECODE(transaction_action_id,12,DECODE(transfer_organiz
+ation_id,:b11,NVL(shipment_costed,'N'),'N'),DECODE(organization_
+id,:b11,NVL(shipment_costed,'N'),'N'))&lt;&gt;'Y') and  not exists (se
+lect null   from mtl_material_transactions MMT1 where ((((MMT1.t
+ransaction_source_type_id=5 and NVL(MMT1.flow_schedule,'N')='Y')
+and MMT1.transaction_action_id in (1,27,33,34)) and MMT1.organi
+zation_id=MMT.organization_id) and MMT1.transaction_id=MMT.trans
+action_id))) and ((((((organization_id=:b11 and  not exists (sel
+ect null   from mtl_material_transactions_temp MMTP where ((MMT.
+transaction_action_id=31 and MMT.organization_id=MMTP.organizati
+on_id) and MMT.COMPLETION_TRANSACTION_ID=MMTP.COMPLETION_TRANSAC
+TION_ID))) or exists (select null   from mtl_interorg_parameters
+MIP where (((((((MMT.transaction_action_id=21 and MMT.transacti
+on_source_type_id in (13,8)) and MMT.transfer_organization_id=:b
+11) and MIP.to_organization_id=MMT.transfer_organization_id) and
+MIP.from_organization_id=MMT.organization_id) and MIP.fob_point
+=1) and MMT.shipment_costed='Y') and exists (select null   from
+mtl_parameters where (organization_id=MMT.organization_id and pr
+imary_cost_method in (2,5,6)))))) or exists (select null   from
+mtl_interorg_parameters MIP where (((((((MMT.transaction_action_
+id=12 and MMT.transaction_source_type_id in (13,7)) and MMT.tran
+sfer_organization_id=:b11) and MIP.from_organization_id=MMT.tran
+sfer_organization_id) and MIP.to_organization_id=MMT.organizatio
+n_id) and MIP.fob_point=2) and MMT.shipment_costed is null ) and
+exists (select null   from mtl_parameters where (organization_i
+d=MMT.organization_id and primary_cost_method in (2,5,6)))))) or
+exists (select null   from mtl_interorg_parameters MIP where ((
+((((MMT.transaction_action_id=12 and MMT.transaction_source_type
+_id in (13,7)) and MMT.transfer_organization_id=:b11) and MIP.fr
+om_organization_id=MMT.transfer_organization_id) and MIP.to_orga
+nization_id=MMT.organization_id) and MIP.fob_point=2) and exists
+(select null   from mtl_parameters where ((organization_id=MMT.
+organization_id and primary_cost_method=1) and MMT.transaction_d
+ate&lt;NVL(cost_cutoff_date,(sysdate +1))))))) or exists (select nu
+ll   from mtl_interorg_parameters MIP where ((((((MMT.transactio
+n_action_id=21 and MMT.transaction_source_type_id in (13,8)) and
+MMT.transfer_organization_id=:b11) and MIP.to_organization_id=M
+MT.transfer_organization_id) and MIP.from_organization_id=MMT.or
+ganization_id) and MIP.fob_point=1) and exists (select null   fr
+om mtl_parameters where ((organization_id=MMT.organization_id an
+d primary_cost_method=1) and MMT.transaction_date&lt;NVL(cost_cutof
+f_date,(sysdate +1))))))) or (((MMT.transaction_action_id=3 and
+MMT.transfer_organization_id=:b11) and MMT.primary_quantity&gt;0) a
+nd exists (select null   from mtl_parameters where ((organizatio
+n_id=MMT.organization_id and primary_cost_method=1) and MMT.tran
+saction_date&lt;NVL(cost_cutoff_date,(sysdate +1)))))))
+
+TOP_RANGE:4  SNAP_ID:1  TOP_SNAP:8  CHILD:0  BUFFER_GETS:18863750  DISK_READS:666  PLAN_HASH_VALUE:170047136  COST:3
+
+|OPER EXEC
+|  ID  ORD RUNTIME ACCESS PATH (ACTUAL EXCECUTION PLAN)
++---- ---- ----------------------------------------------------------
+|   0 UPDATE STATEMENT  (COST=3 )
+|   1  UPDATE
+|   2 . FILTER
+|   3 .. TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_MATERIAL_TRANSACTIONS'  (COST=1 CARD=1 BYTES=73 IO_COST=1 )
+|   4 ... INDEX (RANGE SCAN) OF 'INV.MTL_MATERIAL_TRANSACTIONS_N10' SEARCH_COLUMNS=1  (COST=1 CARD=1 IO_COST=1 )
+|   5 .. TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_MATERIAL_TRANSACTIONS'  (COST=2 CARD=1 BYTES=18 IO_COST=2 )
+|   6 ... INDEX (UNIQUE SCAN) OF 'INV.MTL_MATERIAL_TRANSACTIONS_U1' SEARCH_COLUMNS=1  (COST=1 CARD=100550 IO_COST=1 )
+|  10 .. FILTER
+|  11 ... TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_INTERORG_PARAMETERS'  (COST=1 CARD=1 BYTES=11 IO_COST=1 )
+|  12 .... INDEX (UNIQUE SCAN) OF 'INV.MTL_INTERORG_PARAMETERS_U1' SEARCH_COLUMNS=2  (CARD=92 )
+|  13 ... TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_PARAMETERS'  (COST=1 CARD=1 BYTES=7 IO_COST=1 )
+|  14 .... INDEX (UNIQUE SCAN) OF 'INV.MTL_PARAMETERS_U1' SEARCH_COLUMNS=1  (CARD=90 )
+|  20 .. FILTER
+|  21 ... TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_INTERORG_PARAMETERS'  (COST=1 CARD=1 BYTES=11 IO_COST=1 )
+|  22 .... INDEX (UNIQUE SCAN) OF 'INV.MTL_INTERORG_PARAMETERS_U1' SEARCH_COLUMNS=2  (CARD=92 )
+|  23 ... TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_PARAMETERS'  (COST=1 CARD=1 BYTES=8 IO_COST=1 )
+|  24 .... INDEX (UNIQUE SCAN) OF 'INV.MTL_PARAMETERS_U1' SEARCH_COLUMNS=1  (CARD=90 )
+|  30 .. TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_PARAMETERS'  (COST=1 CARD=1 BYTES=8 IO_COST=1 )
+|  31 ... INDEX (UNIQUE SCAN) OF 'INV.MTL_PARAMETERS_U1' SEARCH_COLUMNS=1  (CARD=90 )
+
+TOP_RANGE:4  SNAP_ID:1  TOP_SNAP:8  CHILD:0  PLAN STATISTICS FOR LAST EXECUTION
+
+|OPER                                                           OUTPUT CR BUFFER CU BUFFER      DISK      DISK   ELAPSED
+|  ID OPERATION (OPTIONS) OBJECT_NAME                 STARTS      ROWS      GETS      GETS     READS    WRITES      TIME
++---- -------------------------------------------- --------- --------- --------- --------- --------- --------- ---------
+|   1  UPDATE                                              2         0     75706         0         0         0      1.10
+|   2 . FILTER                                             2         0     75706         0         0         0      1.10
+|   3 .. TABLE ACCESS (BY INDEX ROWID) MTL_MATERIA         2     16916      1510         0         0         0      0.18
+|   4 ... INDEX (RANGE SCAN) MTL_MATERIAL_TRANSACT         2     16916       104         0         0         0      0.03
+|   5 .. TABLE ACCESS (BY INDEX ROWID) MTL_MATERIA     16916      3630     50748         0         0         0      0.44
+|   6 ... INDEX (UNIQUE SCAN) MTL_MATERIAL_TRANSAC     16916     16916     33832         0         0         0      0.28
+|  10 .. FILTER                                          154         0         0         0         0         0      0.00
+|  11 ... TABLE ACCESS (BY INDEX ROWID) MTL_INTERO         0         0         0         0         0         0      0.00
+|  12 .... INDEX (UNIQUE SCAN) MTL_INTERORG_PARAME         0         0         0         0         0         0      0.00
+|  13 ... TABLE ACCESS (BY INDEX ROWID) MTL_PARAME        14         4        28         0         0         0      0.00
+|  14 .... INDEX (UNIQUE SCAN) MTL_PARAMETERS_U1          14        14        14         0         0         0      0.00
+|  20 .. FILTER                                         6054         0         0         0         0         0      0.00
+|  21 ... TABLE ACCESS (BY INDEX ROWID) MTL_INTERO         0         0         0         0         0         0      0.00
+|  22 .... INDEX (UNIQUE SCAN) MTL_INTERORG_PARAME         0         0         0         0         0         0      0.00
+|  23 ... TABLE ACCESS (BY INDEX ROWID) MTL_PARAME      5848      1108     11696         0         0         0      0.09
+|  24 .... INDEX (UNIQUE SCAN) MTL_PARAMETERS_U1        5848      5848      5848         0         0         0      0.04
+|  30 .. TABLE ACCESS (BY INDEX ROWID) MTL_PARAMET         0         0         0         0         0         0      0.00
+|  31 ... INDEX (UNIQUE SCAN) MTL_PARAMETERS_U1            0         0         0         0         0         0      0.00
+
+TOP_RANGE:4  SNAP_ID:1  TOP_SNAP:8  CHILD:0  PLAN STATISTICS FOR ALL EXECUTIONS
+
+|OPER                                                           OUTPUT CR BUFFER CU BUFFER      DISK      DISK   ELAPSED
+|  ID OPERATION (OPTIONS) OBJECT_NAME                 STARTS      ROWS      GETS      GETS     READS    WRITES      TIME
++---- -------------------------------------------- --------- --------- --------- --------- --------- --------- ---------
+|   1  UPDATE                                            560         0  18863285         0       658         0    250.57
+|   2 . FILTER                                           560         0  18863285         0       658         0    250.57
+|   3 .. TABLE ACCESS (BY INDEX ROWID) MTL_MATERIA       560   4188695    422800         0       587         0   1955.42
+|   4 ... INDEX (RANGE SCAN) MTL_MATERIAL_TRANSACT       560   4736480     29120         0        31         0      7.10
+|   5 .. TABLE ACCESS (BY INDEX ROWID) MTL_MATERIA   4188695    889350  12566085         0        71         0  15532.30
+|   6 ... INDEX (UNIQUE SCAN) MTL_MATERIAL_TRANSAC   4188695   4188695   8377390         0        71         0   8940.56
+|  10 .. FILTER                                        38290         0         0         0         0         0      0.02
+|  11 ... TABLE ACCESS (BY INDEX ROWID) MTL_INTERO         0         0         0         0         0         0      0.00
+|  12 .... INDEX (UNIQUE SCAN) MTL_INTERORG_PARAME         0         0         0         0         0         0      0.00
+|  13 ... TABLE ACCESS (BY INDEX ROWID) MTL_PARAME      3815      1015      7630         0         0         0      0.06
+|  14 .... INDEX (UNIQUE SCAN) MTL_PARAMETERS_U1        3815      3815      3815         0         0         0      0.03
+|  20 .. FILTER                                      1517215         0         0         0         0         0      0.93
+|  21 ... TABLE ACCESS (BY INDEX ROWID) MTL_INTERO         0         0         0         0         0         0      0.00
+|  22 .... INDEX (UNIQUE SCAN) MTL_INTERORG_PARAME         0         0         0         0         0         0      0.00
+|  23 ... TABLE ACCESS (BY INDEX ROWID) MTL_PARAME   1464785    303065   2929570         0         0         0   3386.74
+|  24 .... INDEX (UNIQUE SCAN) MTL_PARAMETERS_U1     1464785   1464785   1464785         0         0         0   3373.03
+|  30 .. TABLE ACCESS (BY INDEX ROWID) MTL_PARAMET         0         0         0         0         0         0      0.00
+|  31 ... INDEX (UNIQUE SCAN) MTL_PARAMETERS_U1            0         0         0         0         0         0      0.00
+
+OWNER.TABLE_NAME
+...owner.index_name                                     num rows     blocks     sample last analyzed date
+----------------------------------------------------- ---------- ---------- ---------- -------------------
+INV.MTL_INTERORG_PARAMETERS..........................         92          5         92 2003-05-13 18:38:12
+...inv.mtl_interorg_parameters_n1....................         92          1         92 2003-05-13 18:38:12
+...inv.mtl_interorg_parameters_u1....................         92          1         92 2003-05-13 18:38:12
+INV.MTL_MATERIAL_TRANSACTIONS........................     100550       3881      10055 2003-05-13 18:40:13
+...inv.mtl_material_transactions_n1..................     101200        396     101200 2003-05-13 18:39:46
+...inv.mtl_material_transactions_n10.................      12520         51      12520 2003-05-13 18:39:42
+...inv.mtl_material_transactions_n11.................      98079        186      98079 2003-05-13 18:39:51
+...inv.mtl_material_transactions_n12.................     100313        246     100313 2003-05-13 18:39:44
+...inv.mtl_material_transactions_n13.................        402          1        402 2003-05-13 18:39:50
+...inv.mtl_material_transactions_n14.................      54533        134      54533 2003-05-13 18:39:23
+...inv.mtl_material_transactions_n15.................     101200        413     101200 2003-05-13 18:39:41
+...inv.mtl_material_transactions_n16.................      14728         32      14728 2003-05-13 18:39:34
+...inv.mtl_material_transactions_n17.................      14811         33      14811 2003-05-13 18:39:33
+...inv.mtl_material_transactions_n18.................      15279         35      15279 2003-05-13 18:39:33
+...inv.mtl_material_transactions_n19.................       2006          5       2006 2003-05-13 18:39:51
+...inv.mtl_material_transactions_n2..................     101200        414     101200 2003-05-13 18:39:50
+...inv.mtl_material_transactions_n20.................        231          1        231 2003-05-13 18:39:51
+...inv.mtl_material_transactions_n21.................         11          1         11 2003-05-13 18:39:51
+...inv.mtl_material_transactions_n22.................         96          1         96 2003-05-13 18:39:51
+...inv.mtl_material_transactions_n3..................     101200        413     101200 2003-05-13 18:39:27
+...inv.mtl_material_transactions_n4..................          1          1          1 2003-05-13 18:39:37
+...inv.mtl_material_transactions_n5..................     101200        338     101200 2003-05-13 18:39:22
+...inv.mtl_material_transactions_n6..................      15553         38      15553 2003-05-13 18:39:22
+...inv.mtl_material_transactions_n7..................     101200        279     101200 2003-05-13 18:39:29
+...inv.mtl_material_transactions_n8..................     101200        400     101200 2003-05-13 18:39:37
+...inv.mtl_material_transactions_n9..................     101200        430     101200 2003-05-13 18:39:32
+...inv.mtl_material_transactions_u1..................     101200        233     101200 2003-05-13 18:39:33
+...inv.mtl_material_transactions_u2..................     101200        369     101200 2003-05-13 18:39:42
+INV.MTL_PARAMETERS...................................         90          8         90 2003-05-13 18:40:27
+...inv.mtl_parameters_n1.............................         90          1         90 2003-05-13 18:40:28
+...inv.mtl_parameters_u1.............................         90          1         90 2003-05-13 18:40:28
+
+INDEX_NAME (UNIQUENESS) [indexed columns]
+-------------------------------------------------------------------------------------------------------------------
+MTL_INTERORG_PARAMETERS_N1 (NONUNIQUE) [to_organization_id]
+MTL_INTERORG_PARAMETERS_U1 (UNIQUE) [to_organization_id from_organization_id]
+MTL_MATERIAL_TRANSACTIONS_N1 (NONUNIQUE) [inventory_item_id organization_id transaction_date]
+MTL_MATERIAL_TRANSACTIONS_N10 (NONUNIQUE) [costed_flag transaction_group_id]
+MTL_MATERIAL_TRANSACTIONS_N11 (NONUNIQUE) [invoiced_flag]
+MTL_MATERIAL_TRANSACTIONS_N12 (NONUNIQUE) [transaction_set_id]
+MTL_MATERIAL_TRANSACTIONS_N13 (NONUNIQUE) [pm_cost_collected pm_cost_collector_group_id]
+MTL_MATERIAL_TRANSACTIONS_N14 (NONUNIQUE) [completion_transaction_id]
+MTL_MATERIAL_TRANSACTIONS_N15 (NONUNIQUE) [transaction_action_id transaction_type_id transaction_source_type_id transaction_date]
+MTL_MATERIAL_TRANSACTIONS_N16 (NONUNIQUE) [pick_slip_number]
+MTL_MATERIAL_TRANSACTIONS_N17 (NONUNIQUE) [move_order_line_id]
+MTL_MATERIAL_TRANSACTIONS_N18 (NONUNIQUE) [picking_line_id]
+MTL_MATERIAL_TRANSACTIONS_N19 (NONUNIQUE) [rcv_transaction_id]
+MTL_MATERIAL_TRANSACTIONS_N2 (NONUNIQUE) [transaction_source_id organization_id transaction_date]
+MTL_MATERIAL_TRANSACTIONS_N20 (NONUNIQUE) [project_id]
+MTL_MATERIAL_TRANSACTIONS_N21 (NONUNIQUE) [to_project_id]
+MTL_MATERIAL_TRANSACTIONS_N22 (NONUNIQUE) [source_project_id]
+MTL_MATERIAL_TRANSACTIONS_N3 (NONUNIQUE) [subinventory_code organization_id transaction_date]
+MTL_MATERIAL_TRANSACTIONS_N4 (NONUNIQUE) [vendor_lot_number]
+MTL_MATERIAL_TRANSACTIONS_N5 (NONUNIQUE) [organization_id transaction_date]
+MTL_MATERIAL_TRANSACTIONS_N6 (NONUNIQUE) [shipment_number]
+MTL_MATERIAL_TRANSACTIONS_N7 (NONUNIQUE) [acct_period_id organization_id]
+MTL_MATERIAL_TRANSACTIONS_N8 (NONUNIQUE) [transaction_source_type_id organization_id transaction_date transaction_source_name]
+MTL_MATERIAL_TRANSACTIONS_N9 (NONUNIQUE) [transaction_action_id organization_id transaction_type_id transaction_date]
+MTL_MATERIAL_TRANSACTIONS_U1 (UNIQUE) [transaction_id]
+MTL_MATERIAL_TRANSACTIONS_U2 (UNIQUE) [transaction_action_id transaction_type_id transaction_source_type_id transaction_id]
+MTL_PARAMETERS_N1 (NONUNIQUE) [master_organization_id]
+MTL_PARAMETERS_U1 (UNIQUE) [organization_id]
+
+<hr>
+
+<a name="1-10"></a>
+TOP_RANGE:5  SNAP_ID:1  TOP_SNAP:10  BUFFER_GETS:6798614  DISK_READS:19  HASH_VALUE:4196013552  ADDRESS:C0000000272D6120
+
+select TO_CHAR(min(transaction_date),'YYYY/MM/DD HH24:MI:SS') in
+to :b0  from mtl_material_transactions MMT where ((((((((((coste
+d_flag='E' and organization_id=:b1) or (((((transaction_action_i
+d=3 and primary_quantity&gt;0) and organization_id=:b1) and transac
+tion_cost is null ) and costed_flag='N') and exists (select null
+from mtl_parameters where (organization_id=MMT.transfer_organ
+ization_id and primary_cost_method in (2,5,6))))) or exists (sel
+ect null   from mtl_interorg_parameters MIP where ((((((((transa
+ction_action_id=21 and transaction_source_type_id in (13,8)) and
+transfer_organization_id=:b1) and MIP.to_organization_id=MMT.tr
+ansfer_organization_id) and MIP.from_organization_id=MMT.organiz
+ation_id) and MIP.fob_point=1) and shipment_costed is null ) and
+costed_flag='N') and exists (select null   from mtl_parameters
+where (organization_id=MMT.organization_id and primary_cost_meth
+od in (2,5,6)))))) or exists (select null   from mtl_interorg_pa
+rameters MIP where ((((((((transaction_action_id=12 and transact
+ion_source_type_id in (13,7)) and organization_id=:b1) and MIP.t
+o_organization_id=MMT.organization_id) and MIP.from_organization
+_id=MMT.transfer_organization_id) and MIP.fob_point=2) and shipm
+ent_costed is null ) and costed_flag='N') and exists (select nul
+l   from mtl_parameters where (organization_id=MMT.transfer_orga
+nization_id and primary_cost_method in (2,5,6)))))) or ((((trans
+action_action_id=3 and primary_quantity&lt;0) and transfer_organiza
+tion_id=:b1) and costed_flag='N') and exists (select null   from
+mtl_parameters where (((organization_id=MMT.organization_id and
+primary_cost_method=1) and cost_cutoff_date is  not null ) and
+MMT.transaction_date&gt;=cost_cutoff_date)))) or exists (select nul
+l   from mtl_interorg_parameters MIP where (((((((transaction_ac
+tion_id=21 and transaction_source_type_id in (13,8)) and transfe
+r_organization_id=:b1) and MIP.to_organization_id=MMT.transfer_o
+rganization_id) and MIP.from_organization_id=MMT.organization_id
+) and MIP.fob_point=1) and costed_flag='N') and exists (select n
+ull   from mtl_parameters where (((organization_id=MMT.organizat
+ion_id and primary_cost_method=1) and cost_cutoff_date is  not n
+ull ) and MMT.transaction_date&gt;=cost_cutoff_date))))) or exists
+(select null   from mtl_interorg_parameters MIP where (((((((tra
+nsaction_action_id=21 and transaction_source_type_id in (13,8))
+and organization_id=:b1) and MIP.to_organization_id=MMT.transfer
+_organization_id) and MIP.from_organization_id=MMT.organization_
+id) and MIP.fob_point=1) and costed_flag='N') and exists (select
+null   from mtl_parameters where (((organization_id=MMT.transfe
+r_organization_id and primary_cost_method=1) and cost_cutoff_dat
+e is  not null ) and MMT.transaction_date&gt;=cost_cutoff_date)))))
+or exists (select null   from mtl_interorg_parameters MIP where
+(((((((transaction_action_id=12 and transaction_source_type_id
+in (13,7)) and organization_id=:b1) and MIP.to_organization_id=M
+MT.organization_id) and MIP.from_organization_id=MMT.transfer_or
+ganization_id) and MIP.fob_point=2) and costed_flag='N') and exi
+sts (select null   from mtl_parameters where (((organization_id=
+MMT.transfer_organization_id and primary_cost_method=1) and cost
+_cutoff_date is  not null ) and MMT.transaction_date&gt;=cost_cutof
+f_date))))) or exists (select null   from mtl_interorg_parameter
+s MIP where (((((((transaction_action_id=12 and transaction_sour
+ce_type_id in (13,7)) and transfer_organization_id=:b1) and MIP.
+to_organization_id=MMT.organization_id) and MIP.from_organizatio
+n_id=MMT.transfer_organization_id) and MIP.fob_point=2) and cost
+ed_flag='N') and exists (select null   from mtl_parameters where
+(((organization_id=MMT.organization_id and primary_cost_method=
+1) and cost_cutoff_date is  not null ) and MMT.transaction_date&gt;
+=cost_cutoff_date))))) and costed_flag in ('N','E'))
+
+TOP_RANGE:5  SNAP_ID:1  TOP_SNAP:10  CHILD:0  BUFFER_GETS:6798614  DISK_READS:19  PLAN_HASH_VALUE:244162830  COST:3
+
+|OPER EXEC
+|  ID  ORD RUNTIME ACCESS PATH (ACTUAL EXCECUTION PLAN)
++---- ---- ----------------------------------------------------------
+|   0 SELECT STATEMENT  (COST=3 )
+|   1  SORT (AGGREGATE)  (CARD=1 BYTES=30 )
+|   2 . FILTER
+|   3 .. INLIST ITERATOR
+|   4 ... TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_MATERIAL_TRANSACTIONS'  (COST=3 CARD=1 BYTES=30 IO_COST=3 )
+|   5 .... INDEX (RANGE SCAN) OF 'INV.MTL_MATERIAL_TRANSACTIONS_N10' SEARCH_COLUMNS=1  (COST=2 CARD=1 IO_COST=2 )
+|   6 .. TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_PARAMETERS'  (COST=1 CARD=1 BYTES=7 IO_COST=1 )
+|   7 ... INDEX (UNIQUE SCAN) OF 'INV.MTL_PARAMETERS_U1' SEARCH_COLUMNS=1  (CARD=90 )
+|   8 .. FILTER
+|   9 ... TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_INTERORG_PARAMETERS'  (COST=1 CARD=1 BYTES=11 IO_COST=1 )
+|  10 .... INDEX (UNIQUE SCAN) OF 'INV.MTL_INTERORG_PARAMETERS_U1' SEARCH_COLUMNS=2  (CARD=92 )
+|  11 ... TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_PARAMETERS'  (COST=1 CARD=1 BYTES=7 IO_COST=1 )
+|  12 .... INDEX (UNIQUE SCAN) OF 'INV.MTL_PARAMETERS_U1' SEARCH_COLUMNS=1  (CARD=90 )
+|  13 .. FILTER
+|  14 ... TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_INTERORG_PARAMETERS'  (COST=1 CARD=1 BYTES=11 IO_COST=1 )
+|  15 .... INDEX (UNIQUE SCAN) OF 'INV.MTL_INTERORG_PARAMETERS_U1' SEARCH_COLUMNS=2  (CARD=92 )
+|  16 ... TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_PARAMETERS'  (COST=1 CARD=1 BYTES=7 IO_COST=1 )
+|  17 .... INDEX (UNIQUE SCAN) OF 'INV.MTL_PARAMETERS_U1' SEARCH_COLUMNS=1  (CARD=90 )
+|  18 .. TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_PARAMETERS'  (COST=1 CARD=1 BYTES=8 IO_COST=1 )
+|  19 ... INDEX (UNIQUE SCAN) OF 'INV.MTL_PARAMETERS_U1' SEARCH_COLUMNS=1  (CARD=90 )
+|  20 .. FILTER
+|  21 ... TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_INTERORG_PARAMETERS'  (COST=1 CARD=1 BYTES=11 IO_COST=1 )
+|  22 .... INDEX (UNIQUE SCAN) OF 'INV.MTL_INTERORG_PARAMETERS_U1' SEARCH_COLUMNS=2  (CARD=92 )
+|  23 ... TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_PARAMETERS'  (COST=1 CARD=1 BYTES=8 IO_COST=1 )
+|  24 .... INDEX (UNIQUE SCAN) OF 'INV.MTL_PARAMETERS_U1' SEARCH_COLUMNS=1  (CARD=90 )
+|  25 .. FILTER
+|  26 ... TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_INTERORG_PARAMETERS'  (COST=1 CARD=1 BYTES=11 IO_COST=1 )
+|  27 .... INDEX (UNIQUE SCAN) OF 'INV.MTL_INTERORG_PARAMETERS_U1' SEARCH_COLUMNS=2  (CARD=92 )
+|  28 ... TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_PARAMETERS'  (COST=1 CARD=1 BYTES=8 IO_COST=1 )
+|  29 .... INDEX (UNIQUE SCAN) OF 'INV.MTL_PARAMETERS_U1' SEARCH_COLUMNS=1  (CARD=90 )
+|  30 .. FILTER
+|  31 ... TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_INTERORG_PARAMETERS'  (COST=1 CARD=1 BYTES=11 IO_COST=1 )
+|  32 .... INDEX (UNIQUE SCAN) OF 'INV.MTL_INTERORG_PARAMETERS_U1' SEARCH_COLUMNS=2  (CARD=92 )
+|  33 ... TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_PARAMETERS'  (COST=1 CARD=1 BYTES=8 IO_COST=1 )
+|  34 .... INDEX (UNIQUE SCAN) OF 'INV.MTL_PARAMETERS_U1' SEARCH_COLUMNS=1  (CARD=90 )
+|  35 .. FILTER
+|  36 ... TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_INTERORG_PARAMETERS'  (COST=1 CARD=1 BYTES=11 IO_COST=1 )
+|  37 .... INDEX (UNIQUE SCAN) OF 'INV.MTL_INTERORG_PARAMETERS_U1' SEARCH_COLUMNS=2  (CARD=92 )
+|  38 ... TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_PARAMETERS'  (COST=1 CARD=1 BYTES=8 IO_COST=1 )
+|  39 .... INDEX (UNIQUE SCAN) OF 'INV.MTL_PARAMETERS_U1' SEARCH_COLUMNS=1  (CARD=90 )
+
+TOP_RANGE:5  SNAP_ID:1  TOP_SNAP:10  CHILD:0  PLAN STATISTICS FOR LAST EXECUTION
+
+|OPER                                                           OUTPUT CR BUFFER CU BUFFER      DISK      DISK   ELAPSED
+|  ID OPERATION (OPTIONS) OBJECT_NAME                 STARTS      ROWS      GETS      GETS     READS    WRITES      TIME
++---- -------------------------------------------- --------- --------- --------- --------- --------- --------- ---------
+|   1  SORT (AGGREGATE)                                    2         2     38850         0         0         0      0.83
+|   2 . FILTER                                             2         0     38850         0         0         0      0.83
+|   3 .. INLIST ITERATOR                                   2     16920      1518         0         0         0      0.17
+|   4 ... TABLE ACCESS (BY INDEX ROWID) MTL_MATERI         4     16920      1518         0         0         0      0.15
+|   5 .... INDEX (RANGE SCAN) MTL_MATERIAL_TRANSAC         4     16920       108         0         0         0      0.03
+|   6 .. TABLE ACCESS (BY INDEX ROWID) MTL_PARAMET         0         0         0         0         0         0      0.00
+|   7 ... INDEX (UNIQUE SCAN) MTL_PARAMETERS_U1            0         0         0         0         0         0      0.00
+|   8 .. FILTER                                           46         0         0         0         0         0      0.00
+|   9 ... TABLE ACCESS (BY INDEX ROWID) MTL_INTERO         0         0         0         0         0         0      0.00
+|  10 .... INDEX (UNIQUE SCAN) MTL_INTERORG_PARAME         0         0         0         0         0         0      0.00
+|  11 ... TABLE ACCESS (BY INDEX ROWID) MTL_PARAME        14         4        28         0         0         0      0.00
+|  12 .... INDEX (UNIQUE SCAN) MTL_PARAMETERS_U1          14        14        14         0         0         0      0.00
+|  13 .. FILTER                                           48         0         0         0         0         0      0.00
+|  14 ... TABLE ACCESS (BY INDEX ROWID) MTL_INTERO         0         0         0         0         0         0      0.00
+|  15 .... INDEX (UNIQUE SCAN) MTL_INTERORG_PARAME         0         0         0         0         0         0      0.00
+|  16 ... TABLE ACCESS (BY INDEX ROWID) MTL_PARAME        14         2        24         0         0         0      0.00
+|  17 .... INDEX (UNIQUE SCAN) MTL_PARAMETERS_U1          14        12        12         0         0         0      0.00
+|  18 .. TABLE ACCESS (BY INDEX ROWID) MTL_PARAMET         0         0         0         0         0         0      0.00
+|  19 ... INDEX (UNIQUE SCAN) MTL_PARAMETERS_U1            0         0         0         0         0         0      0.00
+|  20 .. FILTER                                         6068         0         0         0         0         0      0.00
+|  21 ... TABLE ACCESS (BY INDEX ROWID) MTL_INTERO         0         0         0         0         0         0      0.00
+|  22 .... INDEX (UNIQUE SCAN) MTL_INTERORG_PARAME         0         0         0         0         0         0      0.00
+|  23 ... TABLE ACCESS (BY INDEX ROWID) MTL_PARAME      5862         0     11724         0         0         0      0.09
+|  24 .... INDEX (UNIQUE SCAN) MTL_PARAMETERS_U1        5862      5862      5862         0         0         0      0.04
+|  25 .. FILTER                                         6068         0         0         0         0         0      0.00
+|  26 ... TABLE ACCESS (BY INDEX ROWID) MTL_INTERO         0         0         0         0         0         0      0.00
+|  27 .... INDEX (UNIQUE SCAN) MTL_INTERORG_PARAME         0         0         0         0         0         0      0.00
+|  28 ... TABLE ACCESS (BY INDEX ROWID) MTL_PARAME      5878         0      6916         0         0         0      0.06
+|  29 .... INDEX (UNIQUE SCAN) MTL_PARAMETERS_U1        5878      3458      3458         0         0         0      0.02
+|  30 .. FILTER                                         6068         0         0         0         0         0      0.00
+|  31 ... TABLE ACCESS (BY INDEX ROWID) MTL_INTERO         0         0         0         0         0         0      0.00
+|  32 .... INDEX (UNIQUE SCAN) MTL_INTERORG_PARAME         0         0         0         0         0         0      0.00
+|  33 ... TABLE ACCESS (BY INDEX ROWID) MTL_PARAME      5878         0      6916         0         0         0      0.06
+|  34 .... INDEX (UNIQUE SCAN) MTL_PARAMETERS_U1        5878      3458      3458         0         0         0      0.02
+|  35 .. FILTER                                         6068         0         0         0         0         0      0.00
+|  36 ... TABLE ACCESS (BY INDEX ROWID) MTL_INTERO         0         0         0         0         0         0      0.00
+|  37 .... INDEX (UNIQUE SCAN) MTL_INTERORG_PARAME         0         0         0         0         0         0      0.00
+|  38 ... TABLE ACCESS (BY INDEX ROWID) MTL_PARAME      5862         0     11724         0         0         0      0.09
+|  39 .... INDEX (UNIQUE SCAN) MTL_PARAMETERS_U1        5862      5862      5862         0         0         0      0.04
+
+TOP_RANGE:5  SNAP_ID:1  TOP_SNAP:10  CHILD:0  PLAN STATISTICS FOR ALL EXECUTIONS
+
+|OPER                                                           OUTPUT CR BUFFER CU BUFFER      DISK      DISK   ELAPSED
+|  ID OPERATION (OPTIONS) OBJECT_NAME                 STARTS      ROWS      GETS      GETS     READS    WRITES      TIME
++---- -------------------------------------------- --------- --------- --------- --------- --------- --------- ---------
+|   1  SORT (AGGREGATE)                                  350       350   6798610         0        19         0    146.83
+|   2 . FILTER                                           350        70   6798610         0        19         0    146.83
+|   3 .. INLIST ITERATOR                                 350   2961000    265650         0        19         0     29.29
+|   4 ... TABLE ACCESS (BY INDEX ROWID) MTL_MATERI       700   2961000    265650         0        19         0     25.82
+|   5 .... INDEX (RANGE SCAN) MTL_MATERIAL_TRANSAC       700   2961000     18900         0         0         0      4.71
+|   6 .. TABLE ACCESS (BY INDEX ROWID) MTL_PARAMET         0         0         0         0         0         0      0.00
+|   7 ... INDEX (UNIQUE SCAN) MTL_PARAMETERS_U1            0         0         0         0         0         0      0.00
+|   8 .. FILTER                                         7980         0         0         0         0         0      0.01
+|   9 ... TABLE ACCESS (BY INDEX ROWID) MTL_INTERO         0         0         0         0         0         0      0.00
+|  10 .... INDEX (UNIQUE SCAN) MTL_INTERORG_PARAME         0         0         0         0         0         0      0.00
+|  11 ... TABLE ACCESS (BY INDEX ROWID) MTL_PARAME      2450       700      4900         0         0         0      0.04
+|  12 .... INDEX (UNIQUE SCAN) MTL_PARAMETERS_U1        2450      2450      2450         0         0         0      0.02
+|  13 .. FILTER                                         8330         0         0         0         0         0      0.01
+|  14 ... TABLE ACCESS (BY INDEX ROWID) MTL_INTERO         0         0         0         0         0         0      0.00
+|  15 .... INDEX (UNIQUE SCAN) MTL_INTERORG_PARAME         0         0         0         0         0         0      0.00
+|  16 ... TABLE ACCESS (BY INDEX ROWID) MTL_PARAME      2450       350      4200         0         0         0      0.03
+|  17 .... INDEX (UNIQUE SCAN) MTL_PARAMETERS_U1        2450      2100      2100         0         0         0      0.01
+|  18 .. TABLE ACCESS (BY INDEX ROWID) MTL_PARAMET         0         0         0         0         0         0      0.00
+|  19 ... INDEX (UNIQUE SCAN) MTL_PARAMETERS_U1            0         0         0         0         0         0      0.00
+|  20 .. FILTER                                      1061830         0         0         0         0         0      0.65
+|  21 ... TABLE ACCESS (BY INDEX ROWID) MTL_INTERO         0         0         0         0         0         0      0.00
+|  22 .... INDEX (UNIQUE SCAN) MTL_INTERORG_PARAME         0         0         0         0         0         0      0.00
+|  23 ... TABLE ACCESS (BY INDEX ROWID) MTL_PARAME   1025850         0   2051700         0         0         0     16.02
+|  24 .... INDEX (UNIQUE SCAN) MTL_PARAMETERS_U1     1025850   1025850   1025850         0         0         0      6.94
+|  25 .. FILTER                                      1061795         0         0         0         0         0      0.65
+|  26 ... TABLE ACCESS (BY INDEX ROWID) MTL_INTERO         0         0         0         0         0         0      0.00
+|  27 .... INDEX (UNIQUE SCAN) MTL_INTERORG_PARAME         0         0         0         0         0         0      0.00
+|  28 ... TABLE ACCESS (BY INDEX ROWID) MTL_PARAME   1028580         0   1210230         0         0         0   1544.65
+|  29 .... INDEX (UNIQUE SCAN) MTL_PARAMETERS_U1     1028580    605115    605115         0         0         0      4.23
+|  30 .. FILTER                                      1061795         0         0         0         0         0      0.65
+|  31 ... TABLE ACCESS (BY INDEX ROWID) MTL_INTERO         0         0         0         0         0         0      0.00
+|  32 .... INDEX (UNIQUE SCAN) MTL_INTERORG_PARAME         0         0         0         0         0         0      0.00
+|  33 ... TABLE ACCESS (BY INDEX ROWID) MTL_PARAME   1028580         0   1210230         0         0         0     10.25
+|  34 .... INDEX (UNIQUE SCAN) MTL_PARAMETERS_U1     1028580    605115    605115         0         0         0      4.24
+|  35 .. FILTER                                      1061830         0         0         0         0         0      0.67
+|  36 ... TABLE ACCESS (BY INDEX ROWID) MTL_INTERO         0         0         0         0         0         0      0.00
+|  37 .... INDEX (UNIQUE SCAN) MTL_INTERORG_PARAME         0         0         0         0         0         0      0.00
+|  38 ... TABLE ACCESS (BY INDEX ROWID) MTL_PARAME   1025850         0   2051700         0         0         0     15.54
+|  39 .... INDEX (UNIQUE SCAN) MTL_PARAMETERS_U1     1025850   1025850   1025850         0         0         0      6.77
+
+OWNER.TABLE_NAME
+...owner.index_name                                     num rows     blocks     sample last analyzed date
+----------------------------------------------------- ---------- ---------- ---------- -------------------
+INV.MTL_INTERORG_PARAMETERS..........................         92          5         92 2003-05-13 18:38:12
+...inv.mtl_interorg_parameters_n1....................         92          1         92 2003-05-13 18:38:12
+...inv.mtl_interorg_parameters_u1....................         92          1         92 2003-05-13 18:38:12
+INV.MTL_MATERIAL_TRANSACTIONS........................     100550       3881      10055 2003-05-13 18:40:13
+...inv.mtl_material_transactions_n1..................     101200        396     101200 2003-05-13 18:39:46
+...inv.mtl_material_transactions_n10.................      12520         51      12520 2003-05-13 18:39:42
+...inv.mtl_material_transactions_n11.................      98079        186      98079 2003-05-13 18:39:51
+...inv.mtl_material_transactions_n12.................     100313        246     100313 2003-05-13 18:39:44
+...inv.mtl_material_transactions_n13.................        402          1        402 2003-05-13 18:39:50
+...inv.mtl_material_transactions_n14.................      54533        134      54533 2003-05-13 18:39:23
+...inv.mtl_material_transactions_n15.................     101200        413     101200 2003-05-13 18:39:41
+...inv.mtl_material_transactions_n16.................      14728         32      14728 2003-05-13 18:39:34
+...inv.mtl_material_transactions_n17.................      14811         33      14811 2003-05-13 18:39:33
+...inv.mtl_material_transactions_n18.................      15279         35      15279 2003-05-13 18:39:33
+...inv.mtl_material_transactions_n19.................       2006          5       2006 2003-05-13 18:39:51
+...inv.mtl_material_transactions_n2..................     101200        414     101200 2003-05-13 18:39:50
+...inv.mtl_material_transactions_n20.................        231          1        231 2003-05-13 18:39:51
+...inv.mtl_material_transactions_n21.................         11          1         11 2003-05-13 18:39:51
+...inv.mtl_material_transactions_n22.................         96          1         96 2003-05-13 18:39:51
+...inv.mtl_material_transactions_n3..................     101200        413     101200 2003-05-13 18:39:27
+...inv.mtl_material_transactions_n4..................          1          1          1 2003-05-13 18:39:37
+...inv.mtl_material_transactions_n5..................     101200        338     101200 2003-05-13 18:39:22
+...inv.mtl_material_transactions_n6..................      15553         38      15553 2003-05-13 18:39:22
+...inv.mtl_material_transactions_n7..................     101200        279     101200 2003-05-13 18:39:29
+...inv.mtl_material_transactions_n8..................     101200        400     101200 2003-05-13 18:39:37
+...inv.mtl_material_transactions_n9..................     101200        430     101200 2003-05-13 18:39:32
+...inv.mtl_material_transactions_u1..................     101200        233     101200 2003-05-13 18:39:33
+...inv.mtl_material_transactions_u2..................     101200        369     101200 2003-05-13 18:39:42
+INV.MTL_PARAMETERS...................................         90          8         90 2003-05-13 18:40:27
+...inv.mtl_parameters_n1.............................         90          1         90 2003-05-13 18:40:28
+...inv.mtl_parameters_u1.............................         90          1         90 2003-05-13 18:40:28
+
+INDEX_NAME (UNIQUENESS) [indexed columns]
+-------------------------------------------------------------------------------------------------------------------
+MTL_INTERORG_PARAMETERS_N1 (NONUNIQUE) [to_organization_id]
+MTL_INTERORG_PARAMETERS_U1 (UNIQUE) [to_organization_id from_organization_id]
+MTL_MATERIAL_TRANSACTIONS_N1 (NONUNIQUE) [inventory_item_id organization_id transaction_date]
+MTL_MATERIAL_TRANSACTIONS_N10 (NONUNIQUE) [costed_flag transaction_group_id]
+MTL_MATERIAL_TRANSACTIONS_N11 (NONUNIQUE) [invoiced_flag]
+MTL_MATERIAL_TRANSACTIONS_N12 (NONUNIQUE) [transaction_set_id]
+MTL_MATERIAL_TRANSACTIONS_N13 (NONUNIQUE) [pm_cost_collected pm_cost_collector_group_id]
+MTL_MATERIAL_TRANSACTIONS_N14 (NONUNIQUE) [completion_transaction_id]
+MTL_MATERIAL_TRANSACTIONS_N15 (NONUNIQUE) [transaction_action_id transaction_type_id transaction_source_type_id transaction_date]
+MTL_MATERIAL_TRANSACTIONS_N16 (NONUNIQUE) [pick_slip_number]
+MTL_MATERIAL_TRANSACTIONS_N17 (NONUNIQUE) [move_order_line_id]
+MTL_MATERIAL_TRANSACTIONS_N18 (NONUNIQUE) [picking_line_id]
+MTL_MATERIAL_TRANSACTIONS_N19 (NONUNIQUE) [rcv_transaction_id]
+MTL_MATERIAL_TRANSACTIONS_N2 (NONUNIQUE) [transaction_source_id organization_id transaction_date]
+MTL_MATERIAL_TRANSACTIONS_N20 (NONUNIQUE) [project_id]
+MTL_MATERIAL_TRANSACTIONS_N21 (NONUNIQUE) [to_project_id]
+MTL_MATERIAL_TRANSACTIONS_N22 (NONUNIQUE) [source_project_id]
+MTL_MATERIAL_TRANSACTIONS_N3 (NONUNIQUE) [subinventory_code organization_id transaction_date]
+MTL_MATERIAL_TRANSACTIONS_N4 (NONUNIQUE) [vendor_lot_number]
+MTL_MATERIAL_TRANSACTIONS_N5 (NONUNIQUE) [organization_id transaction_date]
+MTL_MATERIAL_TRANSACTIONS_N6 (NONUNIQUE) [shipment_number]
+MTL_MATERIAL_TRANSACTIONS_N7 (NONUNIQUE) [acct_period_id organization_id]
+MTL_MATERIAL_TRANSACTIONS_N8 (NONUNIQUE) [transaction_source_type_id organization_id transaction_date transaction_source_name]
+MTL_MATERIAL_TRANSACTIONS_N9 (NONUNIQUE) [transaction_action_id organization_id transaction_type_id transaction_date]
+MTL_MATERIAL_TRANSACTIONS_U1 (UNIQUE) [transaction_id]
+MTL_MATERIAL_TRANSACTIONS_U2 (UNIQUE) [transaction_action_id transaction_type_id transaction_source_type_id transaction_id]
+MTL_PARAMETERS_N1 (NONUNIQUE) [master_organization_id]
+MTL_PARAMETERS_U1 (UNIQUE) [organization_id]
+
+<hr>
+
+<a name="1-1"></a>
+TOP_RANGE:6  SNAP_ID:1  TOP_SNAP:1  BUFFER_GETS:3589778  DISK_READS:2328004  HASH_VALUE:4159773246  ADDRESS:C0000000271FF360
+
+update wip_cost_txn_interface WCTI  set group_id=:b0,transaction
+_id=DECODE(process_phase,1,wip_transactions_s.nextval ,NVL(trans
+action_id,wip_transactions_s.nextval )),last_update_date=sysdate
+,last_updated_by=:b1,last_update_login=:b2,program_application_
+id=:b3,program_id=:b4,program_update_date=sysdate  where ((((((D
+ECODE(transaction_type,3,1,17,3,transaction_type)=:b5 and proces
+s_status=1) and group_id is null ) and entity_type&lt;&gt;4) and organ
+ization_id=:b6) and  not exists (select null   from mtl_paramete
+rs MP where ((MP.organization_id=WCTI.organization_id and MP.cos
+t_cutoff_date is  not null ) and WCTI.transaction_date&gt;=MP.cost_
+cutoff_date))) and rownum &lt;=:b7)
+
+TOP_RANGE:6  SNAP_ID:1  TOP_SNAP:1  CHILD:0  BUFFER_GETS:3589778  DISK_READS:2328004  PLAN_HASH_VALUE:407565646  COST:72
+
+|OPER EXEC
+|  ID  ORD RUNTIME ACCESS PATH (ACTUAL EXCECUTION PLAN)
++---- ---- ----------------------------------------------------------
+|   0 UPDATE STATEMENT  (COST=72 )
+|   1  UPDATE
+|   2 . SEQUENCE
+|   3 .. COUNT (STOPKEY)
+|   4 ... FILTER
+|   5 .... TABLE ACCESS (FULL) OF 'WIP.WIP_COST_TXN_INTERFACE'  (COST=71 CARD=1 BYTES=85 IO_COST=71 )
+|   6 .... TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_PARAMETERS'  (COST=1 CARD=1 BYTES=5 IO_COST=1 )
+|   7 ....| INDEX (UNIQUE SCAN) OF 'INV.MTL_PARAMETERS_U1' SEARCH_COLUMNS=1  (CARD=90 )
+
+TOP_RANGE:6  SNAP_ID:1  TOP_SNAP:1  CHILD:0  PLAN STATISTICS FOR LAST EXECUTION
+
+|OPER                                                           OUTPUT CR BUFFER CU BUFFER      DISK      DISK   ELAPSED
+|  ID OPERATION (OPTIONS) OBJECT_NAME                 STARTS      ROWS      GETS      GETS     READS    WRITES      TIME
++---- -------------------------------------------- --------- --------- --------- --------- --------- --------- ---------
+|   1  UPDATE                                            222         0    102564         0     17705         0   2442.79
+|   2 . SEQUENCE                                         222         0    102564         0     17705         0   2442.79
+|   3 .. COUNT (STOPKEY)                                 222         0    102564         0     17705         0   2442.79
+|   4 ... FILTER                                         222         0    102564         0     17705         0   2442.79
+|   5 .... TABLE ACCESS (FULL) WIP_COST_TXN_INTERF       222         0    102564         0     17705         0   2442.79
+|   6 .... TABLE ACCESS (BY INDEX ROWID) MTL_PARAM         0         0         0         0         0         0      0.00
+|   7 ....| INDEX (UNIQUE SCAN) MTL_PARAMETERS_U1          0         0         0         0         0         0      0.00
+
+TOP_RANGE:6  SNAP_ID:1  TOP_SNAP:1  CHILD:0  PLAN STATISTICS FOR ALL EXECUTIONS
+
+|OPER                                                           OUTPUT CR BUFFER CU BUFFER      DISK      DISK   ELAPSED
+|  ID OPERATION (OPTIONS) OBJECT_NAME                 STARTS      ROWS      GETS      GETS     READS    WRITES      TIME
++---- -------------------------------------------- --------- --------- --------- --------- --------- --------- ---------
+|   1  UPDATE                                           7770         0   3589740         0   2328002         0  46167.85
+|   2 . SEQUENCE                                        7770         0   3589740         0   2328002         0  46167.79
+|   3 .. COUNT (STOPKEY)                                7770         0   3589740         0   2328002         0  46167.77
+|   4 ... FILTER                                        7770         0   3589740         0   2328002         0  46167.74
+|   5 .... TABLE ACCESS (FULL) WIP_COST_TXN_INTERF      7770         0   3589740         0   2328002         0  46167.72
+|   6 .... TABLE ACCESS (BY INDEX ROWID) MTL_PARAM         0         0         0         0         0         0      0.00
+|   7 ....| INDEX (UNIQUE SCAN) MTL_PARAMETERS_U1          0         0         0         0         0         0      0.00
+
+OWNER.TABLE_NAME
+...owner.index_name                                     num rows     blocks     sample last analyzed date
+----------------------------------------------------- ---------- ---------- ---------- -------------------
+INV.MTL_PARAMETERS...................................         90          8         90 2003-05-13 18:40:27
+...inv.mtl_parameters_n1.............................         90          1         90 2003-05-13 18:40:28
+...inv.mtl_parameters_u1.............................         90          1         90 2003-05-13 18:40:28
+WIP.WIP_COST_TXN_INTERFACE...........................      11224        460      11224 2003-05-18 07:06:18
+...wip.wip_cost_txn_interface_n1.....................          0          0          0 2003-05-18 07:06:19
+...wip.wip_cost_txn_interface_n2.....................      11224         28      11224 2003-05-18 07:06:19
+...wip.wip_cost_txn_interface_n3.....................      11224         32      11224 2003-05-18 07:06:19
+
+INDEX_NAME (UNIQUENESS) [indexed columns]
+-------------------------------------------------------------------------------------------------------------------
+MTL_PARAMETERS_N1 (NONUNIQUE) [master_organization_id]
+MTL_PARAMETERS_U1 (UNIQUE) [organization_id]
+WIP_COST_TXN_INTERFACE_N1 (NONUNIQUE) [group_id transaction_id]
+WIP_COST_TXN_INTERFACE_N2 (NONUNIQUE) [completion_transaction_id]
+WIP_COST_TXN_INTERFACE_N3 (NONUNIQUE) [primary_item_id organization_id]
+
+<hr>
+
+<a name="4-1"></a>
+TOP_RANGE:7  SNAP_ID:4  TOP_SNAP:1  BUFFER_GETS:545688  DISK_READS:428177  HASH_VALUE:1409780968  ADDRESS:C000000027A01560
+
+INSERT INTO mrp_form_query (             query_id,             n
+umber1,             number2,             number3,             la
+st_update_date,             last_updated_by,             creatio
+n_date,             created_by)     SELECT  :b2,             upd
+.inventory_item_id,             upd.organization_id,
+1,             SYSDATE,             -1,             SYSDATE,
+-1     FROM    mrp_relief_interface upd     WHERE   up
+d.relief_type = 1     AND     upd.request_id IS NOT NULL     AND
+upd.error_message IS NULL     AND     upd.process_status =
+:b1     UNION     SELECT  /*+ ordered use_nl(upd1, item) */
+:b2,               /* product family */             item
+.product_family_item_id,             upd1.organization_id,
+1,             SYSDATE,             -1,             SYSDA
+TE,             -1     FROM    mrp_relief_interface        upd1,
+mtl_system_items            item     WHERE   item.o
+rganization_id        = upd1.organization_id     AND     item.in
+ventory_item_id      = upd1.inventory_item_id     AND     upd1.r
+elief_type = 1     AND     upd1.request_id IS NOT NULL     AND
+upd1.error_message IS NULL     AND     upd1.process_status =
+:b1     UNION     SELECT  /*+ ordered use_nl(upd2,bom_item, bom,
+comp, comp_item) */             :b2,             comp.component
+_item_id,     /* config item's component */             bom.orga
+nization_id,             1,             SYSDATE,             -1,
+SYSDATE,             -1     FROM    mrp_relief_inte
+rface        upd2,             mtl_system_items            bom_i
+tem,             bom_bill_of_materials       bom,             bo
+m_inventory_components    comp,             mtl_system_items
+comp_item     WHERE   NVL(comp_item.ato_forecast_control
+, :b3) &lt;&gt; :b3     AND     comp_item.inventory_item_id = comp.com
+ponent_item_id     AND     comp_item.organization_id   = bom.org
+anization_id     AND     comp.bill_sequence_id       = bom.commo
+n_bill_sequence_id     AND     bom.alternate_bom_designator IS N
+ULL     AND     bom.organization_id         = bom_item.organizat
+ion_id     AND     bom.assembly_item_id        = bom_item.invent
+ory_item_id     AND     bom_item.base_item_id IS NOT NULL     AN
+D     bom_item.organization_id    = upd2.organization_id     AND
+bom_item.inventory_item_id  = upd2.inventory_item_id     AN
+D     upd2.relief_type = 1     AND     upd2.request_id IS NOT NU
+LL     AND     upd2.error_message IS NULL     AND     upd2.proce
+ss_status = :b1     UNION     SELECT  /*+ ordered use_nl(upd3, i
+tem1, item2)                     index (item2 mtl_system_items_b
+_n7) */             :b2,             item2.inventory_item_id,
+/* other items that belong to */             item2.organization
+_id,      /* the same product family    */             1,
+SYSDATE,             -1,             SYSDATE,
+-1     FROM    mrp_relief_interface        upd3,             mtl
+_system_items            item1,             mtl_system_items
+item2     WHERE   item2.product_family_item_id = item1.p
+roduct_family_item_id     AND     item2.organization_id        =
+item1.organization_id     AND     item2.inventory_item_id     &lt;
+&gt; item1.inventory_item_id     AND     item1.organization_id
+= upd3.organization_id     AND     item1.inventory_item_id
+= upd3.inventory_item_id     AND     upd3.relief_type = 1
+AND     upd3.request_id IS NOT NULL     AND     upd3.error_mess
+age IS NULL     AND     upd3.process_status = :b1
+
+TOP_RANGE:7  SNAP_ID:4  TOP_SNAP:1  CHILD:0  BUFFER_GETS:545688  DISK_READS:428177  PLAN_HASH_VALUE:4020131621  COST:2486
+
+|OPER EXEC
+|  ID  ORD RUNTIME ACCESS PATH (ACTUAL EXCECUTION PLAN)
++---- ---- ----------------------------------------------------------
+|   0 INSERT STATEMENT  (COST=2486 )
+|   1  SORT (UNIQUE)  (COST=2486 CARD=4 BYTES=1120 IO_COST=125 )
+|   2 . UNION-ALL
+|   3 .. TABLE ACCESS (FULL) OF 'MRP.MRP_RELIEF_INTERFACE'  (COST=112 CARD=1 BYTES=260 IO_COST=112 )
+|   4 .. NESTED LOOPS  (COST=113 CARD=1 BYTES=271 IO_COST=113 )
+|   5 ... TABLE ACCESS (FULL) OF 'MRP.MRP_RELIEF_INTERFACE'  (COST=112 CARD=1 BYTES=260 IO_COST=112 )
+|   6 ... TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_SYSTEM_ITEMS_B'  (COST=1 CARD=1 BYTES=11 IO_COST=1 )
+|   7 .... INDEX (UNIQUE SCAN) OF 'INV.MTL_SYSTEM_ITEMS_B_U1' SEARCH_COLUMNS=2  (CARD=1 )
+|   8 .. NESTED LOOPS  (COST=117 CARD=1 BYTES=307 IO_COST=117 )
+|   9 ... NESTED LOOPS  (COST=116 CARD=1 BYTES=295 IO_COST=116 )
+|  10 .... NESTED LOOPS  (COST=115 CARD=1 BYTES=286 IO_COST=115 )
+|  11 ....| NESTED LOOPS  (COST=113 CARD=1 BYTES=271 IO_COST=113 )
+|  12 ....|. TABLE ACCESS (FULL) OF 'MRP.MRP_RELIEF_INTERFACE'  (COST=112 CARD=1 BYTES=260 IO_COST=112 )
+|  13 ....|. TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_SYSTEM_ITEMS_B'  (COST=1 CARD=1 BYTES=11 IO_COST=1 )
+|  14 ....|.. INDEX (UNIQUE SCAN) OF 'INV.MTL_SYSTEM_ITEMS_B_U1' SEARCH_COLUMNS=2  (CARD=78 )
+|  15 ....| TABLE ACCESS (BY INDEX ROWID) OF 'BOM.BOM_BILL_OF_MATERIALS'  (COST=2 CARD=1 BYTES=15 IO_COST=2 )
+|  16 ....|. INDEX (RANGE SCAN) OF 'BOM.BOM_BILL_OF_MATERIALS_U1' SEARCH_COLUMNS=3  (COST=1 CARD=1 IO_COST=1 )
+|  17 .... INDEX (RANGE SCAN) OF 'BOM.BOM_INVENTORY_COMPONENTS_N6' SEARCH_COLUMNS=1  (COST=1 CARD=6 BYTES=54 IO_COST=1 )
+|  18 ... TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_SYSTEM_ITEMS_B'  (COST=1 CARD=1 BYTES=12 IO_COST=1 )
+|  19 .... INDEX (UNIQUE SCAN) OF 'INV.MTL_SYSTEM_ITEMS_B_U1' SEARCH_COLUMNS=2  (CARD=1 )
+|  20 .. TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_SYSTEM_ITEMS_B'  (COST=1979 CARD=1 BYTES=11 IO_COST=1979 )
+|  21 ... NESTED LOOPS  (COST=2092 CARD=1 BYTES=282 IO_COST=2092 )
+|  22 .... NESTED LOOPS  (COST=113 CARD=1 BYTES=271 IO_COST=113 )
+|  23 ....| TABLE ACCESS (FULL) OF 'MRP.MRP_RELIEF_INTERFACE'  (COST=112 CARD=1 BYTES=260 IO_COST=112 )
+|  24 ....| TABLE ACCESS (BY INDEX ROWID) OF 'INV.MTL_SYSTEM_ITEMS_B'  (COST=1 CARD=1 BYTES=11 IO_COST=1 )
+|  25 ....|. INDEX (UNIQUE SCAN) OF 'INV.MTL_SYSTEM_ITEMS_B_U1' SEARCH_COLUMNS=2  (CARD=238 )
+|  26 .... INDEX (RANGE SCAN) OF 'INV.MTL_SYSTEM_ITEMS_B_N7' SEARCH_COLUMNS=2  (COST=13 CARD=1 IO_COST=13 )
+
+TOP_RANGE:7  SNAP_ID:4  TOP_SNAP:1  CHILD:0  PLAN STATISTICS FOR LAST EXECUTION
+
+|OPER                                                           OUTPUT CR BUFFER CU BUFFER      DISK      DISK   ELAPSED
+|  ID OPERATION (OPTIONS) OBJECT_NAME                 STARTS      ROWS      GETS      GETS     READS    WRITES      TIME
++---- -------------------------------------------- --------- --------- --------- --------- --------- --------- ---------
+|   1  SORT (UNIQUE)                                       1         0      2908         0      2880         0      0.17
+|   2 . UNION-ALL                                          1         0      2908         0      2880         0      0.17
+|   3 .. TABLE ACCESS (FULL) MRP_RELIEF_INTERFACE          1         0       727         0       720         0      0.04
+|   4 .. NESTED LOOPS                                      1         0       727         0       720         0      0.04
+|   5 ... TABLE ACCESS (FULL) MRP_RELIEF_INTERFACE         1         0       727         0       720         0      0.04
+|   6 ... TABLE ACCESS (BY INDEX ROWID) MTL_SYSTEM         0         0         0         0         0         0      0.00
+|   7 .... INDEX (UNIQUE SCAN) MTL_SYSTEM_ITEMS_B_         0         0         0         0         0         0      0.00
+|   8 .. NESTED LOOPS                                      1         0       727         0       720         0      0.04
+|   9 ... NESTED LOOPS                                     1         0       727         0       720         0      0.04
+|  10 .... NESTED LOOPS                                    1         0       727         0       720         0      0.04
+|  11 ....| NESTED LOOPS                                   1         0       727         0       720         0      0.04
+|  12 ....|. TABLE ACCESS (FULL) MRP_RELIEF_INTERF         1         0       727         0       720         0      0.04
+|  13 ....|. TABLE ACCESS (BY INDEX ROWID) MTL_SYS         0         0         0         0         0         0      0.00
+|  14 ....|.. INDEX (UNIQUE SCAN) MTL_SYSTEM_ITEMS         0         0         0         0         0         0      0.00
+|  15 ....| TABLE ACCESS (BY INDEX ROWID) BOM_BILL         0         0         0         0         0         0      0.00
+|  16 ....|. INDEX (RANGE SCAN) BOM_BILL_OF_MATERI         0         0         0         0         0         0      0.00
+|  17 .... INDEX (RANGE SCAN) BOM_INVENTORY_COMPON         0         0         0         0         0         0      0.00
+|  18 ... TABLE ACCESS (BY INDEX ROWID) MTL_SYSTEM         0         0         0         0         0         0      0.00
+|  19 .... INDEX (UNIQUE SCAN) MTL_SYSTEM_ITEMS_B_         0         0         0         0         0         0      0.00
+|  20 .. TABLE ACCESS (BY INDEX ROWID) MTL_SYSTEM_         1         0       727         0       720         0      0.04
+|  21 ... NESTED LOOPS                                     1         1       727         0       720         0      0.04
+|  22 .... NESTED LOOPS                                    1         0       727         0       720         0      0.04
+|  23 ....| TABLE ACCESS (FULL) MRP_RELIEF_INTERFA         1         0       727         0       720         0      0.04
+|  24 ....| TABLE ACCESS (BY INDEX ROWID) MTL_SYST         0         0         0         0         0         0      0.00
+|  25 ....|. INDEX (UNIQUE SCAN) MTL_SYSTEM_ITEMS_         0         0         0         0         0         0      0.00
+|  26 .... INDEX (RANGE SCAN) MTL_SYSTEM_ITEMS_B_N         0         0         0         0         0         0      0.00
+
+TOP_RANGE:7  SNAP_ID:4  TOP_SNAP:1  CHILD:0  PLAN STATISTICS FOR ALL EXECUTIONS
+
+|OPER                                                           OUTPUT CR BUFFER CU BUFFER      DISK      DISK   ELAPSED
+|  ID OPERATION (OPTIONS) OBJECT_NAME                 STARTS      ROWS      GETS      GETS     READS    WRITES      TIME
++---- -------------------------------------------- --------- --------- --------- --------- --------- --------- ---------
+|   1  SORT (UNIQUE)                                     187         0    543796         0    428052         0     32.02
+|   2 . UNION-ALL                                        187         0    543796         0    428052         0     32.00
+|   3 .. TABLE ACCESS (FULL) MRP_RELIEF_INTERFACE        187         0    135949         0    107745         0   3389.28
+|   4 .. NESTED LOOPS                                    187         0    135949         0    106829         0   2848.09
+|   5 ... TABLE ACCESS (FULL) MRP_RELIEF_INTERFACE       187         0    135949         0    106829         0   2848.09
+|   6 ... TABLE ACCESS (BY INDEX ROWID) MTL_SYSTEM         0         0         0         0         0         0      0.00
+|   7 .... INDEX (UNIQUE SCAN) MTL_SYSTEM_ITEMS_B_         0         0         0         0         0         0      0.00
+|   8 .. NESTED LOOPS                                    187         0    135949         0    106755         0   3328.87
+|   9 ... NESTED LOOPS                                   187         0    135949         0    106755         0   3328.87
+|  10 .... NESTED LOOPS                                  187         0    135949         0    106755         0   3328.87
+|  11 ....| NESTED LOOPS                                 187         0    135949         0    106755         0   3328.87
+|  12 ....|. TABLE ACCESS (FULL) MRP_RELIEF_INTERF       187         0    135949         0    106755         0   3328.87
+|  13 ....|. TABLE ACCESS (BY INDEX ROWID) MTL_SYS         0         0         0         0         0         0      0.00
+|  14 ....|.. INDEX (UNIQUE SCAN) MTL_SYSTEM_ITEMS         0         0         0         0         0         0      0.00
+|  15 ....| TABLE ACCESS (BY INDEX ROWID) BOM_BILL         0         0         0         0         0         0      0.00
+|  16 ....|. INDEX (RANGE SCAN) BOM_BILL_OF_MATERI         0         0         0         0         0         0      0.00
+|  17 .... INDEX (RANGE SCAN) BOM_INVENTORY_COMPON         0         0         0         0         0         0      0.00
+|  18 ... TABLE ACCESS (BY INDEX ROWID) MTL_SYSTEM         0         0         0         0         0         0      0.00
+|  19 .... INDEX (UNIQUE SCAN) MTL_SYSTEM_ITEMS_B_         0         0         0         0         0         0      0.00
+|  20 .. TABLE ACCESS (BY INDEX ROWID) MTL_SYSTEM_       187         0    135949         0    106723         0      8.06
+|  21 ... NESTED LOOPS                                   187       187    135949         0    106723         0      8.05
+|  22 .... NESTED LOOPS                                  187         0    135949         0    106723         0      8.05
+|  23 ....| TABLE ACCESS (FULL) MRP_RELIEF_INTERFA       187         0    135949         0    106723         0      8.05
+|  24 ....| TABLE ACCESS (BY INDEX ROWID) MTL_SYST         0         0         0         0         0         0      0.00
+|  25 ....|. INDEX (UNIQUE SCAN) MTL_SYSTEM_ITEMS_         0         0         0         0         0         0      0.00
+|  26 .... INDEX (RANGE SCAN) MTL_SYSTEM_ITEMS_B_N         0         0         0         0         0         0      0.00
+
+TOP_RANGE:7  SNAP_ID:4  TOP_SNAP:1  CHILD:0  WORKAREAS
+
+|            ESTIMATED ESTIMATED      LAST                                                    MULTI            MAX TEMP LAST TEMP
+|OPER          OPTIMAL  ONE PASS    MEMORY      LAST   LAST     TOTAL   OPTIMAL  ONE PASS    PASSES    ACTIVE   SEGMENT   SEGMENT
+|  ID POLICY      SIZE      SIZE      USED EXECUTION DEGREE  EXECUTNS  EXECUTNS  EXECUTNS  EXECUTNS      TIME      SIZE      SIZE
++---- ------ --------- --------- --------- --------- ------ --------- --------- --------- --------- --------- --------- ---------
+|   1   AUTO     73728     73728         0   OPTIMAL      1       187       187         0         0      0.17
+
+OWNER.TABLE_NAME
+...owner.index_name                                     num rows     blocks     sample last analyzed date
+----------------------------------------------------- ---------- ---------- ---------- -------------------
+BOM.BOM_BILL_OF_MATERIALS............................        849         24        849 2003-05-13 16:55:35
+...bom.bom_bill_of_materials_n1......................        849          2        849 2003-05-13 16:55:36
+...bom.bom_bill_of_materials_u1......................        849          3        849 2003-05-13 16:55:36
+...bom.bom_bill_of_materials_u2......................        849          2        849 2003-05-13 16:55:36
+BOM.BOM_INVENTORY_COMPONENTS.........................       4272        139       4272 2003-05-13 16:56:32
+...bom.bom_inventory_components_n1...................       4272         19       4272 2003-05-13 16:56:32
+...bom.bom_inventory_components_n2...................       4272         10       4272 2003-05-13 16:56:32
+...bom.bom_inventory_components_n3...................         24          1         24 2003-05-13 16:56:32
+...bom.bom_inventory_components_n4...................       1698          4       1698 2003-05-13 16:56:32
+...bom.bom_inventory_components_n5...................         26          1         26 2003-05-13 16:56:32
+...bom.bom_inventory_components_n6...................       4272         13       4272 2003-05-13 16:56:32
+...bom.bom_inventory_components_u1...................       4272         19       4272 2003-05-13 16:56:32
+...bom.bom_inventory_components_u2...................       4272          9       4272 2003-05-13 16:56:33
+INV.MTL_SYSTEM_ITEMS_B...............................      12133        928      12133 2003-05-13 18:43:38
+...inv.mtl_system_items_b_n1.........................      12133         54      12133 2003-05-13 18:43:57
+...inv.mtl_system_items_b_n10........................      12133         40      12133 2003-05-13 18:43:55
+...inv.mtl_system_items_b_n2.........................      12133         78      12133 2003-05-13 18:43:58
+...inv.mtl_system_items_b_n3.........................      12133         37      12133 2003-05-13 18:43:58
+...inv.mtl_system_items_b_n4.........................      12133         40      12133 2003-05-13 18:43:59
+...inv.mtl_system_items_b_n5.........................       2772          8       2772 2003-05-13 18:43:55
+...inv.mtl_system_items_b_n6.........................      12053         31      12053 2003-05-13 18:43:56
+...inv.mtl_system_items_b_n7.........................      12133         40      12133 2003-05-13 18:43:56
+...inv.mtl_system_items_b_n8.........................      12133         39      12133 2003-05-13 18:43:59
+...inv.mtl_system_items_b_n9.........................      12133         38      12133 2003-05-13 18:43:55
+...inv.mtl_system_items_b_u1.........................      12133         45      12133 2003-05-13 18:43:55
+...inv.mtl_system_items_n8...........................      12133         51      12133 2003-05-13 18:43:57
+MRP.MRP_RELIEF_INTERFACE.............................      13573        725      13573 2003-05-13 19:01:29
+...mrp.mrp_relief_interface_n1.......................      13573         39      13573 2003-05-13 19:01:29
+...mrp.mrp_relief_interface_n2.......................      13573         48      13573 2003-05-13 19:01:30
+...mrp.mrp_relief_interface_u1.......................      13573         30      13573 2003-05-13 19:01:30
+
+INDEX_NAME (UNIQUENESS) [indexed columns]
+-------------------------------------------------------------------------------------------------------------------
+BOM_BILL_OF_MATERIALS_N1 (NONUNIQUE) [common_bill_sequence_id]
+BOM_BILL_OF_MATERIALS_U1 (UNIQUE) [assembly_item_id organization_id alternate_bom_designator]
+BOM_BILL_OF_MATERIALS_U2 (UNIQUE) [bill_sequence_id]
+BOM_INVENTORY_COMPONENTS_N6 (NONUNIQUE) [bill_sequence_id from_end_item_unit_number component_item_id]
+MTL_SYSTEM_ITEMS_B_N1 (NONUNIQUE) [organization_id segment1]
+MTL_SYSTEM_ITEMS_B_N10 (NONUNIQUE) [organization_id planner_code]
+MTL_SYSTEM_ITEMS_B_N2 (NONUNIQUE) [organization_id description]
+MTL_SYSTEM_ITEMS_B_N3 (NONUNIQUE) [inventory_item_status_code]
+MTL_SYSTEM_ITEMS_B_N4 (NONUNIQUE) [organization_id auto_created_config_flag]
+MTL_SYSTEM_ITEMS_B_N5 (NONUNIQUE) [wh_update_date]
+MTL_SYSTEM_ITEMS_B_N6 (NONUNIQUE) [item_catalog_group_id catalog_status_flag]
+MTL_SYSTEM_ITEMS_B_N7 (NONUNIQUE) [product_family_item_id organization_id]
+MTL_SYSTEM_ITEMS_B_N8 (NONUNIQUE) [comms_nl_trackable_flag organization_id]
+MTL_SYSTEM_ITEMS_B_N9 (NONUNIQUE) [organization_id buyer_id]
+MTL_SYSTEM_ITEMS_B_U1 (UNIQUE) [inventory_item_id organization_id]
+MTL_SYSTEM_ITEMS_N8 (NONUNIQUE) [segment1 segment2 segment3]
+MRP_RELIEF_INTERFACE_N1 (NONUNIQUE) [request_id process_status]
+MRP_RELIEF_INTERFACE_N2 (NONUNIQUE) [process_status inventory_item_id]
+MRP_RELIEF_INTERFACE_U1 (UNIQUE) [transaction_id]
+
+<hr>
+
+<a name="1-3"></a>
+TOP_RANGE:8  SNAP_ID:1  TOP_SNAP:3  BUFFER_GETS:258861  DISK_READS:181896  HASH_VALUE:920976291  ADDRESS:C0000000272E7880
+
+select count(*)  into :b0  from wip_cost_txn_interface WCTI wher
+e ((((organization_id=:b1 and DECODE(transaction_type,3,1,transa
+ction_type) in (1,2,17)) and process_status=1) and transaction_d
+ate&lt;TO_DATE(:b2,'YYYY/MM/DD HH24:MI:SS')) and group_id is null )
+
+
+TOP_RANGE:8  SNAP_ID:1  TOP_SNAP:3  CHILD:0  BUFFER_GETS:258861  DISK_READS:181896  PLAN_HASH_VALUE:330151332  COST:71
+
+|OPER EXEC
+|  ID  ORD RUNTIME ACCESS PATH (ACTUAL EXCECUTION PLAN)
++---- ---- ----------------------------------------------------------
+|   0 SELECT STATEMENT  (COST=71 )
+|   1  SORT (AGGREGATE)  (CARD=1 BYTES=31 )
+|   2 . TABLE ACCESS (FULL) OF 'WIP.WIP_COST_TXN_INTERFACE'  (COST=71 CARD=17 BYTES=527 IO_COST=71 )
+
+TOP_RANGE:8  SNAP_ID:1  TOP_SNAP:3  CHILD:0  PLAN STATISTICS FOR LAST EXECUTION
+
+|OPER                                                           OUTPUT CR BUFFER CU BUFFER      DISK      DISK   ELAPSED
+|  ID OPERATION (OPTIONS) OBJECT_NAME                 STARTS      ROWS      GETS      GETS     READS    WRITES      TIME
++---- -------------------------------------------- --------- --------- --------- --------- --------- --------- ---------
+|   1  SORT (AGGREGATE)                                    2         2       924         0       874         0      0.06
+|   2 . TABLE ACCESS (FULL) WIP_COST_TXN_INTERFACE         2         0       924         0       874         0      0.06
+
+TOP_RANGE:8  SNAP_ID:1  TOP_SNAP:3  CHILD:0  PLAN STATISTICS FOR ALL EXECUTIONS
+
+|OPER                                                           OUTPUT CR BUFFER CU BUFFER      DISK      DISK   ELAPSED
+|  ID OPERATION (OPTIONS) OBJECT_NAME                 STARTS      ROWS      GETS      GETS     READS    WRITES      TIME
++---- -------------------------------------------- --------- --------- --------- --------- --------- --------- ---------
+|   1  SORT (AGGREGATE)                                  560       560    258720         0    181882         0     17.35
+|   2 . TABLE ACCESS (FULL) WIP_COST_TXN_INTERFACE       560         0    258720         0    181882         0     17.34
+
+OWNER.TABLE_NAME
+...owner.index_name                                     num rows     blocks     sample last analyzed date
+----------------------------------------------------- ---------- ---------- ---------- -------------------
+WIP.WIP_COST_TXN_INTERFACE...........................      11224        460      11224 2003-05-18 07:06:18
+...wip.wip_cost_txn_interface_n1.....................          0          0          0 2003-05-18 07:06:19
+...wip.wip_cost_txn_interface_n2.....................      11224         28      11224 2003-05-18 07:06:19
+...wip.wip_cost_txn_interface_n3.....................      11224         32      11224 2003-05-18 07:06:19
+
+INDEX_NAME (UNIQUENESS) [indexed columns]
+-------------------------------------------------------------------------------------------------------------------
+WIP_COST_TXN_INTERFACE_N1 (NONUNIQUE) [group_id transaction_id]
+WIP_COST_TXN_INTERFACE_N2 (NONUNIQUE) [completion_transaction_id]
+WIP_COST_TXN_INTERFACE_N3 (NONUNIQUE) [primary_item_id organization_id]
+
+<hr>
+
+<a name="3-7"></a>
+TOP_RANGE:9  SNAP_ID:3  TOP_SNAP:7  BUFFER_GETS:153017  DISK_READS:141  HASH_VALUE:3726588515  ADDRESS:C000000025C82100
+
+SELECT profile_option_id,                application_id
+from   fnd_profile_options         where  profile_option_name =
+upper(:b1)         and    start_date_active  &lt;= sysdate
+and    nvl(end_date_active, sysdate) &gt;= sysdate
+
+TOP_RANGE:9  SNAP_ID:3  TOP_SNAP:7  CHILD:0  BUFFER_GETS:137936  DISK_READS:94  PLAN_HASH_VALUE:1374985481  COST:2
+
+|OPER EXEC
+|  ID  ORD RUNTIME ACCESS PATH (ACTUAL EXCECUTION PLAN)
++---- ---- ----------------------------------------------------------
+|   0 SELECT STATEMENT  (COST=2 )
+|   1  TABLE ACCESS (BY INDEX ROWID) OF 'APPLSYS.FND_PROFILE_OPTIONS'  (COST=2 CARD=1 BYTES=43 IO_COST=2 )
+|   2 . INDEX (UNIQUE SCAN) OF 'APPLSYS.FND_PROFILE_OPTIONS_U2' SEARCH_COLUMNS=1  (COST=1 CARD=4546 IO_COST=1 )
+
+TOP_RANGE:9  SNAP_ID:3  TOP_SNAP:7  CHILD:1  BUFFER_GETS:4512  DISK_READS:20  PLAN_HASH_VALUE:1374985481  COST:2
+
+|OPER EXEC
+|  ID  ORD RUNTIME ACCESS PATH (ACTUAL EXCECUTION PLAN)
++---- ---- ----------------------------------------------------------
+|   0 SELECT STATEMENT  (COST=2 )
+|   1  TABLE ACCESS (BY INDEX ROWID) OF 'APPLSYS.FND_PROFILE_OPTIONS'  (COST=2 CARD=1 BYTES=43 IO_COST=2 )
+|   2 . INDEX (UNIQUE SCAN) OF 'APPLSYS.FND_PROFILE_OPTIONS_U2' SEARCH_COLUMNS=1  (COST=1 CARD=4546 IO_COST=1 )
+
+TOP_RANGE:9  SNAP_ID:3  TOP_SNAP:7  CHILD:1  PLAN STATISTICS FOR LAST EXECUTION
+
+|OPER                                                           OUTPUT CR BUFFER CU BUFFER      DISK      DISK   ELAPSED
+|  ID OPERATION (OPTIONS) OBJECT_NAME                 STARTS      ROWS      GETS      GETS     READS    WRITES      TIME
++---- -------------------------------------------- --------- --------- --------- --------- --------- --------- ---------
+|   1  TABLE ACCESS (BY INDEX ROWID) FND_PROFILE_O       225       158       608         0         2         0      0.01
+|   2 . INDEX (UNIQUE SCAN) FND_PROFILE_OPTIONS_U2       225       158       450         0         0         0      0.00
+
+TOP_RANGE:9  SNAP_ID:3  TOP_SNAP:7  CHILD:1  PLAN STATISTICS FOR ALL EXECUTIONS
+
+|OPER                                                           OUTPUT CR BUFFER CU BUFFER      DISK      DISK   ELAPSED
+|  ID OPERATION (OPTIONS) OBJECT_NAME                 STARTS      ROWS      GETS      GETS     READS    WRITES      TIME
++---- -------------------------------------------- --------- --------- --------- --------- --------- --------- ---------
+|   1  TABLE ACCESS (BY INDEX ROWID) FND_PROFILE_O      1146       969      3261         0         9         0      0.09
+|   2 . INDEX (UNIQUE SCAN) FND_PROFILE_OPTIONS_U2      1146       969      2292         0         1         0      0.03
+
+TOP_RANGE:9  SNAP_ID:3  TOP_SNAP:7  CHILD:2  BUFFER_GETS:10569  DISK_READS:27  PLAN_HASH_VALUE:1374985481  COST:2
+
+|OPER EXEC
+|  ID  ORD RUNTIME ACCESS PATH (ACTUAL EXCECUTION PLAN)
++---- ---- ----------------------------------------------------------
+|   0 SELECT STATEMENT  (COST=2 )
+|   1  TABLE ACCESS (BY INDEX ROWID) OF 'APPLSYS.FND_PROFILE_OPTIONS'  (COST=2 CARD=1 BYTES=43 IO_COST=2 )
+|   2 . INDEX (UNIQUE SCAN) OF 'APPLSYS.FND_PROFILE_OPTIONS_U2' SEARCH_COLUMNS=1  (COST=1 CARD=4546 IO_COST=1 )
+
+TOP_RANGE:9  SNAP_ID:3  TOP_SNAP:7  CHILD:2  PLAN STATISTICS FOR LAST EXECUTION
+
+|OPER                                                           OUTPUT CR BUFFER CU BUFFER      DISK      DISK   ELAPSED
+|  ID OPERATION (OPTIONS) OBJECT_NAME                 STARTS      ROWS      GETS      GETS     READS    WRITES      TIME
++---- -------------------------------------------- --------- --------- --------- --------- --------- --------- ---------
+|   1  TABLE ACCESS (BY INDEX ROWID) FND_PROFILE_O       147       111       405         0         0         0      0.01
+|   2 . INDEX (UNIQUE SCAN) FND_PROFILE_OPTIONS_U2       147       111       294         0         0         0      0.00
+
+TOP_RANGE:9  SNAP_ID:3  TOP_SNAP:7  CHILD:2  PLAN STATISTICS FOR ALL EXECUTIONS
+
+|OPER                                                           OUTPUT CR BUFFER CU BUFFER      DISK      DISK   ELAPSED
+|  ID OPERATION (OPTIONS) OBJECT_NAME                 STARTS      ROWS      GETS      GETS     READS    WRITES      TIME
++---- -------------------------------------------- --------- --------- --------- --------- --------- --------- ---------
+|   1  TABLE ACCESS (BY INDEX ROWID) FND_PROFILE_O      3392      2638      9422         0        11         0      0.14
+|   2 . INDEX (UNIQUE SCAN) FND_PROFILE_OPTIONS_U2      3392      2638      6784         0         0         0      0.06
+
+OWNER.TABLE_NAME
+...owner.index_name                                     num rows     blocks     sample last analyzed date
+----------------------------------------------------- ---------- ---------- ---------- -------------------
+APPLSYS.FND_PROFILE_OPTIONS..........................       4546        187       4546 2003-05-13 16:12:12
+...applsys.fnd_profile_options_u1....................       4546         13       4546 2003-05-13 16:12:12
+...applsys.fnd_profile_options_u2....................       4546         25       4546 2003-05-13 16:12:12
+
+INDEX_NAME (UNIQUENESS) [indexed columns]
+-------------------------------------------------------------------------------------------------------------------
+FND_PROFILE_OPTIONS_U1 (UNIQUE) [application_id profile_option_id]
+FND_PROFILE_OPTIONS_U2 (UNIQUE) [profile_option_name]
+
+LOGON_TIME                  SID      AUDSID     PROCESS         PID        SPID
+------------------- ----------- ----------- ----------- ----------- -----------
+2003-05-18 15:36:44          13      355642       18604          12       18624
+2003-05-18 15:36:53          30      355658          28       18848
+2003-05-18 15:37:19          34      355668       18924          38       18947
+2003-05-18 15:37:19          37      355666       18920          36       18943
+2003-05-18 15:37:19          41      355669       18925          39       18949
+2003-05-18 15:37:20          40      355670       18926          40       18951
+2003-05-18 15:37:20          44      355672       18928          42       18955
+2003-05-18 15:37:20          46      355673       18929          43       18957
+2003-05-18 15:37:20          43      355671       18927          41       18953
+2003-05-18 15:37:21          45      355676       18934          46       18963
+2003-05-18 15:37:21          51      355677       18935          47       18965
+2003-05-18 15:37:21          50      355678       18881          48       18967
+2003-05-18 15:37:21          48      355674       18930          44       18959
+2003-05-18 15:37:21          47      355675       18933          45       18961
+2003-05-18 15:37:22          49      355679       18969          49       18973
+2003-05-18 15:37:23          52      355680       18975          50       18978
+2003-05-18 15:37:23          54      355681       18976          51       18980
+2003-05-18 15:37:24          56      355682       18981          37       18983
+2003-05-18 15:37:26          57      355687       18918          33       18993  USER: MFILAKOS  MODULE: CONC REQ 1515501 Purge Obsolete Workflow Runtime Data
+2003-05-18 16:33:07          10      355834          35       19346
+2003-05-18 18:09:27          32      356083       18912          31       15839
+2003-05-18 18:19:27          38      356107       18919          10       21129
+2003-05-18 18:21:54          64      356116       18757          58       22637
+2003-05-18 18:21:56          60      356117       18613          59       22639
+2003-05-18 18:21:59          12      356118       16885          60       22641
+2003-05-18 18:22:19          61      356120       18729          61       22735
+2003-05-18 18:23:27           9      356124       18729          61       22735  USER: CSIERRA  MODULE: FORM ARXRWMAI (Receipts)
+2003-05-18 18:24:28          33      356129       18915          11       23828
+2003-05-18 18:29:28          66      356144       18911          30       26969
+2003-05-18 18:34:41          55      356157       18913          32         250
+2003-05-18 18:35:52          36      356161       18923           9        1130
+
+<hr>
+
+<a name="1-4"></a>
+TOP_RANGE:10  SNAP_ID:1  TOP_SNAP:4  BUFFER_GETS:151235  DISK_READS:128008  HASH_VALUE:1637338913  ADDRESS:C000000025F52270
+
+select distinct i.obj# from sys.idl_ub1$ i where i.obj#&gt;=:1 and
+i.obj# not in (select d.p_obj# from sys.dependency$ d)
+
+TOP_RANGE:10  SNAP_ID:1  TOP_SNAP:4  CHILD:0  BUFFER_GETS:151235  DISK_READS:128008  PLAN_HASH_VALUE:2808931571  COST:0 (RBO)
+
+|OPER EXEC
+|  ID  ORD RUNTIME ACCESS PATH (ACTUAL EXCECUTION PLAN)
++---- ---- ----------------------------------------------------------
+|   0 SELECT STATEMENT
+|   1  SORT (UNIQUE)
+|   2 . FILTER
+|   3 .. INDEX (RANGE SCAN) OF 'SYS.I_IDL_UB11' SEARCH_COLUMNS=1
+|   4 .. TABLE ACCESS (FULL) OF 'SYS.DEPENDENCY$'
+
+TOP_RANGE:10  SNAP_ID:1  TOP_SNAP:4  CHILD:0  WORKAREAS
+
+|            ESTIMATED ESTIMATED      LAST                                                    MULTI            MAX TEMP LAST TEMP
+|OPER          OPTIMAL  ONE PASS    MEMORY      LAST   LAST     TOTAL   OPTIMAL  ONE PASS    PASSES    ACTIVE   SEGMENT   SEGMENT
+|  ID POLICY      SIZE      SIZE      USED EXECUTION DEGREE  EXECUTNS  EXECUTNS  EXECUTNS  EXECUTNS      TIME      SIZE      SIZE
++---- ------ --------- --------- --------- --------- ------ --------- --------- --------- --------- --------- --------- ---------
+|   1   AUTO     73728     73728         0   OPTIMAL      1         1         1         0         0     23.27
+
+OWNER.TABLE_NAME
+...owner.index_name                                     num rows     blocks     sample last analyzed date
+----------------------------------------------------- ---------- ---------- ---------- -------------------
+SYS.DEPENDENCY$......................................
+...sys.i_dependency1.................................
+...sys.i_dependency2.................................
+SYS.IDL_UB1$.........................................
+...sys.i_idl_ub11....................................
+
+INDEX_NAME (UNIQUENESS) [indexed columns]
+-------------------------------------------------------------------------------------------------------------------
+I_DEPENDENCY1 (UNIQUE) [d_obj# d_timestamp order#]
+I_DEPENDENCY2 (NONUNIQUE) [p_obj# p_timestamp]
+I_IDL_UB11 (UNIQUE) [obj# part version piece#]
+
+<hr>
+
+</pre></body></html>

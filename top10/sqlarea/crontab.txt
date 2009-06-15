@@ -1,0 +1,9 @@
+#
+# sqlarea-top
+#     sample
+#
+*/15 08-19       * * * /u01/app/oracle/top10/cron_sqlarea-top.sh -f
+00   00-07,20-23 * * * /u01/app/oracle/top10/cron_sqlarea-top.sh -f
+#
+# vim: ft=crontab:
+#

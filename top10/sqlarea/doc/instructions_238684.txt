@@ -1,0 +1,57 @@
+INSTRUCTIONS_238684.TXT   8.1.6-9.2.0  21-NOV-03  NOTE:238684.1  CSIERRA
+=======================
+
+ 1. Unzip file SQLA.zip into dedicated directory on db server preserving case
+    on all scripts (UPPER CASE).  Example: SQLAREAT.SQL
+
+ 2. If you are using script SQLAREAT.SQL for the first time, connect as main
+    application user (APPS if using Oracle Apps) and execute:
+
+    # sqlplus apps/<pwd>
+    SQL> START SQLACREA.SQL;
+
+    This step creates a staging repository that is used by SQLAREAT.SQL
+
+    If not sure if the staging repository has been created or not, simply
+    execute SQLACREA.SQL and it will re-create it.
+
+    If you get PLS-00201 errors, execute SQLAGRNT.SQL as SYSTEM, SYS or
+    INTERNAL
+
+ 3. Once the staging repository is created, execute:
+
+    # sqlplus apps/<pwd>
+    SQL> START SQLAREAT.SQL;
+
+ 4. SQLAREAT.SQL creates an HTML spool file with most expensive SQL.
+
+    Execute this script manually or within a cron job.  Suggested frequency
+    is every 15 minutes during peak time (high system load window).
+
+ 5. If SQLAREAT.SQL is used over a period of time (i.e. peak hours), use
+    included SQLAREAR.SQL to extract most expensive SQL observed during a
+    range of snapshots captured previously by SQLAREAT.SQL:
+
+    # sqlplus apps/<pwd>
+    SQL> START SQLAREAR.SQL <p_process_type> <p_snap_id_from> <p_snap_id_to>;
+    SQL> START SQLAREAR.SQL LR 1 4;
+
+    Where p_process_type is LR for logical reads or PR for physical reads
+
+ 6. In addition to SQLAREAT.SQL and SQLAREAR.SQL, use the SQLAREAS.SQL to
+    report additional statistics.
+
+    # sqlplus apps/<pwd>
+    SQL> START SQLAREAS.SQL;
+
+ 7. If you need to uninstall this tool, execute commands below and remove
+    scripts SQLA* from dedicated directory
+
+    # sqlplus apps/<pwd>
+    SQL> START SQLADROP.SQL
+
+    If you ever executed SQLAGRNT.SQL, use SQLAREVK.SQL when uninstalling
+
+ 8. For feedback, email author carlos.sierra@oracle.com
+
+ 9. For the latest version of this tool, download SQLA.zip from Note:238684.1

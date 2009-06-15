@@ -1,0 +1,101 @@
+<html><head><title>SQLAREAS.HTML</title>
+<style type="text/css">
+h1  { font-family:Arial,Helvetica,Geneva,sans-serif;font-size:16pt }
+h2  { font-family:Arial,Helvetica,Geneva,sans-serif;font-size:12pt }
+h3  { font-family:Arial,Helvetica,Geneva,sans-serif;font-size:10pt }
+pre { font-family:Courier New,Geneva;font-size:8pt }
+</style></head><body><pre>
+<h1>SQLAREAS.SQL - SQL Area Statistics</h1>
+METALINK_NOTE       = <a title="MetaLink Note:238684.1" target="_blank" href="http://metalink.oracle.com/metalink/plsql/showdoc?db=NOT&id=238684.1">238684.1</a>
+PLATFORM            = HPUX 64bit Production
+DATABASE            = VISUS19(3744477655)
+INSTANCE            = VISUS19(1)
+STARTUP_TIME        = 18-MAY-2003 15:36
+RDBMS_RELEASE       = 9.2.0.2.0
+CPU_COUNT           = 4
+
+P_TOP               = 10
+
+
+<h2>V$LIBRARYCACHE (BETWEEN 18-MAY-2003 15:36 AND 18-MAY-2003 19:05)</h2>
+
+                                              GET HIT                               PIN HIT
+NAMESPACE                 GETS        GETHITS   RATIO           PINS        PINHITS   RATIO        RELOADS  INVAL
+--------------- -------------- -------------- ------- -------------- -------------- ------- -------------- ------
+SQL AREA                 47134          42784    90.8       14752237       14747479   100.0            117    241
+TABLE/PROCEDURE          77102          74100    96.1         270794         266217    98.3              5      0
+BODY                     23306          23092    99.1          23325          23102    99.0              0      0
+TRIGGER                    797            773    97.0            797            773    97.0              0      0
+INDEX                     2353           2212    94.0           2358           2172    92.1              0      0
+CLUSTER                    505            497    98.4            644            634    98.4              0      0
+OBJECT                       0              0   100.0              0              0   100.0              0      0
+PIPE                      5470           5460    99.8           5470           5460    99.8              0      0
+JAVA SOURCE                  0              0   100.0              0              0   100.0              0      0
+JAVA RESOURCE                0              0   100.0              0              0   100.0              0      0
+JAVA DATA                    6              4    66.7             17             13    76.5              0      0
+
+
+<h2>SHARED POOL - SGA</h2>
+
+NAME                        SIZE(MB)
+-------------------------- ---------
+sql area                          48
+library cache                     26
+free memory                       22
+miscellaneous                     17
+KGLS heap                         11
+PL/SQL MPCODE                      9
+event statistics per sess          7
+FileOpenBlock                      6
+PL/SQL DIANA                       5
+KQR L PO                           4
+KQR M PO                           3
+kgl simulator                      3
+dictionary cache                   3
+sessions                           2
+enqueue resources                  2
+Checkpoint queue                   2
+1M buffer                          2
+enqueue                            1
+transaction                        1
+
+
+<h2>SHARED POOL - PARAMETERS</h2>
+
+PARAMETER                           VALUE
+----------------------------------- ---------------
+shared_pool_size                    134217728
+shared_pool_reserved_size           13000000
+_shared_pool_reserved_min_alloc     4100
+
+
+<hr>
+
+
+<h2>SQL DISTRIBUTION PER NUMBER OF EXECUTIONS</h2>
+
+NUM.  EXECUTIONS
+EXEC       COUNT
+---- -----------
+   0         194
+   1         603
+  >1        1313
+
+
+<h2>TOP SQL WITH SAME FIRST 60 CHARACTERS</h2>
+
+SQL_TEXT FIRST 60 CHAR                                             COUNT MODULE_ACTION
+------------------------------------------------------------ ----------- --------------------------------------------------
+select /*+ cursor_sharing_exact dynamic_sampling(0) no_monit          70  -
+select q_name, state, delay, expiration, rowid, msgid,   deq          51  -
+select /*+ cursor_sharing_exact dynamic_sampling(0) no_monit          20 SQL*Plus -
+select name, address, protocol, rule_name, ruleset_name, tra          17  -
+select name, address, protocol, trans_name, subscriber_type           17  -
+select name, address, protocol, subscriber_type, subscriber_          17  -
+select q_name, state, delay, expiration, rowid, msgid,    de           9  -
+SELECT /* $Header: fdffvs.lc 115.31 2002/08/13 17:43:54 tbar           8 ARXRWMAI - Online-Receivables Manager
+UPDATE sqla$session_process sp SET ( sp.apps_user_name, sp.a           8 SQLAREAT.SQL - EXTRACTING
+Select R.Rowid From Fnd_Concurrent_Requests R  Where R.Hold_           7  -
+
+
+<hr>
