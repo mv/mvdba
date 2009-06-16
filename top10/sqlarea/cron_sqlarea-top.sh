@@ -21,14 +21,6 @@ PATH=$PATH:/usr/bin:/usr/sbin:/bin:/sbin
     exit 2
 }
 
-### ORACLE_HOME + ORACLE_SID
-source /u01/app/oracle/bin/env-ora.sh
-if [ ! -d "$ORACLE_HOME" ]
-then
-    logmsg "ORACLE_HOME not set!!!"
-    exit 1
-fi
-
 ### App settings
   APPDIR=/u01/app/oracle/top10
   LOGDIR=/u01/app/oracle/log
@@ -37,6 +29,18 @@ SPOOLDIR=/u01/app/oracle/spool
  LOGFILE=${LOGDIR}/${FILE%.*}.log
 #OUTFILE=${LOGDIR}/${FILE%.*}.out
 
+logmsg() {
+    echo "`date '+%Y-%m-%d %H:%M:%S'` : $1" >> $LOGFILE
+}
+
+### ORACLE_HOME + ORACLE_SID
+source /u01/app/oracle/bin/env-ora.sh
+if [ ! -d "$ORACLE_HOME" ]
+then
+    logmsg "ORACLE_HOME not set!!!"
+    exit 1
+fi
+
 ### email
 HOSTNAME=`hostname`
 HOSTNAME=${HOSTNAME%%.*}
@@ -44,10 +48,6 @@ HOSTNAME=${HOSTNAME%%.*}
 MAIL_FROM="noreply@${HOSTNAME}"
 # MAIL_TO: sourced in env-ora.sh
 [ "$MAIL_TO" ] || MAIL_TO="ferreira.mv@gmail.com"
-
-logmsg() {
-    echo "`date '+%Y-%m-%d %H:%M:%S'` : $1" >> $LOGFILE
-}
 
 mailmsg() {
     MSG=$1
