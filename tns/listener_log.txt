@@ -1,0 +1,15 @@
+
+
+Moving log:
+    1)
+        lsnrctl set log_status off
+        mv listener.log listener.log.1
+        lsnrctl set log_status on
+
+    2)
+        cat listener.log > listener.log.1 && echo > listener.log
+
+Disable log:
+    LOGGING_listener=off
+    TRACE_LEVEL_listener=off
+
