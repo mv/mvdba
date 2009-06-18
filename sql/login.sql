@@ -147,7 +147,7 @@
     -- SET SCAN OFF
 -- }
 
-DEFINE _EDITOR=vim
+DEFINE _EDITOR='vim -c "set filetype=plsql"'
 
 -- vim: ft=plsql foldlevel=0:
 
