@@ -11,17 +11,19 @@ fi
 while true
 do
     clear
-    hsize=`stty size|cut -f2 -d" "`
-    vsize=`stty size|cut -f1 -d" "`
+    which stty 1>/dev/null && vsize=`stty size|cut -f1 -d" "` || vsize=24
+    which stty 1>/dev/null && hsize=`stty size|cut -f2 -d" "` || hsize=80
 
-    sqlplus -s system/sys@orcl <<SQL
+
+    sqlplus -s 'mvdba/terra#29@abdps1' <<SQL
 
         set feedback off
         set linesize 200
+        set time off
+        set timing off
         exec system.monit.oratop( $hsize, $vsize );
 
 SQL
-
     echo
     echo "Press CTRL-c to exit"
     sleep 5
