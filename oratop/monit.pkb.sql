@@ -79,8 +79,8 @@ CREATE OR REPLACE PACKAGE BODY monit AS
         end loop;
 
         dbms_output.put_line( chr(13) );
-        p( 'SID,SERIAL DB USER    OSPID  OS USER    LOGON SINCE         STATE    MACHINE         COMMAND         MODULE          ACTION     LONGOPS?');
-        p( '---------- ---------- ------ ---------- ------------------- -------- --------------- --------------- --------------  ---------- --------');
+        p( 'SID,SERIAL DB USER    OSPID  OS USER    LOGON SINCE         STATE    MACHINE         COMMAND          MODULE          ACTION     LONGOPS?');
+        p( '---------- ---------- ------ ---------- ------------------- -------- --------------- ---------------- --------------  ---------- --------');
 
         for x in (
             select *
