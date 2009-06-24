@@ -100,6 +100,14 @@
     COLUMN module       FORMAT A20
     COLUMN action       FORMAT A20
 
+    -- Users
+    COLUMN username             FORMAT a20
+    COLUMN password             FORMAT a16
+    COLUMN account_status       FORMAT a16
+    COLUMN default_tablespace   FORMAT a20
+    COLUMN temporary_tablespace FORMAT a20
+    COLUMN external_name        FORMAT a15
+
 -- }
 
 -- Trace/Tuning {
