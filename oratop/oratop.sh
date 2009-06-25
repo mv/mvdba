@@ -9,7 +9,7 @@ then
 fi
 
  DIR=~/config
-CONN=ora_mvdba_abdps1
+CONN=ora_mvdba_abdps1.txt
 
 if [ -z "$1" ]
 then connect="${DIR}/${CONN}"

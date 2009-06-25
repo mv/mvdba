@@ -34,10 +34,11 @@ CREATE OR REPLACE PACKAGE BODY monit AS
                   from v$session_longops
                  where sid     = p_sid
                    and serial# = p_serial#
+                   and NVL(totalwork,0) > 0
             )
         loop
             if r.perc < 100
-            then return( r.sofar || '/' || r.totalwork || r.perc ||'%');
+            then return( to_char(r.perc, '999d00') ||'%');
             end if;
         end loop;
 
