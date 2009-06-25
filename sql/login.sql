@@ -96,9 +96,19 @@
     COLUMN host         FORMAT A20
 
     -- Sessions
-    COLUMN username     FORMAT A30
-    COLUMN module       FORMAT A20
-    COLUMN action       FORMAT A20
+    COLUMN sid                  FORMAT 999999
+    COLUMN serial#              FORMAT 999999
+    COLUMN inst_id              FORMAT 999999
+    COLUMN username             FORMAT A30
+    COLUMN program              FORMAT A30
+    COLUMN machine              FORMAT A30
+    COLUMN module               FORMAT A20
+    COLUMN action               FORMAT A20
+    COLUMN event                FORMAT A20
+
+    COLUMN pid                  FORMAT 999999
+    COLUMN spid                 FORMAT 999999
+    COLUMN cpid                 FORMAT 999999
 
     -- Users
     COLUMN username             FORMAT a20
@@ -108,6 +118,11 @@
     COLUMN temporary_tablespace FORMAT a20
     COLUMN external_name        FORMAT a15
 
+    -- Privs
+    COLUMN comments             FORMAT a40
+    COLUMN privilege            FORMAT a15
+
+    -- Session
 -- }
 
 -- Trace/Tuning {
