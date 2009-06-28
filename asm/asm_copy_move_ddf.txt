@@ -1,0 +1,137 @@
+
+Ref:
+    428893.1
+    390174.1
+    390416.1
+
+
+== Copy from ASM to filesystem ==
+
+Datafile:
+    '+DGROUP1/V10ASM/datafile/system.272.617284341'
+
+
+1) Create a source_dir/dest_dir:
+
+    CREATE OR REPLACE DIRECTORY source_dir AS '+DGROUP1/V10ASM/datafile/';
+    CREATE OR REPLACE DIRECTORY   dest_dir AS '/u02/restore/';
+
+2) Copy
+
+BEGIN
+    dbms_file_transfer.copy_file
+        ( source_directory_object      => 'SOURCE_DIR'
+        , source_file_name             => 'system.272.617284341'
+        , destination_directory_object => 'ORACLE_DEST' 
+        , destination_file_name        => 'system.dbf'
+        );
+END;
+/ 
+
+
+== Move from filesystem to ASM ==
+
+SHUTDOWN / MOVE STAGE
+
+        1) ASM free space
+
+            ASM+:
+                select NAME, STATE, TOTAL_MB, FREE_MB from v$asm_diskgroup; 
+                NAME     STATE       TOTAL_MB   FREE_MB
+                -------- ----------- ---------- ----------
+                DGROUP1  MOUNTED     100        3
+                DGROUP2  MOUNTED     4882       4830
+
+        2) DDF to move:
+
+            DB:
+                select file#, name, bytes/1024/1024 mega from v$datafile;
+
+                FILE#   NAME                         MEGA
+                -----   ---------------------------- ----
+                4       /oradata/PROD/users01.dbf    2500
+            
+        3) Move via rman
+
+            $ rman target=/
+            RMAN> copy   datafile 4 to '+DGROUP2';
+                ...
+                input datafile fno=00004 name=/oradata/PROD/users01.dbf
+                output filename=+DGROUP2/PROD/datafile/users01.258.600351265 
+                ...
+            RMAN> switch datafile 4 to copy "+DGROUP2/PROD/datafile/users01.258.600351265";
+
+        4) Check new file
+
+            DB: 
+                select name from v$datafile;
+
+RUNNING STAGE
+
+        1) ASM free space
+
+            ASM+:
+                select NAME, STATE, TOTAL_MB, FREE_MB from v$asm_diskgroup; 
+                NAME     STATE       TOTAL_MB   FREE_MB
+                -------- ----------- ---------- ----------
+                DGROUP1  MOUNTED     100        3
+                DGROUP2  MOUNTED     4882       4830
+
+        2) DDF to move:
+
+            DB:
+                SQL> select tablespace_name, file_name from dba_data_files where file_id=4;
+
+                TABLESPACE_NAME    FILE_NAME
+                ------------------ ------------------------------
+                USERS              /oradata/RMAN/users01.dbf
+
+                SQL> alter tablespace users offline;
+            
+        3) Move via rman
+
+            $ rman target=/
+            RMAN> copy   datafile 4 to '+DGROUP2';
+                ...
+                input datafile fno=00004 name=/oradata/PROD/users01.dbf
+                output filename=+DGROUP2/PROD/datafile/users01.258.600351265 
+                ...
+            RMAN> switch datafile 4 to copy "+DGROUP2/PROD/datafile/users01.258.600351265";
+
+        4) Check new file
+
+            DB: 
+                SQL> alter tablespace_name users online;
+                SQL> select name from v$datafile;
+
+
+== Move from ASM to filesystem ==
+
+SHUTDOWN / MOVE STAGE
+
+        1) 2) ...
+
+        3) Move via rman
+
+            $ rman target=/
+            RMAN> copy  datafile 4 to '/u02/oradata/orcl/users01.dbf';
+                ...
+                input datafile fno=00004 name=+DGROUP3/rman/datafile/users.258.600450259
+                output filename=/oradata/PROD/users01.dbf tag=TAG20060906T154614 recid=22 stamp=600450375
+                ...
+
+        4) Update database
+            DB:
+                ALTER DATABASE RENAME FILE '+DGROUP3/rman/datafile/users.258.600450259'
+                                        TO '/u02/oradata/orcl/users01.dbf';
+
+RUNNING
+        1) ...
+        2) 
+            DB:
+                ALTER TABLESPACE users OFFLINE;
+        3) 4)
+        5)
+            DB:
+                ALTER TABLESPACE users ONLINE;
+
