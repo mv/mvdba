@@ -75,43 +75,21 @@ column "DiskCnt" format 9999 Heading "Disk|Count"
  */
 column  "Type"  format A10 Heading "Diskgroup|Redundancy"
 
-select
-/*
-    Name of the diskgroup */
-    g.name
-    "Diskgroup",
-/*
-    Percent diskgroup allocation is imbalanced  */
-    100*(max((d.total_mb-d.free_mb)/d.total_mb)-min((d.total_mb-d.free_mb)/d.total_mb))/max((d.total_mb-d.free_mb)/d.total_mb)
-    "Imbalance",
-/*
-     Percent difference between largest and smallest disk */
-    100*(max(d.total_mb)-min(d.total_mb))/max(d.total_mb)
-    "Varience",
-/*
-    The disk with the least free space as a percent of total space */
-    100*(min(d.free_mb/d.total_mb))
-    "MinFree",
-/*
-    Number of disks in the diskgroup */
-    count(*)
-    "DiskCnt",
-/*
-    Diskgroup redundancy */
-    g.type
-    "Type"
-from
-    &asm_disk d ,
-    &asm_diskgroup g
-where
-    d.group_number = g.group_number and
-    d.group_number <> 0 and
-    d.state = 'NORMAL' and
-    d.mount_status = 'CACHED'
-group by
-    g.name ,
-    g.type
-;
+select g.name                                                 "Diskgroup" /* Name of the diskgroup */
+     ,  100*( max((d.total_mb-d.free_mb)/d.total_mb)
+             -min((d.total_mb-d.free_mb)/d.total_mb)
+           ) /max((d.total_mb-d.free_mb)/d.total_mb)          "Imbalance" /* Percent diskgroup allocation is imbalanced  */
+     ,  100*(max(d.total_mb)-min(d.total_mb))/max(d.total_mb) "Varience"  /* Percent difference between largest and smallest disk */
+     ,  100*(min(d.free_mb/d.total_mb))                       "MinFree"   /* The disk with the least free space as a percent of total space */
+     ,  count(*)                                              "DiskCnt"   /* Number of disks in the diskgroup */
+     ,  g.type                                                "Type"      /* Diskgroup redundancy */
+  from &asm_disk d , &asm_diskgroup g
+ where d.group_number = g.group_number 
+   and d.group_number <> 0 
+   and d.state = 'NORMAL' 
+   and d.mount_status = 'CACHED'
+ group by g.name , g.type
+    ;
 
 /*
  * query to see if there are partner imbalances
@@ -176,71 +154,45 @@ column  "FailGrpCnt" format 9999 Heading "Failgroup|Count"
  */
 column "Inactive" format 9999 Heading "Inactive|Partnership|Count"
 
-select
-/*
-    Name of the diskgroup */
-    g.name
-    "Diskgroup",
- /*
-    partner imbalance */
-    max(p.cnt)-min(p.cnt)
-    "PImbalance",
-/*
-    total partner space imbalance */
-    100*(max(p.pspace)-min(p.pspace))/max(p.pspace)
-    "SImbalance",
-/*
-    Number of failure groups in the diskgroup */
-    count(distinct p.fgrp)
-    "FailGrpCnt",
-/*
-    Number of inactive partnerships in the diskgroup */
-    sum(p.inactive)/2
-    "Inactive"
-from
-    &asm_diskgroup g ,
-    ( /* One row per disk with count of partners and total space of partners
-       * as a multiple of the space in this disk. It is possible that all
-       * partnerships are inactive giving a pspace of 0. To avoid divide by
-       * zero when this happens for all disks, we return a very small number
-       * for total partner space. This happens in a diskgroup with only two
-       * failure groups when one failure group fails. */
-        select
-            x.grp grp,
-            x.disk disk,
-            sum(x.active) cnt,
-            greatest(sum(x.total_mb/d.total_mb),0.0001) pspace,
-            d.failgroup fgrp,
-            count(*)-sum(x.active) inactive
-        from 
-            &asm_disk d ,
-            ( /* One row per  partner of a disk with partner size. We return
-               * size of zero for inactive partnerships since they will
-               * be eliminated by rebalance. */
-                select
-                    y.grp grp,
-                    y.disk disk,
-                    z.total_mb*y.active_kfdpartner total_mb,
-                    y.active_kfdpartner active
-                from
-                    x$kfdpartner y,
-                    &asm_disk z
-                where
-                    y.number_kfdpartner = z.disk_number and
-                    y.grp = z.group_number           
-            ) x
-        where
-            d.group_number = x.grp and
-            d.disk_number = x.disk and
-            d.group_number <> 0 and
-            d.state = 'NORMAL' and
-            d.mount_status = 'CACHED'
-        group by
-            x.grp, x.disk, d.failgroup
+select g.name                                          "Diskgroup"  /* Name of the diskgroup */
+     , max(p.cnt)-min(p.cnt)                           "PImbalance" /* partner imbalance */
+     , 100*(max(p.pspace)-min(p.pspace))/max(p.pspace) "SImbalance" /* total partner space imbalance */
+     , count(distinct p.fgrp)                          "FailGrpCnt" /* Number of failure groups in the diskgroup */
+     , sum(p.inactive)/2                               "Inactive"   /* Number of inactive partnerships in the diskgroup */
+  from &asm_diskgroup g 
+     , ( /* One row per disk with count of partners and total space of partners
+          * as a multiple of the space in this disk. It is possible that all
+          * partnerships are inactive giving a pspace of 0. To avoid divide by
+          * zero when this happens for all disks, we return a very small number
+          * for total partner space. This happens in a diskgroup with only two
+          * failure groups when one failure group fails. */
+       select x.grp                                       grp
+            , x.disk                                      disk
+            , sum(x.active)                               cnt
+            , greatest(sum(x.total_mb/d.total_mb),0.0001) pspace
+            , d.failgroup                                 fgrp
+            , count(*)-sum(x.active)                      inactive
+         from &asm_disk d
+            , ( /* One row per  partner of a disk with partner size. We return
+                 * size of zero for inactive partnerships since they will
+                 * be eliminated by rebalance. */
+                select y.grp                          grp
+                     , y.disk                         disk
+                     , z.total_mb*y.active_kfdpartner total_mb
+                     , y.active_kfdpartner            active
+                  from x$kfdpartner y
+                     , &asm_disk    z
+                 where y.number_kfdpartner = z.disk_number 
+                   and y.grp = z.group_number           
+               ) x
+        where d.group_number = x.grp 
+          and d.disk_number = x.disk 
+          and d.group_number <> 0 
+          and d.state = 'NORMAL' 
+          and d.mount_status = 'CACHED'
+        group by x.grp, x.disk, d.failgroup
     ) p
-where
-    g.group_number = p.grp
-group by
-    g.name
-;
+where g.group_number = p.grp
+group by g.name
+    ;
 
