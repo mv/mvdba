@@ -1,0 +1,24 @@
+#
+# 2009-06
+
+orcl     = (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = 10.10.10.1     )(PORT = 1521 ) ) (CONNECT_DATA = (SID = orcl      )                        ) )
+oracle   = (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = 10.10.10.64    )(PORT = 1521 ) ) (CONNECT_DATA = (SID = orcl      )                        ) )
+
+# 10g: UR=A - connection to a blocked service (11g does not need it)
+asm      = (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = 10.10.10.1     )(PORT = 1521 ) ) (CONNECT_DATA = (SID = +asm      )(SERVER=DEDICATED)(UR=A)) )
+
+ABDPS1   = (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = 172.16.202.36  )(PORT = 1521 ) ) (CONNECT_DATA = (SID = ABDPS1    ) ) )
+ABDPS2   = (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = 172.16.202.37  )(PORT = 1521 ) ) (CONNECT_DATA = (SID = ABDPS2    ) ) )
+
+ABDPS =
+    (DESCRIPTION =
+        (CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = SITES)
+            (FAILOVER_MODE = (TYPE = SELECT) (METHOD = BASIC) (RETRIES = 180) (DELAY = 5))
+        )
+        (LOAD_BALANCE = yes)
+        (ADDRESS = (PROTOCOL = TCP)(HOST = 172.16.202.190)(PORT = 1521 ))
+        (ADDRESS = (PROTOCOL = TCP)(HOST = 172.16.202.191)(PORT = 1521 ))
+    )
+
+# vim: set ft=ora :
+

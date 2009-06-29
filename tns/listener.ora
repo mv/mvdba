@@ -1,0 +1,68 @@
+
+####
+
+# 1521: {
+listener =
+    (DESCRIPTION_LIST =
+        (DESCRIPTION =
+            (ADDRESS = (PROTOCOL = IPC)(KEY  = ipckey1)              )
+            (ADDRESS = (PROTOCOL = TCP)(HOST = dbhost )(PORT = 1521) )
+        )
+    )
+
+SID_LIST_listener =
+    (SID_LIST =
+#       (SID_DESC = (ORACLE_HOME = /u01/app/oracle/product/10.2.0/db_1 ) (SID_NAME = PLSExtProc) (PROGRAM = extproc    ) )
+        (SID_DESC = (ORACLE_HOME = /u01/app/oracle/product/10.2.0/db_1 ) (SID_NAME     = orcl  ) (GLOBAL_DBNAME = orcl ) )
+        (SID_DESC = (ORACLE_HOME = /u01/app/oracle/product/10.2.0/asm_1) (SID_NAME     = +asm  ) (GLOBAL_DBNAME = +asm ) )
+#       (SID_DESC = (ORACLE_HOME = /u01/app/oracle/product/10.2.0/db_1 ) (SERVICE_NAME = rac1  ) (GLOBAL_DBNAME = rac1 ) )
+#       (SID_DESC = (ORACLE_HOME = /u01/app/oracle/product/10.2.0/db_1 ) (SERVICE_NAME = rac2  ) (GLOBAL_DBNAME = rac2 ) )
+     )
+
+# 1521: log and trace {
+ADMIN_RESTRICTIONS_listener = off
+
+LOGGING_listener  = off
+LOG_FILE_listener = listener_1521.log
+LOG_DIRECTORY_listener = /u01/app/oracle/log
+
+TRACE_LEVEL_listener = off
+TRACE_FILE_listener  = listener_1521.trc
+TRACE_DIRECTORY_listener = /u01/app/oracle/log
+TRACE_TIMESTAMP_listener = true
+# }
+
+#     }
+
+# 1526: {
+listener6 =
+    (DESCRIPTION =
+        (ADDRESS_LIST =
+            (ADDRESS = (PROTOCOL = ipc)(KEY  = ipckey6))
+            (ADDRESS = (PROTOCOL = tcp)(HOST = dbhost )(PORT = 1526))
+        )
+    )
+
+SID_LIST_listener6 =
+    (SID_LIST =
+        (SID_DESC = (ORACLE_HOME = /u01/app/oracle/product/10.2.0/db_1 ) (SID_NAME     = orcl  ) (GLOBAL_DBNAME = orcl ) )
+        (SID_DESC = (ORACLE_HOME = /u01/app/oracle/product/10.2.0/asm_1) (SID_NAME     = +asm  ) (GLOBAL_DBNAME = +asm ) )
+    )
+
+# 1526: log and trace {
+ADMIN_RESTRICTIONS_listener6 = off
+
+LOGGING_listener6 = off
+LOG_FILE_listener6 = listener6.log
+LOG_DIRECTORY_listener6 = /u01/app/oracle/log
+
+TRACE_LEVEL_listener6 = off
+TRACE_FILE_listener6  = listener6.trc
+TRACE_DIRECTORY_listener6 = /u01/app/oracle/log
+TRACE_TIMESTAMP_listener6 = true
+#     }
+
+# }
+
+# vim: ft=ora foldlevel=1:
+
