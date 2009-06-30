@@ -53,11 +53,12 @@
 -- }
 
 -- DateMask {
-    SET TERMOUT OFF
-    --SAVE /tmp/afiedt.current.sql REPLACE
-        ALTER SESSION SET NLS_DATE_FORMAT='YYYY-MM-DD HH24:MI:SS';
-    --GET  /tmp/afiedt.current.sql
-    SET TERMOUT ON
+    -- profile: export NLS_DATE_FORMAT='YYYY-MM-DD HH24:MI:SS';
+    -- SET TERMOUT OFF
+    -- SAVE /tmp/afiedt.current.sql REPLACE
+    --     ALTER SESSION SET NLS_DATE_FORMAT='YYYY-MM-DD HH24:MI:SS';
+    -- GET  /tmp/afiedt.current.sql
+    -- SET TERMOUT ON
 -- }
 
 -- Spool Results {
