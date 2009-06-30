@@ -1,0 +1,39 @@
+
+-- Hardware mirror
+-- ---------------
+CREATE DISKGROUP dg01
+    EXTERNAL REDUNDANCY
+    DISK '/dev/d1' , '/dev/d2' , '/dev/d3' , '/dev/d4'
+       ;
+
+CREATE DISKGROUP dg02
+    EXTERNAL REDUNDANCY
+    DISK '/dev/d5' , '/dev/d6' , '/dev/d7' , '/dev/d8'
+       ;
+
+-- ASM mirror
+-- ----------
+CREATE DISKGROUP dg01
+    NORMAL REDUNDANCY
+        FAILGROUP fg01 DISK '/dev/d1', '/dev/d2' ,
+        FAILGROUP fg02 DISK '/dev/d3', '/dev/d4'
+        ;
+
+
+-- Creating files
+CREATE TABLESPACE USER_DATA 
+    DATAFILE '+dg01/user_data_01'
+    SIZE 1024M ;
+
+-- Note how the diskgroup is used as a virtual filesystem. 
+-- This approach is useful not only in data files, but in 
+-- other types of Oracle files as well. For instance, you 
+-- could create online redo log files as
+--
+--     LOGFILE GROUP 1 (
+--     '+dskgrp1/redo/group_1.258.3',
+--     '+dskgrp2/redo/group_1.258.3'
+--     ) SIZE 50M,
+
+-- vim: ft=sql:
+

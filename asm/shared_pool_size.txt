@@ -23,3 +23,6 @@ SELECT SUM(bytes)/(1024*1024*1024) ddf_giga FROM V$DATAFILE;
 SELECT SUM(bytes)/(1024*1024*1024) log_giga FROM V$LOGFILE a, V$LOG b WHERE a.group#=b.group#;
 SELECT SUM(bytes)/(1024*1024*1024) tmp_giga FROM V$TEMPFILE           WHERE status='ONLINE'; 
  
+
+-- vim: ft=sql:
+

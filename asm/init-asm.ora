@@ -1,0 +1,35 @@
+
+# Platform    Min    Recommended
+# ----------- ------ -----------
+#     32 bits  32 Mb      128 Mb
+#     64 bit   88 Mb      150 Mb
+# 
+# 
+# More datafiles a database has, more memory ASM needs:
+# 
+# Redundancy  ExtraOnce  ExtraEach
+# ----------  ---------  ---------
+# high             6 MB  1 MB every  33GB
+# normal           3 MB  1 MB every  50GB
+# external         2 MB  1 MB every 100GB
+# 
+
+*.instance_type=ASM
+*.asm_diskgroups = +DATA
+*.asm_diskstring = /dev/rdsk/raw*
+
+*.db_cache_size=64m
+*.shared_pool_size=128M
+*.large_pool_size=12M
+
+# Processes = 25 + (10 + max number of concurrent operations) * n.
+#   operations: creation and/or extends of database files
+#            n: number of databases connecting to ASM.
+*.processes=50 
+
+*.audit_file_dest      = /u01/app/oracle/admin/+asm/adump
+*.background_dump_dest = /u01/app/oracle/admin/+asm/bdump
+*.core_dump_dest       = /u01/app/oracle/admin/+asm/cdump
+
+*.remote_login_passwordfile=exclusive
+
