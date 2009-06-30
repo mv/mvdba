@@ -1,0 +1,195 @@
+
+instance_type = RDBMS
+
+#####################################################################
+# Common parms
+#####################################################################
+ifile = ?/dbs/init-common.ora
+
+#####################################################################
+# Structural Parms
+#####################################################################
+db_domain = mvdba.net
+db_block_size = 8192
+db_writer_processes = 8
+
+#####################################################################
+# Identification & Control Files
+#####################################################################
+db_name = orcl
+control_files = ( /u01/oradata/orcl/orcl_01.ctrl
+                , /u02/oradata/orcl/orcl_02.ctrl
+                , /u03/oradata/orcl/orcl_03.ctrl
+                )
+#####################################################################
+# Version Specific
+#####################################################################
+compatible = 10.2.0
+
+#####################################################################
+# Platform Specific
+#####################################################################
+disk_asynch_io = false
+filesystemio_options = directio
+use_indirect_data_buffers = true
+
+#####################################################################
+# Security, Audit and Resource Limit
+#####################################################################
+audit_trail    = DB
+resource_limit = true
+
+#####################################################################
+# NLS Settings
+#####################################################################
+nls_date_format = "YYYY-MM-DD HH24:MI:SS"
+
+#####################################################################
+# Archive & Redo Logs
+#####################################################################
+log_archive_dest          = /app/oracle/product/flash_recovery_area/arch
+log_buffer                = 4194304 
+log_checkpoint_interval   = 1050624
+log_archive_max_processes = 4 
+#_log_simultaneous_copies = 48
+archive_lag_target        = 1800
+
+#####################################################################
+# Dump & Output Directories
+#####################################################################
+audit_file_dest      = /u01/app/oracle/admin/orcl/adump
+background_dump_dest = /u01/app/oracle/admin/orcl/bdump
+core_dump_dest       = /u01/app/oracle/admin/orcl/cdump
+user_dump_dest       = /u01/app/oracle/admin/orcl/udump
+utl_file_dir         = /u01/app/oracle/var
+
+#####################################################################
+# DB & Instance Limits
+#####################################################################
+db_files     = 512
+sessions     = 4000
+processes    = 1500 
+transactions = 200
+
+#####################################################################
+# Process & Session Specific
+#####################################################################
+open_cursors            = 4000
+open_links              = 10
+session_cached_cursors  = 40
+session_max_open_files  = 30
+sort_area_retained_size = 1048576
+sort_area_size          = 4194304
+
+#####################################################################
+# Buffer Pool
+#####################################################################
+db_block_buffers       = 300000
+db_block_checksum      = true
+db_block_checking      = true
+
+_db_block_lru_latches  = 2048
+_db_block_hash_latches = 65536
+
+#buffer_pool_keep    = (buffers:120000, lru_latches:150)
+#buffer_pool_recycle = (buffers:55296, lru_latches:48)
+
+#####################################################################
+# Shared Pool & Other "Pools"
+# Sort, Hash Joins, Bitmap Indexes
+#####################################################################
+java_pool_size = 0
+large_pool_size = 500M
+pga_aggregate_target = 1024M
+shared_pool_size = 750M
+shared_pool_reserved_size = 96M
+streams_pool_size = 0
+
+_shared_pool_reserved_min_alloc = 4000
+
+#####################################################################
+# UNDO
+#####################################################################
+# use automatic undo
+undo_management = 'auto'
+# which tablespace
+undo_tablespace = 'undo_t1'
+# keep 8 hours (8*3600)
+undo_retention  = 28000
+_undo_autotune  = false
+
+#####################################################################
+# Parallelism
+#####################################################################
+parallel_max_servers            = 32
+parallel_min_servers            = 0
+parallel_threads_per_cpu        = 8
+parallel_execution_message_size = 65535
+recovery_parallelism            = 16
+
+#parallel_automatic_tuning      = true (deprecated in 10g)
+
+#####################################################################
+# Shared Server
+#####################################################################
+dispatchers="(PROTOCOL=TCP) (SERVICE=orabaseXDB)"
+#max_dispatchers    = 40
+#max_shared_servers = 150
+#mts_service        = orabase
+#shared_servers     = 8
+
+#####################################################################
+# Job Processing
+#####################################################################
+job_queue_processes = 8
+aq_tm_processes = 1
+
+#####################################################################
+# Miscellaneous
+#####################################################################
+background_core_dump          = partial
+db_file_multiblock_read_count = 16
+fast_start_parallel_rollback  = FALSE
+optimizer_index_caching       = 80
+optimizer_index_cost_adj      = 10
+recyclebin                    = off
+
+# _disable_selftune_checkpointing = true
+
+#####################################################################
+# Undocumented Parameters & Temporary Fixes
+#####################################################################
+# _b_tree_bitmap_plans            = false
+# _shared_pool_reserved_min_alloc = 4000
+# _small_table_threshold          = 2560
+# _optim_peek_user_binds          = false
+
+#####################################################################
+# Events
+#####################################################################
+#event = "600 trace name library_cache level 10"
+
+# tracing PMON actions
+#event = "10500 trace name context forever"
+#event = "10196 trace name context forever"
+#event = "10246 trace name context forever"
+#event = "4031 trace name errorstack level 10"
+#event = "10511 trace name context forever, level 2"
+#event = "32333 trace name context forever, level 8"
+
+# Uncomment the following line if you wish to enable the 
+# Oracle Trace product to trace server activity. This enables
+# scheduling of server # collections from the Oracle Enterprise
+# Manager Console.
+
+# Also, if the oracle_trace_collection_name parameter is non-null,
+# every session will write to the named collection, as well as
+# enabling you to schedule future collections from the console.
+
+# oracle_trace_enable = true
+# oracle_trace_collection_name = ""
+
+# define directories to store trace and alert files
+
+#event = "10061 trace name context forever, level 10"
+

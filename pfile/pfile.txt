@@ -1,0 +1,60 @@
+
+
+SPFILE
+------
+    ALTER SYSTEM [RE]SET param=value [DEFERRED] [SCOPE=MEMORY|SPFILE|BOTH] [SID='*|sid1|sid2'];
+
+    -- memory only, current instance
+    alter system set open_cursors=400;
+
+    -- spfile, current instance, active after restart
+    alter system set open_cursors=400 scope=spfile;
+
+    -- idem
+    alter system set open_cursors=400 DEFERRED;
+
+    -- spfile and memory, all rac instances
+    alter system set open_cursors=400 scope=both sid='*';
+
+    -- spfile and memory, orcl instance
+    alter system set open_cursors=400 scope=both sid='orcl';
+
+Creating
+--------
+
+    -- initial creation
+    CREATE SPFILE 
+      FROM  PFILE='/u01/oracle/admin/rac1/pfile/initRAC1.ora';
+
+    -- creation with a specified name
+    CREATE SPFILE='/u01/oracle/product/920/dbs/RAC1_spfile.ora';
+      FROM  PFILE='/u01/oracle/admin/rac1/pfile/initRAC1.ora';
+
+Exporting/Saving
+----------------
+
+    -- Backup
+    CREATE  PFILE='/u01/oracle/product/920/dbs/RAC1_spfile.ora';
+      FROM SPFILE='/u01/oracle/admin/rac1/pfile/initRAC1.ora';
+
+    CREATE  PFILE='/u01/oracle/product/920/dbs/RAC1_spfile.ora';
+      FROM SPFILE;
+
+Current SPFILE
+--------------
+
+    -- 1)
+    SQL> show parameter spfile
+
+    -- 2)
+    SELECT name,value,'MEMORY' as scope FROM v$parameter WHERE name = 'spfile';
+
+
+Differences between SCOPE MEMORY/SPFILE
+---------------------------------------
+
+    SELECT name,value,'MEMORY' as scope FROM v$parameter WHERE name = 'timed_statistics'
+    UNION
+    SELECT name,value,'SPFILE' as scope FROM v$spparameter WHERE name = 'timed_statistics'
+    ;
+
