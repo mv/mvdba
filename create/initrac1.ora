@@ -1,0 +1,56 @@
+# Cache and I/O
+db_block_size=8192
+db_file_multiblock_read_count=16
+
+# Cluster Database
+#cluster_database=true
+cluster_database_instances=2
+#remote_listener=LISTENERS_RAC
+
+# Cursors and Library Cache
+open_cursors=300
+
+# Database Identification
+db_domain=""
+db_name=RAC
+
+# Diagnostics and Statistics
+audit_file_dest=/u01/app/oracle/admin/RAC/adump
+background_dump_dest=/u01/app/oracle/admin/RAC/bdump
+core_dump_dest=/u01/app/oracle/admin/RAC/cdump
+user_dump_dest=/u01/app/oracle/admin/RAC/udump
+
+# File Configuration
+db_create_file_dest=+DISKGROUP1
+
+# Job Queues
+job_queue_processes=10
+
+# Miscellaneous
+compatible=10.2.0.1.0
+
+# Processes and Sessions
+processes=150
+
+# SGA Memory
+sga_target=272629760
+
+# Security and Auditing
+audit_file_dest=/u01/app/oracle/admin/RAC/adump
+remote_login_passwordfile=exclusive
+
+# Shared Server
+dispatchers="(PROTOCOL=TCP) (SERVICE=RACXDB)"
+
+# Sort, Hash Joins, Bitmap Indexes
+pga_aggregate_target=90177536
+
+# System Managed Undo and Rollback Segments
+undo_management=AUTO
+
+RAC1.instance_number=1
+RAC2.instance_number=2
+RAC1.thread=1
+RAC2.thread=2
+RAC1.undo_tablespace=UNDOTBS1
+RAC2.undo_tablespace=UNDOTBS2
