@@ -1,0 +1,76 @@
+Ref: http://blogs.oracle.com/AlejandroVargas/2007/11/mapping_asm_disks_to_physical.html
+
+Mapping ASM disks to Physical Devices
+    By alejandro.vargas on November 15, 2007 6:11 AM
+
+Sometimes you may need to map ASM Disks to its physical devices.
+If they are based on ASMLib you will see their ASM name, ie: ORCL:VOL1 when querying v$asm_disk
+
+When running oracleasm querydisk VOL1 you will get in addition the major - minor numbers,
+that can be used to match the physical device, ie:
+
+[root@orcldb2 ~]# /etc/init.d/oracleasm querydisk VOL1
+Disk "VOL1" is a valid ASM disk on device [8, 97]
+
+[root@orcldb2 ~]# ls -l /dev | grep 8, | grep 97
+brw-rw----   1 root disk     8,      81 Nov  4 13:02 sdg1
+
+This script can do the job for a group of ASM Disks:
+
+---------- start  here ------------
+#!/bin/ksh
+for i in `/etc/init.d/oracleasm listdisks`
+do
+   v_asmdisk=`/etc/init.d/oracleasm querydisk $i | awk  '{print $2}'`
+     v_minor=`/etc/init.d/oracleasm querydisk $i | awk -F[ '{print $2}'| awk -F] '{print $1}' | awk '{print $1}'`
+     v_major=`/etc/init.d/oracleasm querydisk $i | awk -F[ '{print $2}'| awk -F] '{print $1}' | awk '{print $2}'`
+    v_device=`ls -la /dev | grep $v_minor | grep $v_major | awk '{print $10}'`
+    
+    echo "ASM disk $v_asmdisk based on /dev/$v_device  [$v_minor $v_major]"
+done
+---------- finish here ------------
+
+The output looks like this:
+
+ASM disk "VOL1" based on /dev/sdg1  [8, 97]
+ASM disk "VOL2" based on /dev/sdh1  [8, 113]
+ASM disk "VOL3" based on /dev/sdk1  [8, 161]
+ASM disk "VOL4" based on /dev/sdi1  [8, 129]
+ASM disk "VOL5" based on /dev/sdl1  [8, 177]
+ASM disk "VOL6" based on /dev/sdj1  [8, 145]
+ASM disk "VOL7" based on /dev/sdn1  [8, 209]
+ASM disk "VOL8" based on /dev/sdo1  [8, 225]
+ASM disk "VOL9" based on /dev/sdm1  [8, 193]
+
+
+If you are using multi-path, you will need an additional step to map the physical device
+to the multi-path device, for instance if using EMC Powerpath if you want to map sdf1
+
+
+[root@orclp ~]# /etc/init.d/oracleasm querydisk vol1
+Disk "VOL1" is a valid ASM disk on device [8, 81]
+
+[root@orclp ~]# ls -l /dev | grep 8,| grep 81
+brw-rw----   1 root disk     8,      81 Oct 29 20:42 sdf1
+
+[root@orclp ~]# powermt display dev=all
+...
+...
+Pseudo name=emcpowerg
+Symmetrix ID=000290101698
+Logical device ID=0214
+state=alive; policy=SymmOpt; priority=0; queued-IOs=0
+==============================================================================
+---------------- Host ---------------   - Stor -   -- I/O Path -  -- Stats ---
+### HW Path                 I/O Paths    Interf.   Mode    State  Q-IOs Errors
+==============================================================================
+   1 qla2xxx                   sdf       FA  7bB   active  alive      0      0
+   2 qla2xxx                   sdq       FA 10bB   active  alive      0      0
+...
+...
+
+The last step is to check the partition assigned to the emcpower device, ie:
+
+[root@orclp ~]# ls -l /dev/emcpowerg*
+brw-------  1 root root 120, 96 Oct 29 20:41 /dev/emcpowerg
+brw-------  1 root root 120, 97 Nov 15 13:08 /dev/emcpowerg1
