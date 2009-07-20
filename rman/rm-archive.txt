@@ -1,0 +1,27 @@
+#
+# Deleting old archives
+#
+
+$ rman
+connect target 'rman_target/rman@ABDPS'
+
+# 1
+    DELETE COPY  OF ARCHIVELOG ALL COMPLETED BEFORE 'SYSDATE-7';
+    DELETE NOPROMPT ARCHIVELOG ALL COMPLETED BEFORE 'SYSDATE - 7';
+
+# 2
+RMAN> report obsolete;
+RMAN> delete noprompt obsolete;
+
+# 3
+    CROSSCHECK ARCHIVELOG ALL ;
+    DELETE EXPIRED ARCHIVELOG ALL;
+
+
+
+
+Ref:
+    http://www.pafumi.net/Flash_Recovery_Area.html
+    http://www.idevelopment.info/data/Oracle/DBA_tips/RMAN_9i/RMAN9_50.shtml#unix%20rman%20backup%20script
+    http://www.idevelopment.info/data/Oracle/DBA_tips/RMAN_9i/RMAN9_5.shtml
+
