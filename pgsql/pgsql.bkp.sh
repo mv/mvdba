@@ -34,10 +34,11 @@ MAIL_FROM="noreply@webcointernet.com"
 ###     # TYPE  DATABASE    USER        CIDR-ADDRESS          METHOD
 ###     host    all         backup      127.0.0.1/32          trust
 ###
-    PGHOST="localhost"
-    PGPORT=5432
-    PGUSER="backup"
-PGPASSWORD='Back-Up#2009'
+export     PGHOST="localhost"
+export     PGPORT=5432
+export PGDATABASE=template1
+export     PGUSER="backup"
+export PGPASSWORD='Back-Up#2009'
 
 dtnow() {
     date "+%Y-%m-%d-%H%M"
