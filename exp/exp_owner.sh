@@ -20,17 +20,21 @@
     exit 2
 }
 
-SET NLS_LANG=AMERICAN_AMERICA.WE8ISO8859P1
+export NLS_LANG=AMERICAN_AMERICA.WE8ISO8859P1
+
+  dt=$( date "+%Y-%m-%d_%H%M" )
+file=${1}_${dt}
 
 if exp $CONN \
         rows=y grants=y indexes=y constraints=y     \
         direct=y buffer=10000000 RECORDLENGTH=65535 \
         compress=n statistics=none                  \
-        file=${1}.dmp log=exp_${1}.log              \
+        file=${file}.dmp log=exp_${file}.log              \
         owner=$1
 then
+    echo
     echo "Compress..."
-    gzip -v ${1}.dmp
+    gzip -v ${file}.dmp
 fi
 
 
