@@ -1,11 +1,11 @@
-#!/opt/local/bin/perl -w
+#!/usr/bin/perl -w
 
 use strict;
 use CGI;
 use Fcntl qw( :DEFAULT :flock );
 use File::Basename;
 
-use constant UPLOAD_DIR     => "/tmp/uploads";
+use constant UPLOAD_DIR     => "/abd/git/ssh";
 use constant BUFFER_SIZE    => 16_384;
 use constant MAX_FILE_SIZE  => 1_048_576;       # Limit each upload to 1 MB
 use constant MAX_DIR_SIZE   => 100 * 1_048_576; # Limit total uploads to 100 MB
@@ -35,7 +35,7 @@ while ( read( $file, $buffer, 16_384 ) ) {
 }
 close $tmp;
 
-system( "ssh-keygen -l -f $tmpname");
+system( "ssh-keygen -l -f $tmpname >/dev/null");
 if( $? !=0 ) {
     error( $q, "[$filename] is not a public key file") ;
 }
@@ -46,13 +46,16 @@ my ($keytype, $k, $userid) = split / /,$key;
 my $keyfile = UPLOAD_DIR . lc "/${keytype}_${userid}.pub";
 
 open my $fh, ">", "$keyfile" || error( $q, "Error saving key: [$keyfile]");
-print $fh $key;
+print $fh $key,"\n";
 close $fh;
 
 print $q->header( "text/html" ),
       $q->h1( "Saved" ),
       $q->p( $q->i( "New public key:") , $keyfile ),
       $q->end_html;
+
+# All is ok: update authorized_keys
+system("sudo /abd/git/bin/set-authorized-keys.sh ");
 
 exit 0;
 
