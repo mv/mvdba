@@ -171,7 +171,10 @@
     -- SET SCAN OFF
 -- }
 
+-- Editor {
+set editfile /tmp/afiedt.buf
 DEFINE _EDITOR='vim -c "set filetype=plsql"'
+--}
 
 -- vim: ft=plsql foldlevel=0:
 
