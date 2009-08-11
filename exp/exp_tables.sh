@@ -20,10 +20,15 @@
     exit 2
 }
 
+export NLS_LANG=AMERICAN_AMERICA.WE8ISO8859P1
+
+  dt=$( date "+%Y-%m-%d_%H%M" )
+file=${1}_${dt}
+
 exp $CONN \
             rows=y grants=n indexes=n compress=n constraints=n statistics=none \
             direct=y buffer=10000000 RECORDLENGTH=65535 \
-            file=${1}.dmp log=exp_${1}.log              \
+            file=${file}.dmp log=exp_${file}.log              \
             tables= \
 \( ifd_adm.PLATAFORMA , ifd_adm.CATEGORIA , ifd_adm.CLASSIFICACAO , ifd_adm.DOWNLOAD_VERSAO , ifd_adm.DOWNLOAD \
  , ifd_adm.DOWNLOAD_DESTAQUE , ifd_adm.DOWNLOAD_ITEM_ALBUM , ifd_adm.DOWNLOAD_PATROCINADO \

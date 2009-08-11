@@ -19,6 +19,8 @@
     exit 2
 }
 
+export NLS_LANG=AMERICAN_AMERICA.WE8ISO8859P1
+
 imp $CONN file=${1} log=imp_${1}.log fromuser="$2" touser="$2" ignore=y
 
 
