@@ -64,13 +64,16 @@ select ddf.tablespace_name
      , LPAD(round(   free_mega/size_mega ,2)*100 || ' %', 10, ' ')              perc_free
 --   , LPAD(round(1-(free_mega/size_mega),2)*100 || ' %', 10, ' ')              perc_used
      , decode (ddf.maxsize_mega
-              , 0, '       -'
+              , 0, ' '
               , decode (sign( 1024 - ddf.maxsize_mega )
                        , 1, LPAD(   round(ddf.maxsize_mega,2) || ' M', 10, ' ')
                        , LPAD( round(ddf.maxsize_mega/1024,2) || ' G', 10, ' ')
                        )
               )                                                                 maxsize
-     , LPAD(round((ddf.size_mega/maxsize_mega),2)*100 || ' %' , 15, ' ')        perc_used_max -- percent used to reach maxsize
+     , decode (ddf.maxsize_mega
+              , 0, ' '
+              , LPAD(round((ddf.size_mega/maxsize_mega),2)*100 || ' %' , 15, ' ')
+              )                                                                 perc_used_max -- percent used to reach maxsize
 --   , round(ddf.size_mega,2)                                                   size_mega
 --   , round(dfs.free_mega,2)                                                   free_mega
 --   , round(ddf.maxsize_mega,2)                                                maxsize_mega
