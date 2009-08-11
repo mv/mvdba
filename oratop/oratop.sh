@@ -26,6 +26,7 @@ do
     sqlplus -s $( cat $connect ) <<SQL
 
         set feedback off
+        set serveroutput on size 1000000
         set linesize 200
         set time off
         set timing off
