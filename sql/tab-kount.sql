@@ -10,15 +10,28 @@
 --    2009-08
 --
 
-
-SET SERVEROUTPUT ON SIZE 1000000
-
 SET FEEDBACK OFF
 SET TIMING   OFF
 
-SELECT user, TO_CHAR( SYSDATE, 'yyyy-mm-dd hh24:mi:ss') as "Date"
-  FROM DUAL;
+UNDEFINE usr db
+COLUMN usr NEW_VALUE usr
+COLUMN db  NEW_VALUE db
+COLUMN dt  NEW_VALUE dt
 
+SELECT LOWER(DECODE( INSTR(global_name, '.' )
+                   , 0 , global_name
+                   , SUBSTR(global_name, 1, INSTR(global_name, '.')-1))
+        )                                       as db
+     , LOWER(user)                              as usr
+     , TO_CHAR( SYSDATE, 'yyyy-mm-dd-hh24miss') as dt
+  FROM global_name -- V$DATABASE
+/
+
+spool /tmp/&&db._&&usr._&&dt..txt
+
+UNDEFINE usr db
+
+SET SERVEROUTPUT ON SIZE 1000000
 DECLARE
     --
     v NUMBER := 1;
@@ -31,7 +44,7 @@ DECLARE
     -----
     --
 BEGIN
-    p( CHR(10) );
+    p( CHR(10)||'Table Count...'||CHR(10) );
     --
     FOR r IN ( SELECT table_name FROM user_tables ORDER BY table_name )
     LOOP
@@ -43,6 +56,8 @@ BEGIN
     --
 END;
 /
+
+spool off
 
 SET FEEDBACK ON
 SET TIMING   ON
