@@ -15,8 +15,6 @@ SET PAGESIZE 200
 SET FEEDBACK OFF
 SET VERIFY   OFF
 
-COLUMN reference_to       FORMAT a40
-
 SELECT 'alter table '        || RPAD( cons.owner ||'.'|| cons.table_name, 50, ' ' )
     || ' enable constraint '|| RPAD(cons.constraint_name, 31, ' ')
     || ';' cmd
