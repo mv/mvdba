@@ -1,6 +1,6 @@
 --
 --
--- tab.sql
+-- tab-del.sql
 --    delete from user tables
 --
 -- Usage:
