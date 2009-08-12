@@ -1,10 +1,10 @@
 --
 --
--- grant-all-to.sql
---    grant full privileges from current schema to a role/user
+-- grant-exec-to.sql
+--    grant execute from schema objects to role/user
 --
 -- Usage:
---    sqlplus OWNER/pass@bd @ grant-all-to.sql GRANTEE
+--    sqlplus OWNER/pass@bd @ grant-exec-to.sql GRANTEE
 --
 --    Marcus Vinicius Ferreira                  ferreira.mv[ at ] gmail.com
 --    2009-06
@@ -26,21 +26,10 @@ WHENEVER SQLERROR EXIT
     SELECT 'Role: '||role FROM dba_roles WHERE role = upper('&&_grantee')
 /
 
-SELECT 'grant select  on '||RPAD(object_name,31,' ')||' to &&_grantee ; -- '||object_type
-  FROM user_objects
- WHERE object_type IN ('VIEW','SEQUENCE')
- ORDER BY object_type,1
-/
-
 SELECT 'grant execute on '||RPAD(object_name,31,' ')||' to &&_grantee ; -- '||object_type
   FROM user_objects
  WHERE object_type IN ('PROCEDURE','FUNCTION','PACKAGE')
  ORDER BY object_type,1
-/
-
-SELECT 'grant select,insert,update,delete,references,index on '||RPAD(table_name,31,' ')||' to &&_grantee ;'
-  FROM user_tables
- ORDER BY 1
 /
 
 SET PAGESIZE 200

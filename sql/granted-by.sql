@@ -21,7 +21,7 @@ SET LINESIZE 200
 
 column object_name  format a40
 column comments     format a40
-column privilege    format a15
+column privilege    format a30
 
 SELECT 'grant '||privilege                              privilege
      , 'on '||owner||'.'||table_name                    object_name
@@ -30,7 +30,7 @@ SELECT 'grant '||privilege                              privilege
      ||'; -- by '||grantor
      ||decode(hierarchy,'YES','hierarchy: yes','')      comments
   FROM dba_tab_privs
- WHERE table_name LIKE upper('%&&1%')
+ WHERE grantor = UPPER('&&1')
  ORDER BY 2,1,3
 /
 
