@@ -18,7 +18,7 @@ SET VERIFY   OFF
 
 SELECT owner
      , view_name
-  FROM all_views
+  FROM dba_views
  WHERE view_name   LIKE upper('%&&1%')
  ORDER BY 2,1
 /
