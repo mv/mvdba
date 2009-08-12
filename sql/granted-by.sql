@@ -1,20 +1,23 @@
 --
 --
--- grants.sql
---    show dictionary
+-- granted-by.sql
+--    show grants given by some user
 --
 -- Usage:
---     SQL> @grants              -- all objects
---     SQL> @grants scott        -- scott objects
+--     SQL> @granted-by         -- all users
+--     SQL> @granted-by scott   -- privileges given by SCOTT
 --
 --    Marcus Vinicius Ferreira                  ferreira.mv[ at ] gmail.com
 --    2009-06
 --
 
 
-SET PAGESIZE 200
+SET ECHO OFF
 SET FEEDBACK OFF
-SET VERIFY   OFF
+SET VERIFY OFF
+SET TIMING OFF
+SET PAGESIZE 0
+SET LINESIZE 200
 
 column object_name  format a40
 column comments     format a40
