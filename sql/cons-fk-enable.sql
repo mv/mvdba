@@ -15,7 +15,10 @@ SET PAGESIZE 200
 SET FEEDBACK OFF
 SET VERIFY   OFF
 
-SELECT 'alter table '        || RPAD( cons.owner ||'.'|| cons.table_name, 50, ' ' )
+SET HEADING OFF
+SET TIMING  OFF
+
+SELECT 'alter table '       || RPAD( cons.owner ||'.'|| cons.table_name, 50, ' ' )
     || ' enable constraint '|| RPAD(cons.constraint_name, 31, ' ')
     || ';' cmd
   FROM user_constraints   cons
@@ -23,6 +26,9 @@ SELECT 'alter table '        || RPAD( cons.owner ||'.'|| cons.table_name, 50, ' 
    AND status <> 'ENABLED'
  ORDER BY table_name,constraint_name,owner
 /
+
+SET HEADING ON
+SET TIMING  ON
 
 SET FEEDBACK ON
 SET VERIFY   ON
