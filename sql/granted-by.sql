@@ -30,7 +30,7 @@ SELECT 'grant '||privilege                              privilege
      ||'; -- by '||grantor
      ||decode(hierarchy,'YES','hierarchy: yes','')      comments
   FROM dba_tab_privs
- WHERE grantor = UPPER('&&1')
+ WHERE grantor = NVL( UPPER('&&1'), grantor)
  ORDER BY 2,1,3
 /
 
