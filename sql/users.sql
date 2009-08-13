@@ -18,14 +18,16 @@ COLUMN default_tablespace   FORMAT a15
 COLUMN temporary_tablespace FORMAT a15
 COLUMN external_name        FORMAT a15
 
+ALTER SESSION SET NLS_DATE_FORMAT='yyyy-mm-dd_hh24:mi:ss';
+
 select username
+     , default_tablespace   default_tbspc
+     , temporary_tablespace temp_tbspc
      , password
-     , account_status
+     , replace(account_status, ' ','_') as account_status
      , created
      , lock_date
      , expiry_date
-     , default_tablespace   default_tbspc
-     , temporary_tablespace temp_tbspc
      , external_name
   from dba_users
  where 1=1
