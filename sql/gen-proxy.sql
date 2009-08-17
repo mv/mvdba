@@ -11,7 +11,12 @@ SET TRIMOUT   ON
 
 select 'alter user '||RPAD(username,31,' ')||' grant connect through MVDBA;'
   from dba_users
- where username NOT IN ('SYS','SYSTEM','ANONYMOUS','MVDBA')
+ where username NOT IN ('DBSNMP'
+                       ,'XDB'
+                       ,'ANONYMOUS'
+                       ,'MVDBA'
+                       )
+   and username NOT LIKE '%SYS%'
  order by 1
 
 spool proxy_mvdba.sql
