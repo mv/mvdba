@@ -19,20 +19,17 @@ SET TIMING OFF
 SET PAGESIZE 0
 SET LINESIZE 200
 
-column object_name  format a50
+column object_name  format a40
 column comments     format a40
-column privilege    format a40
+column privilege    format a30
 
-SELECT 'grant '||privilege                              privilege
-     , 'on '||chr(34)||owner||'.'||table_name||chr(34)  object_name
+SELECT 'grant '||granted_role
      , 'to '||grantee                                   grantee
-     , decode(grantable,'YES','with grant option','')
-     ||' -- by '||grantor
-     ||decode(hierarchy,'YES','hierarchy: yes','')
-     ||';'                                              comments
-  FROM dba_tab_privs
- WHERE grantor = NVL( UPPER('&&1'), grantor)
- ORDER BY 2,1,3
+     , decode(admin_option,'YES','with admin option','                 ')
+     ||' -- default? ; '||default_role                  comments
+  FROM dba_role_privs
+ WHERE granted_role = NVL( UPPER('&&1'), granted_role)
+ ORDER BY 1
 /
 
 SET FEEDBACK ON

@@ -22,6 +22,8 @@ WHENEVER SQLERROR EXIT
     SELECT 'User: '||username FROM all_users WHERE username = upper('&&_user')
 /
 
+WHENEVER SQLERROR CONTINUE
+
 spool syn.sql
 
 SELECT 'create or replace synonym '||RPAD(object_name,31,' ')||' for &&_user..'||RPAD(object_name,31,' ')||' ;'
