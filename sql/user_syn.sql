@@ -1,7 +1,13 @@
+
+column object_name format a40
+
 select syn.synonym_name
-     , syn.db_link
      , obj.object_type
-     , obj.* 
+     , obj.owner||'.'||obj.object_name as object_name
+     , obj.status
+     , obj.created
+     , obj.last_ddl_time
+     , syn.db_link
   from user_synonyms syn
      , all_objects   obj
  where syn.table_owner = obj.owner (+)
