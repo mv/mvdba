@@ -6,3 +6,5 @@ connect system/manager
 @?/sqlplus/demos/demobld.sql
 
 spool  off
+
+

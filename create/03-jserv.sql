@@ -11,4 +11,5 @@ spool /u01/app/oracle/admin/RAC/scripts/JServer.log
 @?/rdbms/admin/catexf.sql;
 
 spool off
-\
+
+

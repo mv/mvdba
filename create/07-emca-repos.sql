@@ -9,3 +9,5 @@ spool /u01/app/oracle/admin/RAC/scripts/emRepository.log
 WHENEVER SQLERROR CONTINUE;
 
 spool off
+
+

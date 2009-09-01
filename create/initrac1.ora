@@ -54,3 +54,5 @@ RAC1.thread=1
 RAC2.thread=2
 RAC1.undo_tablespace=UNDOTBS1
 RAC2.undo_tablespace=UNDOTBS2
+
+

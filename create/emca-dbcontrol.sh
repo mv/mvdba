@@ -26,3 +26,5 @@
     -DBSNMP_PWD     &&dbsnmpPassword
     -LOG_FILE       /u01/app/oracle/admin/RAC/scripts/emConfig.log
     ;
+
+

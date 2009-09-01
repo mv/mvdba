@@ -10,3 +10,5 @@ connect "SYS"/"&&sysPassword" as SYSDBA
 @/u01/app/oracle/product/10.2.0/db_1/rdbms/admin/catrul.sql;
 
 spool off
+
+

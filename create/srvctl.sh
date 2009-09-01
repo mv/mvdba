@@ -22,3 +22,5 @@ SQL
 # start cluster
 srvctl start  database -d RAC
 srvctl status database -d RAC
+
+

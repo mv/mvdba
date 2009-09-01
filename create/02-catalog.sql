@@ -29,3 +29,4 @@ spool /u01/app/oracle/admin/RAC/scripts/sqlPlusHelp.log
 @/u01/app/oracle/product/10.2.0/db_1/sqlplus/admin/help/hlpbld.sql helpus.sql;
 
 spool off
+

@@ -32,3 +32,4 @@ ln -s       ${ORACLE_ADMIN}/${dbname}/pfile/orapw${dbsid} ${ORACLE_HOME}/dbs/ora
 echo "SPFILE='+DISKGROUP1/${dbname}/spfile${dbsid}.ora'" >   ${ORACLE_HOME}/dbs/init${dbsid}.ora
 ln -s       ${ORACLE_ADMIN}/${dbname}/pfile/init${dbsid}.ora ${ORACLE_HOME}/dbs/init${dbsid}.ora
 
+
