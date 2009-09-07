@@ -3,14 +3,14 @@ CREATE OR REPLACE PACKAGE BODY monit AS
 -- Based on: http://www.shutdownabort.com/scripts/oratop.php
 --
 -- Pre-req:
---     sys: 
+--     sys:
 --         grant select on v_$instance to public;
 --         grant select on v_$session  to public;
 --         grant select on v_$sesstat  to public;
 --         grant select on v_$process  to public;
 --
 -- Post:
---     system: 
+--     system:
 --         grant execute on monit to public;
 --
 -- Marcus Vinicius Ferreira                 ferreira.mv[ at ]gmail.com
@@ -80,8 +80,8 @@ CREATE OR REPLACE PACKAGE BODY monit AS
         end loop;
 
         dbms_output.put_line( chr(13) );
-        p( 'SID,SERIAL DB USER    OSPID  OS USER    LOGON SINCE         STATE    MACHINE         COMMAND          MODULE          ACTION     LONGOPS?');
-        p( '---------- ---------- ------ ---------- ------------------- -------- --------------- ---------------- --------------  ---------- --------');
+        p( 'SID,SERIAL DB USER    OSPID  OS USER    LOGON SINCE         STATE    MACHINE         COMMAND          MODULE           ACTION     LONGOPS?');
+        p( '---------- ---------- ------ ---------- ------------------- -------- --------------- ---------------- ---------------- ---------- --------');
 
         for x in (
             select *
@@ -97,7 +97,7 @@ CREATE OR REPLACE PACKAGE BODY monit AS
                      ,  lower(decode(nvl(s.terminal, 'n/a') ,'n/a', s.machine
                                                             , s.terminal
                                                             ))                  mcn
-                     ,  substr(lower( nvl(module, ' ')), 1, 15)                 mdl
+                     ,  substr(lower( nvl(module, ' ')), 1, 16)                 mdl
                      ,  substr(lower( nvl(action, ' ')), 1, 10)                 act
                   from v$session s
                      , v$process p
@@ -118,7 +118,7 @@ CREATE OR REPLACE PACKAGE BODY monit AS
              ||rpad(x.st                    ,  9 )
              ||rpad(x.mcn                   , 16 )
              ||rpad(x.cmd                   , 16 )||' '
-             ||rpad(x.mdl                   , 15 )||' '
+             ||rpad(x.mdl                   , 16 )||' '
              ||rpad(x.act                   , 10 )||' '
              ||lpad(perc_longops( x.sid, x.serial# ), 8)
               );
