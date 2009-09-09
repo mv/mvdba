@@ -4,7 +4,7 @@
 --    user tables
 --
 -- Usage:
---     SQL> @tab
+--     SQL> @tab [OWNER]
 --
 --    Marcus Vinicius Ferreira                  ferreira.mv[ at ] gmail.com
 --    2009-08
@@ -23,13 +23,14 @@ SELECT table_name
      , partitioned
      , iot_name
      , cluster_name
-  FROM user_tables
+  FROM dba_tables
  WHERE 1=1
-   AND 1=1
+   AND owner LIKE UPPER('%&&1%')
  ORDER BY table_name
 /
 
 SET FEEDBACK ON
 SET VERIFY   ON
 
+undef 1
 
