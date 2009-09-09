@@ -1,0 +1,63 @@
+# Cache and I/O
+db_block_size=8192
+db_file_multiblock_read_count=16
+
+# Cluster Database
+#cluster_database=true
+#cluster_database_instances=2
+#remote_listener=LISTENERS_dev01
+
+# Database Identification
+db_domain=""
+db_name=dev01
+
+control_files = ( '/u01/oradata/dev01/control_dev01.ctrl'
+                , '/u02/oradata/dev01/control_dev01.ctrl'
+                , '/u03/oradata/dev01/control_dev01.ctrl'
+                )
+
+# Diagnostics and Statistics
+     audit_file_dest=/u01/app/oracle/admin/dev01/adump
+background_dump_dest=/u01/app/oracle/admin/dev01/bdump
+      core_dump_dest=/u01/app/oracle/admin/dev01/cdump
+      user_dump_dest=/u01/app/oracle/admin/dev01/udump
+
+# Miscellaneous
+compatible=10.2.0.1.0
+
+# File Configuration
+# db_create_file_dest=+DISKGROUP1
+
+# Job Queues
+job_queue_processes=10
+
+# Cursors and Library Cache
+open_cursors=300
+
+# Processes and Sessions
+processes=500
+
+# SGA Memory: 260m
+# sga_target=272629760
+sga_max_size=2G
+sga_target=1G
+
+# Sort, Hash Joins, Bitmap Indexes: 86m
+# pga_aggregate_target=90177536
+pga_aggregate_target=100M
+
+# Security and Auditing
+remote_login_passwordfile=exclusive
+
+# Shared Server
+dispatchers="(PROTOCOL=TCP) (SERVICE=dev01XDB)"
+
+# Self registration
+local_listener="(ADDRESS=(PROTOCOL=TCP)(HOST=172.16.1.11)(PORT=1521)) "
+local_listener="(ADDRESS=(PROTOCOL=TCP)(HOST=172.16.1.11)(PORT=1526)) "
+
+# System Managed Undo and Rollback Segments
+undo_management=AUTO
+#dev01.undo_tablespace=UNDOTBS1
+
+

@@ -1,0 +1,62 @@
+
+connect "SYS"/"&&sysPassword" as SYSDBA
+
+set echo on
+spool /u01/app/oracle/admin/dev01/scripts/01-create-db.log
+
+startup nomount pfile="/u01/app/oracle/admin/dev01/pfile/initdev01.ora";
+
+CREATE DATABASE "dev01"
+    MAXINSTANCES 32
+    MAXLOGHISTORY 1
+    MAXLOGFILES 192
+    MAXLOGMEMBERS 3
+    MAXDATAFILES 1024
+    DATAFILE
+        SIZE 300M
+        AUTOEXTEND ON NEXT 10M MAXSIZE UNLIMITED
+        EXTENT MANAGEMENT LOCAL
+    SYSAUX DATAFILE
+        SIZE 120M
+        AUTOEXTEND ON NEXT 10M MAXSIZE UNLIMITED
+        SMALLFILE
+    DEFAULT TEMPORARY TABLESPACE TEMP
+        TEMPFILE SIZE 20M
+        AUTOEXTEND ON NEXT 1M MAXSIZE UNLIMITED
+        SMALLFILE
+    UNDO TABLESPACE "UNDOTBS1"
+        DATAFILE SIZE 200M
+        AUTOEXTEND ON NEXT 5M MAXSIZE UNLIMITED
+    CHAdev01TER SET WE8ISO8859P1
+    NATIONAL CHAdev01TER SET AL16UTF16
+    LOGFILE
+        GROUP 1 SIZE 50M,
+        GROUP 2 SIZE 50M
+    USER SYS    IDENTIFIED BY "&&sysPassword"
+    USER SYSTEM IDENTIFIED BY "&&systemPassword"
+    ;
+
+set linesize 2048;
+column ctl_files NEW_VALUE ctl_files;
+
+select concat('control_files=''', concat(replace(value, ', ', ''','''), '''')) ctl_files
+  from v$parameter
+ where name ='control_files';
+
+host echo &ctl_files >>/u01/app/oracle/admin/dev01/scripts/init.ora;
+
+CREATE SMALLFILE UNDO TABLESPACE "UNDOTBS2"
+    DATAFILE SIZE 200M
+    AUTOEXTEND ON NEXT 5M MAXSIZE UNLIMITED
+    ;
+
+CREATE SMALLFILE TABLESPACE "USERS" LOGGING
+    DATAFILE SIZE 5M
+    AUTOEXTEND ON NEXT 1M MAXSIZE UNLIMITED
+    EXTENT MANAGEMENT LOCAL
+    SEGMENT SPACE MANAGEMENT AUTO;
+
+ALTER DATABASE DEFAULT TABLESPACE "USERS";
+
+spool off
+

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-dbname=rac
-dbsid=rac1
+dbname=dev01
+dbsid=dev01
 
 export   ORACLE_SID=$dbsid
 export  ORACLE_BASE=/u01/app/oracle
@@ -11,9 +11,9 @@ export      SCRIPTS=${ORACLE_ADMIN}/${dbname}/scripts
 
 asm_sys_pass="sys"
  db_sys_pass="sys"
- system_pass="manager"
- sysman_pass="sysman"
- dbsnmp_pass="dbsnmp"
+ system_pass="sys"
+ sysman_pass="sys"
+ dbsnmp_pass="sys"
 
 for f in adump bdump cdump udump hdump dbdump pfile create
 do
@@ -37,11 +37,11 @@ sqlplus /nolog
     @ ${SCRIPTS}/${dbsid}.sql
 
     set verify off
-    DEFINE asmSysPassword = $asm_sys_pass
     DEFINE sysPassword = $db_sys_pass
     DEFINE systemPassword = $system_pass
     DEFINE sysmanPassword = $sysman_pass
     DEFINE dbsnmpPassword = $dbsnmp_pass
+    DEFINE asmSysPassword = $asm_sys_pass
 
     @@ CreateDB.sql
     @@ CreateDBFiles.sql
