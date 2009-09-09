@@ -99,6 +99,7 @@ select ddf.tablespace_name
        ) dfs
   where 1=1
     and ddf.tablespace_name = dfs.tablespace_name
-  order by perc_free asc, tablespace_name
+--order by perc_free asc, tablespace_name
+  order by tablespace_name
       ;
 
