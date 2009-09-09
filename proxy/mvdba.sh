@@ -18,14 +18,19 @@
 
 OWNER="$2"
 
+if which rlwrap > /dev/null
+then sql='rlwrap sqlplus -L'
+else sql='sqlplus -L'
+fi
+
 if [ -z "$OWNER" ]
 then
-    sqlplus -L $( cat $1 )
+    $sql $( cat $1 )
 else
     PROXY=$( cat $1 | awk -F/ '{print $1}' )
      PASS=$( cat $1 | awk -F/ '{print $2}' )
 
-    sqlplus -L $PROXY[$OWNER]/$PASS
+    $sql $PROXY[$OWNER]/$PASS
 fi
 
 
