@@ -11,7 +11,7 @@
 [ -z "$1" ] && {
 
     echo
-    echo "Usage: $0 dump_file owner.table_name"
+    echo "Usage: $0  dump_file  owner.table_name"
     echo
     exit 1
 }
@@ -19,6 +19,11 @@
 [ -z "$CONN" ] && {
     echo "CONN string not defied!"
     exit 2
+}
+
+[ -z "$2" ] && {
+    echo "OWNER.TABLE_NAME must be defied!"
+    exit 3
 }
 
 export NLS_LANG=AMERICAN_AMERICA.WE8ISO8859P1

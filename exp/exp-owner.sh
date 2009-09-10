@@ -27,10 +27,10 @@ export NLS_LANG=AMERICAN_AMERICA.WE8ISO8859P1
 file=${1}_${dt}
 
 if exp $CONN \
-        rows=Y grants=Y indexes=Y constraints=Y     \
-        direct=y buffer=10000000 RECORDLENGTH=65535 \
-        compress=n statistics=none                  \
-        file=${file}.dmp log=exp_${file}.log              \
+        rows=Y grants=Y indexes=Y constraints=Y triggers=Y  \
+        direct=y buffer=10000000 RECORDLENGTH=65535         \
+        compress=n statistics=none                          \
+        file=${file}.dmp log=exp_${file}.log                \
         owner=$1
 then
     echo
