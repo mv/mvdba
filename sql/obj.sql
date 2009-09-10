@@ -4,7 +4,7 @@
 --    user objects
 --
 -- Usage:
---     SQL> @obj [OWNER]
+--     SQL> @obj [owner|%] [type|%] [valid|invalid|%]
 --
 --    Marcus Vinicius Ferreira                  ferreira.mv[ at ] gmail.com
 --    2009-08
@@ -25,8 +25,9 @@ SELECT owner
      , subobject_name
   FROM dba_objects
  WHERE 1=1
-   AND owner LIKE UPPER('%&&1%')
-   AND status = NVL( UPPER('&&2'), status)
+   AND owner       LIKE UPPER('%&&1%')
+   AND object_type LIKE UPPER('%&&2%')
+   AND status      LIKE UPPER('&&3%' )
  ORDER BY owner
         , object_type
         , object_name
@@ -37,4 +38,5 @@ SET VERIFY   ON
 
 undef 1
 undef 2
+undef 3
 
