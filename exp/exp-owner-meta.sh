@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-# exp-owner-data.sh
-#       export an owner - DATA ONLY
+# exp-owner-meta.sh
+#       export an owner - METADATA ONLY
 #
 # Marcus Vinicius Ferreira                 ferreira.mv[ at ]gmail.com
 # 2008/12
@@ -27,7 +27,7 @@ export NLS_LANG=AMERICAN_AMERICA.WE8ISO8859P1
 file=${1}_${dt}
 
 if exp $CONN \
-        rows=Y grants=N indexes=N constraints=N     \
+        rows=N grants=Y indexes=Y constraints=Y     \
         direct=y buffer=10000000 RECORDLENGTH=65535 \
         compress=n statistics=none                  \
         file=${file}.dmp log=exp_${file}.log              \

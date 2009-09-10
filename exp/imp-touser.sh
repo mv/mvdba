@@ -1,9 +1,10 @@
 #!/bin/bash
 #
-# imp_touser.sh
+# imp-touser.sh
 #       imp fromuser= touser=
 #
 # Marcus  Vinicius Ferreira                 ferreira.mv[ at ]gmail.com
+# 2008/12
 #
 
 
