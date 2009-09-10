@@ -1,33 +1,23 @@
 #!/bin/bash
 #
 # cron-rotate-agc-log
-#     wrapper: rotate table agc_adm.log
+#     wrapper: rotate oracle table
 #
 #     must be executed on the first day of each month:
-#         * * 1 * * /path/cron-rotate-agc-log -f > /dev/null
+#         * * 1 * * /path/cron-rotate-agc-log -p
 #
 # Marcus Vinicius Ferreira                      ferreira.mv[ at ]gmail.com
 # 2009/Set
 #
 
-[ -z "$1" ] && {
+[ "$1" != "-p" ] && {
     echo
-    echo "Usage: $0 -f"
+    echo "Usage: $0 -p [yyyy_mm]"
     echo
-    echo "    rotate table agc_adm.log"
+    echo "    rotate oracle table agc_adm.log"
     echo
     exit 1
 }
-
-. /u01/app/oracle/config/env-ora.sh
-
-# Log
-[ -z $LOG_DIR ] && LOG_DIR=/tmp
-LOG=${LOG_DIR}/${0##*/}.log ; >$LOG
-
-# Auto-rotate
-size=$( /bin/ls -l $LOG | awk '{print $5}' ) # size bytes
-[ $size -gt 5242880 ] && > $LOG              # 5000k, 5m
 
 # Subs
 prev_month() {
@@ -50,7 +40,10 @@ perl -e '
 }
 
 log() {
-    echo "$( date '+%Y-%m-%d %X'): $1" | tee -a $LOG
+    if tty -s
+    then echo "$( date '+%Y-%m-%d %X'): $1" | tee -a $LOG
+    else echo "$( date '+%Y-%m-%d %X'): $1" >> $LOG
+    fi
 }
 
 email() {
@@ -60,7 +53,9 @@ From: no-reply@oracle
 To: $MAIL_TO
 Subject: $subject - $1
 
-$(tail -15 $LOG )
+Log: $LOG
+
+$( cat -n $LOG | tail -15 )
 
 MAIL
 }
@@ -73,12 +68,13 @@ sqlplus -L -s $sysdba <<SQL
 
     DECLARE x NUMBER;
     BEGIN
-        select 1
-          into x
-          from dba_objects
-         where       owner=UPPER('$OWNER')
-           and object_name=UPPER('$NEW_TABLE')
-           ;
+      select 1
+        into x
+        from dba_objects
+       where       owner=UPPER('$OWNER')
+         and object_name=UPPER('$NEW_TABLE')
+         ;
+      -- execute immediate 'drop table ${OWNER}.${NEW_TABLE}';
     EXCEPTION
         WHEN OTHERS THEN RAISE;
     END;
@@ -93,23 +89,12 @@ sqlplus -L -s $sysdba <<SQL
     set timing on
 
         create table ${OWNER}.$NEW_TABLE
-        as select * from ${OWNER}.$TABLE
-        where 1=1
+            tablespace $TBSPC_ROTATE
+        as select /* create_table $0 */ *
+            from ${OWNER}.$TABLE
+            where $DT_COLUMN BETWEEN     TO_DATE( '$DT', 'YYYY_MM' )      -- result: first day, first hour
+                            AND LAST_DAY(TO_DATE( '$DT', 'YYYY_MM' )) + 1 -- result: last day, last hour
         ;
-SQL
-}
-
-copy_data() {
-sqlplus -L -s $sysdba <<SQL
-    WHENEVER SQLERROR EXIT FAILURE
-    set time on
-    set timing on
-
-        insert into ${OWNER}.$NEW_TABLE
-        select * from ${OWNER}.$TABLE
-        where $DT_COLUMN <= TRUNC( SYSDATE,'MM' ) -- first hour current month
-        ;
-        commit;
 SQL
 }
 
@@ -120,72 +105,85 @@ sqlplus -L -s $sysdba <<SQL
     set timing on
 
     BEGIN
-        LOOP
-            delete from ${OWNER}.$TABLE
-            where $DT_COLUMN <= TRUNC( SYSDATE,'MM' ) -- first hour current month
-               and rownum <= 100000
-                 ;
-            EXIT when SQL%NOTFOUND;
-            ---
-            commit ;
-            ---
-        END LOOP;
+      LOOP
+        delete /* purge_data $0 */
+          from ${OWNER}.$TABLE
+          where $DT_COLUMN BETWEEN     TO_DATE( '$DT', 'YYYY_MM' )      -- result: first day, first hour
+                          AND LAST_DAY(TO_DATE( '$DT', 'YYYY_MM' )) + 1 -- result: last day, last hour
+           and rownum <= 100000
+             ;
+        EXIT when SQL%NOTFOUND;
+        ---
         commit ;
+        ---
+      END LOOP;
+      commit ;
     END;
 /
 SQL
 }
 
-# Params
-       DT=$( prev_month )
-    OWNER="agc_adm"
-    TABLE="log"
-NEW_TABLE="agc_log_${DT}"
-DT_COLUMN="dat_log"
-    TBSPC="agc_log_data_rotate_01"
+### Setup
 
-sysdba="/ as sysdba"
-sysdba="system/sys"
+. /u01/app/oracle/config/env-ora.sh
+
+# Log
+[ -z $LOG_DIR ] && LOG_DIR=/tmp
+LOG=${LOG_DIR}/${0##*/}.log
+
+# Auto-rotate
+size=$( /bin/ls -l $LOG | awk '{print $5}' ) # size bytes
+[ $size -gt 5242880 ] && > $LOG              # 5000k, 5m
+
+echo "Using logfile [$LOG], $size bytes"
+
+### Params
+if [ -z "$2" ]
+then DT=$( prev_month )
+else DT="$2"
+fi
+
+       OWNER="agc_adm"
+       TABLE="log"
+   NEW_TABLE="agc_log_${DT}"
+   DT_COLUMN="dat_log"
+TBSPC_ROTATE="agc_log_data_rotate_01"
+
+if [ -z "$SYSTEM" ]
+then sysdba="/ as sysdba"
+else sysdba="$SYSTEM"
+fi
 
 ### Main
 
 log "BEGIN"
 
 ### 1/3
-log "Creating table [$NEW_TABLE]"
-
+log "Table [${OWNER}.${NEW_TABLE}]"
 if exists_table > /dev/null
 then
-    log "Table [$NEW_TABLE] already exists"
-else
-    if create_table
-    then log "Table created."
-    else
-        log "Table error."
-        email "Table Error"
-        exit 2
-    fi
+    log "Table already exists. Exiting."
+    email "Table already exists."
+    exit 2
 fi
 
 ### 2/3
-log "Copying data from [$TABLE] to [$NEW_TABLE]"
-
-if copy_data
-then
-    log "Copy finished."
+log "Creating new table..."
+if create_table | log
+then log "Table created."
 else
-    log "Copy error."
-    email "Copy Error"
+    log "Table error. Check your log."
+    email "Table Error"
     exit 3
 fi
 
 ### 3/3
-log "Purgind from [$TABLE]"
-if purge_data
+log "Purging from [${OWNER}.${TABLE}]"
+if purge_data | log
 then
     log "Purge finished"
 else
-    log "Purge error."
+    log "Purge error. Check your log."
     email "Purge Error"
     exit 4
 fi
