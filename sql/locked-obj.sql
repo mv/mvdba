@@ -1,3 +1,15 @@
+--
+--
+-- locked-obj.sql
+--    dependent locks
+--
+-- Usage:
+--     SQL> @locked-obj
+--
+--    Marcus Vinicius Ferreira                  ferreira.mv[ at ] gmail.com
+--    2007-04
+--
+
 SELECT DECODE(request,0,'Holder: ','Waiter: ') || l.sid sess
      , serial#
      , id1
@@ -7,8 +19,10 @@ SELECT DECODE(request,0,'Holder: ','Waiter: ') || l.sid sess
      , l.type
   FROM gv$lock   l
      , v$session s
- WHERE (id1, id2, l.type) IN ( SELECT id1, id2, type 
-                                 FROM gv$lock 
+ WHERE (id1, id2, l.type) IN ( SELECT id1, id2, type
+                                 FROM gv$lock
                                 WHERE request>0)
    AND l.sid = s.sid
- ORDER BY id1, request;
+ ORDER BY id1, request
+     ;
+
