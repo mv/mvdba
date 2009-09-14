@@ -1,0 +1,41 @@
+
+Master:
+    Dump da base
+        
+    mysqldump -u $DBUSER -p${DBPASS}    \
+        --all               \
+        --create-options    \
+        --extended-insert   \
+        --flush-logs        \
+        --hex-blob          \
+        --quick             \
+        --quote-names       \
+        --all-databases     \
+        --master-data       \
+        > $( hostname )_$( date '+%Y-%m-%d_%H%M' ).dump.sql
+        
+
+Slave:
+    Parte 1
+        stop server
+            rm * from /var/log/mysql/ ???
+            comment replication params from my.cnf  ???
+    
+        start server
+            drop database(s)
+            create database(s)
+            import dump
+
+    Parte 2        
+        stop server
+            uncomment replication params
+        start server
+
+
+References:
+    http://serverfault.com/questions/17066/how-can-i-create-a-slave-replica-of-a-mysql-server-without-stopping-the-master
+    http://dev.mysql.com/doc/refman/5.0/en/mysqldump.html#option_mysqldump_master-data
+    http://dev.mysql.com/doc/refman/5.0/en/change-master-to.html
+    http://www.mysqlperformanceblog.com/2008/07/07/how-show-slave-status-relates-to-change-master-to/
+    
+

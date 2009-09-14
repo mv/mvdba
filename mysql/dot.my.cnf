@@ -1,0 +1,8 @@
+[client]
+database=bbs_production
+host=localhost
+user=root
+password="pegaaqui"
+prompt=[mysql -u \\u -h \\h \\d]\\nmysql>\\_
+
+
