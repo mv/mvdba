@@ -1,0 +1,47 @@
+Id: $Id: devfs.utl_file_dir.pfile.txt 43 2006-09-27 14:24:20Z marcus.ferreira $
+
+  Quem: Marcus Vinicius Ferreira
+Quando: 22/Set/2006
+
+Problema {
+    Processos do Concurrent acusavam erro de criacao de arquivo:
+        ORA-20100 em FNDSTSTP.
+
+    Começou após a clonagem da base DEVFS em 16/Set/2006
+}
+
+Causa {
+    Profiles do Concurrent indicam um diretorio de destino no
+    servidor para gerar arquivos .tmp de trabalho.
+
+    Esse diretorio geralmente é '/usr/tmp'.
+
+    É obrigatório esse diretorio ser o primeiro na lista de
+    UTL_FILE_DIR.
+
+    Ref:
+        Note=313176.1   *
+        Note=261693.1
+        Note=154606.1
+}
+
+Instance {
+    (HOST=mdbdbtst.mdb.com.br)(PORT=1528)
+    (SID=DEVFS)
+}
+
+Action {
+
+    SQL> create pfile='./initDEV.ora.2006-09-22.1'
+       > from spfile;
+    --
+    -- Edit:
+    --    new: utl_file_dir: /usr/tmp na frente de todos
+    --
+    --
+    SQL> startup mount pfile='./initDEV.ora.2006-09-22.2'
+
+    SQL> create spfile
+       > from pfile='./initDEV.ora.2006-09-22.2';
+
+}

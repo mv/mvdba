@@ -1,0 +1,12 @@
+
+
+Menu
+    FNDSLOAD apps/apps 0 Y LOCAL MDB_AR_NF_COMPLEMENT_MNU.slt UPLOAD
+
+Profile
+    FNDLOAD apps/apps 0 Y UPLOAD $FND_TOP/patch/115/import/afscprof.lct MDB_AR_NF_COMPL_FINALIZE_PRF.ldt
+
+Mensagem
+    FNDLOAD apps/apps 0 Y UPLOAD $FND_TOP/patch/115/import/afmdmsg.lct  MDB_AR_400_US_MSG.ldt
+    FNDLOAD apps/apps 0 Y UPLOAD $FND_TOP/patch/115/import/afmdmsg.lct  MDB_AR_400_PTB_MSG.ldt
+

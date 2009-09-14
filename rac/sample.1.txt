@@ -1,0 +1,118 @@
+
+- Instalar crs
+- Instalar db_1
+- Upgrade para 10.2.0.3
+- ASM
+    - +DG1          = /dev/sda
+      failure group = /dev/sdb
+
+- RMAN
+- FLASH recovery
+- init.ora
+
+- DATA GUARD
+- log_miner
+
+
+Local
+    /u01/app/oracle
+        Oracle install
+Shared
+    /u01/nfsdata
+        if raw: Min     Safe
+        OCR     100MB   200MB   x 2 copies
+        CSS      20MB    50MB   x 3 copies
+
+        if shared (nfs,ocfs)
+        OCR     /u01/mntdata/rac/OCR_File1
+                                 OCR_File2 (nfs)
+        CSS     /u01/nfsdata/rac/CSS_File1
+                                 CSS_File2
+                                 CSS_File3
+
+        cd /u01/ccrdata/rac/
+        dd if=/dev/zero of=_ocr_file_1 bs=20M count=10
+        dd if=/dev/zero of=_ocr_file_2 bs=20M count=10
+        dd if=/dev/zero of=_css_file_1 bs=50M count=1
+        dd if=/dev/zero of=_css_file_2 bs=50M count=1
+        dd if=/dev/zero of=_css_file_3 bs=50M count=1
+
+        losetup /dev/loop21 _ocr_file_1
+        losetup /dev/loop22 _ocr_file_2
+        losetup /dev/loop51 _css_file_1
+        losetup /dev/loop52 _css_file_2
+        losetup /dev/loop53 _css_file_3
+
+        mknod  -m 660 /dev/loop21 b 7 21
+        mknod  -m 660 /dev/loop22 b 7 22
+        mknod  -m 660 /dev/loop51 b 7 51
+        mknod  -m 660 /dev/loop52 b 7 52
+        mknod  -m 660 /dev/loop53 b 7 53
+
+        raw /dev/raw/raw21  /dev/loop21
+        raw /dev/raw/raw22  /dev/loop22
+        raw /dev/raw/raw51  /dev/loop51
+        raw /dev/raw/raw52  /dev/loop52
+        raw /dev/raw/raw53  /dev/loop53
+
+
+ASM                 /etc/sysconfig/rawdevices
+    raw /dev/raw/raw1   /dev/sda1
+    raw /dev/raw/raw2   /dev/sdb1
+    raw /dev/raw/raw3   /dev/sdc1
+    raw /dev/raw/raw4   /dev/sdc2
+    ... for datafiles
+
+
+
+                    /etc/udev/permissions.d/50-udev.permissions
+                        111: # raw devices
+                        112: ram*:root:disk:0660
+                        113: #raw/*:root:disk:0660
+                             raw/*:oracle:dba:0660
+
+
+
+    datafiles
+
+
+Host: scsi0 Channel: 00 Id: 00 Lun: 00
+  Vendor: QUANTUM  Model: ATLAS_V_18_WLS   Rev: 0230
+  Type:   Direct-Access                    ANSI SCSI revision: 03
+
+Host: scsi0 Channel: 00 Id: 01 Lun: 00
+  Vendor: SEAGATE  Model: ST318406LW       Rev: 010A
+  Type:   Direct-Access                    ANSI SCSI revision: 03
+
+Host: scsi0 Channel: 00 Id: 02 Lun: 00
+  Vendor: QUANTUM  Model: ATLAS 10K 36SCA  Rev: UCP0
+  Type:   Direct-Access                    ANSI SCSI revision: 03
+
+
+c0t0d0 Host: scsi0 Channel: 00 Id: 00 Lun: 00 Vendor: QUANTUM  Model: ATLAS_V_18_WLS   Rev: 0230
+c0t1d0 Host: scsi0 Channel: 00 Id: 01 Lun: 00 Vendor: SEAGATE  Model: ST318406LW       Rev: 010A
+c0t2d0 Host: scsi0 Channel: 00 Id: 02 Lun: 00 Vendor: QUANTUM  Model: ATLAS 10K 36SCA  Rev: UCP0
+
+
+
+
+clufvfy
+-------
+    cd /u01/stage/10.2/clusterware/cluvfy
+
+        ./runcluvfy.sh stage -list
+        ./runcluvfy.sh stage -post hwos -n rac1,rac2             -verbose
+        ./runcluvfy.sh stage -pre  cfs  -n rac1,rac2 -s /dev/sda -verbose
+
+
+
+ORA09_2_DBHOME
+ORA10_2_CRS_HOME
+ORA10_2_DBHOME
+
+[rac1]/u01/home/beta> ps -ef | grep crs
+
+ oracle  1363   999  0 11:23:21 ?  0:00 /u01/crs_home/bin/evmlogger.bin -o /u01
+ oracle   999     1  0 11:21:39 ?  0:01 /u01/crs_home/bin/evmd.bin
+ root    1003     1  0 11:21:39 ?  0:01 /u01/crs_home/bin/crsd.bin
+ oracle  1002     1  0 11:21:39 ?  0:01 /u01/crs_home/bin/ocssd.bin

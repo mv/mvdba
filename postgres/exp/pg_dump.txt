@@ -1,0 +1,18 @@
+$Id: pg_dump.txt 6 2006-09-10 15:35:16Z marcus $
+
+Remarks
+-------
+
+pg_dumpall
+    - dumps all the cluster
+    - needs $PGDATA set to the desired cluster
+    - includes user definitions
+    - DO NOT handle lobs
+    - dumps to SQL script
+
+pg_dump
+    - dumps a specified database
+    - needs $PGDATA set and ( dbname OR $PGDATABASE set)
+    - handle lobs
+    - DOES NOT include user and group definitions
+    - has multiple formats

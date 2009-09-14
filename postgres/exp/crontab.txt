@@ -1,0 +1,17 @@
+# $Id: crontab.txt 6 2006-09-10 15:35:16Z marcus $
+#
+#  crontab - postgres
+#
+#
+# Generic database cron
+#   (maintenance, clean-up, etc....)
+#59 23  *  *  *  /u01/app/postgres/cron.d/10_rotate_log.sh
+#00 05  *  *  *  /u01/app/postgres/cron.d/20_old_files.sh
+#00 05  *  *  *  /u01/app/postgres/cron.d/30_infra_logs.sh
+#00  *  *  *  *  /u01/app/postgres/cron.d/40_archive.sh
+#
+#
+# Database backup
+#
+00 03  *  *  *  /u01/app/postgres/cron.d//pgbackup.sh
+#

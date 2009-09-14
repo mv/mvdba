@@ -1,0 +1,22 @@
+# $Id: ReportsServer.Xvnc.txt 2049 2006-10-24 14:58:27Z marcus.ferreira $
+# Marcus Vinicius Ferreira
+# Set/2006
+#
+# Reiniciando VNC Xserver para ReportsServer
+#
+
+$ su -
+
+# /etc/init.d/vncserver stop
+# pkill vnc
+# /bin/rm -rf /tmp/.X*
+# /bin/rm -rf /root/.vnc/*
+# /etc/init.d/vncserver start
+# export DISPLAY=localhost:1
+# xhost +
+# exit
+
+$ export DISPLAY=localhost:1
+$ adrepctl.sh stop
+$ adrepctl.sh start
+

@@ -1,0 +1,11 @@
+postgres_ofa:
+postgres_ofa: Postgres for IGN (OFA layout)
+postgres_ofa:
+postgres_ofa:     Postgres database to support IGNITION framework.
+postgres_ofa:     pg 7.4.7
+postgres_ofa:     by SingularitySystems
+postgres_ofa:     http://www.singularitysystems.com
+postgres_ofa:
+postgres_ofa:
+postgres_ofa: Package Created By: Marcus Vinicius Ferreira 
+postgres_ofa:

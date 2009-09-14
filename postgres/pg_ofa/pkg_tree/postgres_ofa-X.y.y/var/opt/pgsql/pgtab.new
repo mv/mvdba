@@ -1,0 +1,23 @@
+# $Id: pgtab.new 6 2006-09-10 15:35:16Z marcus $
+# /var/opt/pgsql/pgtab
+# (c) Marcus Vinicius Ferreira <marcus@mvway.com>
+#
+# This file is based on the OFA standard for ORACLE databases and serves
+# as an indicator for different POSTGRES database clusters and versions
+# in a same machine.
+#
+# A colon, ':', is used as the field terminator.  A new line terminates
+# the entry.  Lines beginning with a pound sign, '#', are comments.
+#
+# Entries are of the form:
+#   $PGDATABASE:$PGDATA:$PGHOME:<N|Y>
+#
+# PGDATABASE: used by POSTGRES to connect to a database inside a cluster
+# PGDATA: used by POSTGRES to indicate the files physical location of a cluster
+# PGHOME: custom. Indicates which software version operates this cluster
+#  <N|Y>: be brought up at system boot time.
+#
+#
+ign:/u01/pgdata:/u01/app/postgres/product/7.4.5:Y
+template1:/u01/pgdata:/u01/app/postgres/product/7.4.5:Y
+

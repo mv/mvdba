@@ -1,0 +1,24 @@
+-- $Id: FDSTP.ora-20100.FND_FILE.txt 5731 2006-12-08 19:51:52Z marcus.ferreira $
+
+Causa:  FDPSTP resultou em erro devido a ORA-20100: Criação do arquivo o0326167.tmp para FND_FILE falhou.
+Você encontrará mais informações sobre o motivo do erro no log de solicitação..
+ORA-06512: at "APPS.FN
+
+
+
+echo $APPLTMP
+        /u02/app/devfs/devfscomn/temp
+echo $APPLPTMP
+        /usr/tmp/devfs
+
+
+/u02/app/devfs/devfsappl/APPSORA.env
+
+    $ grep APPLPTMP   /u02/app/devfs/devfsappl/devfs_mdbebsfsw2.env
+
+
+
+Note:148262.1
+Note:313176.1
+Note:144612.1
+
