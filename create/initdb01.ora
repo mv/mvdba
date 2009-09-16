@@ -1,0 +1,80 @@
+###
+### $Id$
+###
+
+# Database Identification
+db_domain="mvdba.com"
+db_name=db01
+
+# Instance Identification
+instance_name=db01
+
+# Cache and I/O
+db_block_size=4096
+db_cache_size=20M
+db_file_multiblock_read_count=8
+
+# Pools
+shared_pool_size=16M
+ large_pool_size=5M
+  java_pool_size=0M
+
+# Cursors and Library Cache
+open_cursors=300
+
+# Processes and Sessions
+processes=150
+
+# File Configuration
+### "C:\oracle\oradata\db01\db01_01.ctrl"
+###       /u01/oradata/db01/db01_01.ctrl
+control_files = ( /u01/oradata/db01/db01_01.ctrl
+                , /u01/oradata/db01/db01_02.ctrl
+                , /u01/oradata/db01/db01_03.ctrl
+                )
+
+# Archive
+### 'LOCATION=C:\oracle\oradata\db01\archive'
+### 'LOCATION=/u01/oradata/arc'
+log_archive_dest_1='LOCATION=/u01/oradata/arc'
+log_archive_format=db01_%t_%S.arc
+log_archive_start=true
+
+# Redo Log and Recovery
+fast_start_mttr_target=300
+
+# System Managed Undo and Rollback Segments
+undo_management=AUTO
+undo_retention=900
+undo_tablespace=undo
+
+
+# Diagnostics and Statistics
+    timed_statistics=TRUE
+background_dump_dest=/u01/app/oracle/admin/db01/bdump
+      core_dump_dest=/u01/app/oracle/admin/db01/cdump
+      user_dump_dest=/u01/app/oracle/admin/db01/udump
+
+# Security and Auditing
+# remote_login_passwordfile=NONE | SHARED | EXCLUSIVE
+remote_login_passwordfile=EXCLUSIVE
+
+# Net
+# dispatchers="(PROTOCOL=TCP) (SERVICE=db01XDB)"
+local_listener="(ADDRESS=(PROTOCOL = TCP)(HOST = irulan)(PORT = 1521))"
+
+# Miscellaneous
+job_queue_processes=10
+aq_tm_processes=1
+compatible=9.2.0.0.0
+utl_file_dir=/tmp, /tmp/oracle
+nls_date_format="yyyy-mm-dd hh24:mi:ss"
+
+# Optimizer
+hash_join_enabled=FALSE
+query_rewrite_enabled=FALSE
+star_transformation_enabled=FALSE
+
+# Sort, Hash Joins, Bitmap Indexes
+pga_aggregate_target=12582912
+sort_area_size=524588

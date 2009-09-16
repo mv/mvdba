@@ -1,0 +1,23 @@
+$ ./adcmctl.sh start apps/apps
+
+                    +--------------------+
+    concurrent  ->  | Concurrent Manager |  -> concurrent
+    request         +--------------------+     program
+
+    request     ->                          -> Parent req_id
+    set                                             +- child req_id
+                                                    +- child req_id
+
+    ICM - Internal Concurrent Manager
+        +- Service Manager
+            +- Forms Server
+            +- Reports Server
+            +- etc.
+
+
+    FNDSVCRG
+        +- adapcctl.sh (Apache)
+        +- adfrmctl.sh (Forms)
+        +- adfmsctl.sh (Metrics Server)
+        +- adfmcctl.sh (Metrics Client)
+        +- adrepctl.sh (Reports)

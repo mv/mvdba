@@ -1,0 +1,71 @@
+
+sql being rolled back
+
+
+
+
+
+select sql_text
+  from v$sqlarea vsa,
+       v$session vs,
+       v$transaction vt
+ where vsa.address = vs.sql_address
+   and vsa.hash_value = vs.sql_hash_value
+   and vs.taddr = vt.addr
+   and bitand(vt.flag,power(2,7))>0;
+
+
+
+
+
+
+<predelta.sql>
+DEFINE p_sid=   &1
+DEFINE curtime= TO_NUMBER(NULL)
+DEFINE curblks= TO_NUMBER(NULL)
+DEFINE usdblks= GREATEST(used_ublk,0)
+
+COLUMN curtime     NEW_VALUE curtime  NOPRINT
+COLUMN dlttime                        NOPRINT
+COLUMN curblks     NEW_VALUE curblks  NOPRINT
+COLUMN dltblks                        NOPRINT
+COLUMN "Blks/Sec"  FORMAT 999,990.0
+
+<delta.sql>
+SELECT
+  ((Sysdate-TRUNC(Sysdate))*86400) curtime,
+  ((Sysdate-TRUNC(Sysdate))*86400)-&curtime dlttime,
+  &usdblks curblks,
+  &usdblks "Blks",
+  ((&curblks-&usdblks)) dltblks,
+  (&curblks-&usdblks)/(((Sysdate-TRUNC(Sysdate))*86400)-&curtime) "Blks/Sec",
+  TO_CHAR(
+   TRUNC(Sysdate)+
+   (DECODE(&curblks-&usdblks, 0, TO_NUMBER(NULL),
+    &usdblks/((&curblks-&usdblks)/
+     (((Sysdate-TRUNC(Sysdate))*86400)-&curtime)))/86400),
+   'mi:ss') " Time"
+ FROM v_transaction t, v$session s
+ WHERE s.sid=&p_sid AND s.taddr=t.addr;
+
+SQL> @predelta
+SQL> @delta
+
+      Blks   Blks/Sec  Time
+---------- ---------- -----
+        75
+
+SQL> @delta
+
+      Blks   Blks/Sec  Time
+---------- ---------- -----
+        70        0.4 02:48
+
+SQL> @delta
+
+      Blks   Blks/Sec  Time
+---------- ---------- -----
+        60        1.0 01:00
+
+etc...
+

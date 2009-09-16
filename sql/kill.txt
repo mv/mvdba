@@ -1,0 +1,51 @@
+
+
+Kill/rollback
+
+select used_ublk from v$transaction ;
+-----------------------------------------------
+
+To see which OS process to kill:
+
+a) On a Unix platform:
+
+SELECT spid
+FROM v$process
+WHERE addr IN
+(SELECT paddr FROM v$session WHERE sid=<> AND serial#=<>);
+
+% kill <spid>
+
+b) On a Windows platform:
+
+SELECT spid, osuser, s.program
+FROM v$process p, v$session s
+WHERE p.addr=s.paddr
+  AND s.sid=<> AND s.serial#=<>;
+
+Then use orakill at the DOS prompt:
+c:>orakill sid thread
+
+-----------------------------------------------
+Tom,
+
+What is the correct way to join v$transaction to v$session?
+
+Followup:
+v$transaction.addr = v$session.taddr
+
+-----------------------------------------------
+
+
+v$transaction is about a transaction -- a transction typically involves MANY
+database objects -- so it cannot be a database object.
+
+If you mean the "session object", that is the row in v$session.
+
+
+select v$session.*
+  from v$session, v$transaction
+ where v$session.saddr = v$transaction.ses_addr;
+
+
+------

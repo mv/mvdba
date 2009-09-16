@@ -1,0 +1,25 @@
+/*
+  SCRIPT:   SES_HIT_1.SQL
+  OBJETIVO: VERIFICAR O PERCENTUAL DE HITRATIO, SE O PERCENTUAL FOR MENOR QUE 95%
+            A OPERACAO REALIZADA NO BANCO PELO USUARIO NAO E BOA
+  AUTOR:    JOSIVAN
+  DATA:     2000.02.08   
+*/
+COL USERNAME FORMAT A10
+--
+  SELECT S.SID
+        ,S.SERIAL#
+        ,S.OSUSER
+        ,S.USERNAME
+        ,ROUND((SI.consistent_gets+SI.block_gets-SI.physical_reads)/(SI.consistent_gets+SI.block_gets) * 100,2) HitRatio
+        ,SI.BLOCK_GETS
+        ,SI.PHYSICAL_READS
+        ,SI.BLOCK_CHANGES
+        ,SI.CONSISTENT_CHANGES
+    FROM V$SESSION S
+        ,V$SESS_IO SI
+   WHERE S.SID    = SI.SID
+     AND S.OSUSER <> 'oracle'
+ORDER BY 3,2,1
+/
+

@@ -1,0 +1,10 @@
+-- $Id: sql_trace.txt 15295 2007-05-24 13:02:08Z marcus.ferreira $
+
+SQL*PLus:
+    alter session set tracefile_identifier = 'look_for_me';
+    alter session set sql_trace=true;
+
+Forms/Reports/Procedure/Package/Function:
+    DBMS_SESSION.SET_IDENTIFIER('look_for_me');
+    DBMS_SESSION.SET_SQL_TRACE(TRUE);
+

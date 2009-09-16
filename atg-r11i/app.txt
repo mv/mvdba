@@ -1,0 +1,25 @@
+
+Oracle Applications
+
+    $APPL_TOP
+        patches
+    $FND_TOP
+    $INV_TOP
+    $AU_TOP
+    $GL_TOP
+    $[xxx]_TOP 
+        bin
+        lib
+        log
+        admin
+        mesg
+        out
+        sql
+        plsql
+        forms
+        reports
+        graphs
+        resource
+        
+
+        
