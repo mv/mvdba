@@ -111,6 +111,8 @@
     COLUMN spid                 FORMAT 999999
     COLUMN cpid                 FORMAT 999999
 
+    COLUMN directory_path       FORMAT A50
+
     -- Users
     COLUMN username             FORMAT a20
     COLUMN password             FORMAT a16
