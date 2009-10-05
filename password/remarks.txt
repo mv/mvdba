@@ -1,0 +1,119 @@
+
+cracker.sql
+    - http://www.petefinnigan.com/oracle_password_cracker.htm
+    - by Pete Finnigan
+    - SQL script
+    - brute force
+        must set 'passlen' before running. Line ~ 1660
+        must set 'debug' ON to see password. Line ~ 80
+
+
+orabf
+    - http://www.toolcrypt.org/index.html
+    - http://www.toolcrypt.org/tools/orabf/index.html
+    - by orm
+    - win32.exe
+    - brute force
+
+
+        orabf v0.7.6, (C)2005 orm@toolcrypt.org
+        ---------------------------------------
+
+        usage: orabf [hash]:[username] [options]
+
+        options:
+        -c [num]  complexity: a number in [1..6] or a filename
+           -      read words from stdin
+           [file] read words from file
+           1      numbers
+           2      alpha
+           3      alphanum
+           4      standard oracle (alpha)(alpha,num,_,#,$)... (default)
+           5      entire keyspace (' '..'~')
+           6      custom (charset read from first line of file: charset.orabf)
+        -m [num]  max pwd len: must be in the interval [1..14] (default: 14)
+        -n [num]  min pwd len: must be in the interval [1..14] (default: 1)
+        -r        resume: tries to resume a previous session
+
+    onepassword:
+        orabf AG1232B114F4A25A:USERNAME -c 5 -n 3 -m 14
+
+
+    list:
+        for f in `cat ps.txt`;
+        do date; echo $f
+           ./orabf.exe $f -c 5 -n 3 -m 14 2>&1 | tee -a bf-list.txt
+           date; echo
+        done
+
+        orabfscript.cmd ps.txt_aa -c 5 -n 3 -m 14
+        orabfscript.cmd ps.txt_ab -c 5 -n 3 -m 14
+        orabfscript.cmd ps.txt_ac -c 5 -n 3 -m 14
+
+    sql to build file.txt:
+        set trimspool on
+        set pagesize 0
+        set feedback off echo off time off timing off
+
+        select password ||':'|| username
+          from dba_users
+         where password not in ('anonymous','invalid')
+         order by username
+             ;
+
+
+woraauthbf
+    - http://www.soonerorlater.hu/index.khtml?article_id=513
+    - by László Tóth
+    - win32.exe
+
+    sql to build file.txt:
+        set trimspool on
+        set pagesize 0
+        set feedback off echo off time off timing off
+
+      select username||':'||password||':'||name||':'||host_name||':'
+        from dba_users, V$DATABASE, v$instance
+       where password not in ('anonymous','invalid')
+       order by username;
+
+    -
+
+
+Help
+----
+
+The program accepts the following command line parameters:
+
+  -p pwdfile [-d dictfile] -t type -m maxpwdlength -c charset -o dll
+
+  -p  Password file
+  -d  Dictionary file
+  -t  There are four possible values. "hash" and "11g10g" is for oracle
+      password hash. "8i",  "9i", "10g" are for the given authentication
+      method. The default value is "hash".
+  -m  The maximum length of the password in brute-force mode. The maximum
+      value is 10. The default value is 6.
+  -c  This is the charset in brute-force mode. There are three possible
+      values:  "alpha" [A-Z], "alphanum" [A-Z0-9], and all [A-Z0-9!@#$%^&*()-_
+      +=~`[]{}|\:;"'<>,.?/].  The default value is "alpha".
+  -s  The session file contains the resume information. The programs generates
+      two session files with name oraauth.sess.0 and oraauth.sess.1. Use the
+      earlier one according the file access date.
+  -o  This is the path of the oran10.dll.
+  --perm  It can have three values. The "0" value switches off the permutation
+          of the user names. The "1" (default) value checks the reverse, duoble
+          and the numbers at the beginning and at the and of the usernames.
+          The "2" value checks numbers at the all positions of the usernames.
+          The "3" value checks numbers at all positions with the reverse and
+          double of the usernames.
+  --noarr It switches off the user names and default password checking.
+  --prev  Loads the list of the found password from a previous run. The file
+          name of the results file depends on the password file name. It is
+          generated at the end of the program and in every 1 minutes when the
+          session files are saved.
+
+checkpwd
+    - http://www.red-database-security.com/software/checkpwd.html
+    - win, linux, mac versions
+
