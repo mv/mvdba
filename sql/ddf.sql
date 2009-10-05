@@ -61,8 +61,8 @@ select ddf.tablespace_name
               , 1, LPAD(   round(dfs.free_mega,2) || ' M', 10, ' ')
               , LPAD( round(dfs.free_mega/1024,2) || ' G', 10, ' ')
               )                                                                 free
-     , LPAD(round(   free_mega/size_mega ,2)*100 || ' %', 10, ' ')              perc_free
---   , LPAD(round(1-(free_mega/size_mega),2)*100 || ' %', 10, ' ')              perc_used
+--   , LPAD(round(   free_mega/size_mega ,2)*100 || ' %', 10, ' ')              perc_free
+     , LPAD(round(1-(free_mega/size_mega),2)*100 || ' %', 10, ' ')              perc_used
      , decode (ddf.maxsize_mega
               , 0, ' '
               , decode (sign( 1024 - ddf.maxsize_mega )
