@@ -1,10 +1,10 @@
 --
 --
--- syn-to-user
+-- syn-to-from-user
 --    create local synonyms OWNER.object for user.synonym
 --
 -- Usage:
---    sqlplus dba/pass@bd @ syn-to-user.sql OWNER user
+--    sqlplus dba/pass@bd @ syn-to-from-user.sql OWNER user
 --
 --    Marcus Vinicius Ferreira                  ferreira.mv[ at ] gmail.com
 --    2009-06
@@ -14,7 +14,8 @@ SET PAGESIZE 0
 SET LINESIZE 200
 SET FEEDBACK OFF
 SET VERIFY OFF
-SET ECHO OFF
+SET TIME OFF
+SET TIMING OFF
 
 DEFINE _owner=&&1
 DEFINE  _user=&&2
@@ -26,6 +27,9 @@ WHENEVER SQLERROR EXIT
 /
 
 WHENEVER SQLERROR CONTINUE
+
+prompt SET ECHO ON
+prompt SET FEEDBACK ON
 
 SELECT 'create or replace synonym '||RPAD( '&&_user..'||object_name,50,' ')||' for &&_owner..'||RPAD(object_name,31,' ')
      ||'-- '||object_type||' ;'
@@ -47,5 +51,7 @@ SELECT 'drop synonym '||synonym_name||'; -- '||RPAD(obj.object_type,31,' ')||obj
         , obj.object_name
      ;
 
+SET PAGESIZE 200
 SET FEEDBACK ON
+
 

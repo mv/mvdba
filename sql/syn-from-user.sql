@@ -14,6 +14,8 @@ SET PAGESIZE 0
 SET LINESIZE 200
 SET FEEDBACK OFF
 SET VERIFY OFF
+SET TIME    OFF
+SET TIMING  OFF
 
 DEFINE _user=&&1
 
@@ -24,7 +26,8 @@ WHENEVER SQLERROR EXIT
 
 WHENEVER SQLERROR CONTINUE
 
-spool syn.sql
+prompt SET ECHO ON
+prompt SET FEEDBACK ON
 
 SELECT 'create or replace synonym '||RPAD(object_name,31,' ')||' for &&_user..'||RPAD(object_name,31,' ')||' ;'
   FROM all_objects
@@ -45,10 +48,7 @@ SELECT 'drop synonym '||synonym_name||'; -- '||RPAD(obj.object_type,31,' ')||obj
         , obj.object_name
      ;
 
-spool off
-
 SET PAGESIZE 200
 SET FEEDBACK ON
-SET ECHO ON
 
 
