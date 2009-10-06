@@ -33,3 +33,8 @@ afiedt.buf
 sqlnet.log
 *.dfb
 
+password/checkpwd/
+password/cracker/
+password/orabf/
+password/woraauthbf/
+
