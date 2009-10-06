@@ -4,7 +4,7 @@
 #     wrapper: rotate oracle table
 #
 #     must be executed on the first day of each month:
-#         * * 1 * * /path/cron-rotate-agc-log -p
+#         03 02 1 * * /path/cron-rotate-agc-log -p
 #
 # Marcus Vinicius Ferreira                      ferreira.mv[ at ]gmail.com
 # 2009/Set
@@ -40,9 +40,11 @@ perl -e '
 }
 
 log() {
+# screen: add to log explicitly
+#   cron: already sending to log
     if tty -s
-    then echo "$( date '+%Y-%m-%d %X'): $1" | tee -a $LOG
-    else echo "$( date '+%Y-%m-%d %X'): $1" >> $LOG
+    then echo "$( date '+%Y-%m-%d %X'): $1" >> $LOG
+    else echo "$( date '+%Y-%m-%d %X'): $1"
     fi
 }
 
@@ -61,46 +63,81 @@ MAIL
 }
 
 exists_table() {
-sqlplus -L -s $sysdba <<SQL
+cat > /tmp/$$.1.sql <<CAT
     WHENEVER SQLERROR EXIT FAILURE
-    set time on
-    set timing on
+    set echo on
+    set feedback off
+    set time off
+    set timing off
+    set serveroutput on
 
-    DECLARE x NUMBER;
+    DECLARE
+        x                 NUMBER;
+        already_exists    EXCEPTION;
     BEGIN
-      select 1
-        into x
-        from dba_objects
-       where       owner=UPPER('$OWNER')
-         and object_name=UPPER('$NEW_TABLE')
-         ;
-      -- execute immediate 'drop table ${OWNER}.${NEW_TABLE}';
+        FOR r IN (
+            select 1
+              from dba_objects
+             where       owner=UPPER('$OWNER')
+               and object_name=UPPER('$NEW_TABLE')
+                 )
+        LOOP
+        --
+            DBMS_OUTPUT.PUT_LINE('Table already exists.');
+            RAISE already_exists;
+        --
+        END LOOP;
+        --
+        DBMS_OUTPUT.PUT_LINE('Table not found.');
+        --
     EXCEPTION
+        WHEN already_exists THEN
+            RAISE_APPLICATION_ERROR(-20101, 'already_exists');
         WHEN OTHERS THEN RAISE;
     END;
 /
+CAT
+
+sqlplus -L $sysdba <<SQL
+    @/tmp/$$.1.sql
 SQL
+
+    err="$?"
+    /bin/rm -f /tmp/$$.1.sql
+    echo "Err [$?]"
+    return $err
 }
 
 create_table() {
-sqlplus -L -s $sysdba <<SQL
+cat > /tmp/$$.1.sql <<CAT
     WHENEVER SQLERROR EXIT FAILURE
+    set echo on
     set time on
     set timing on
 
-        create table ${OWNER}.$NEW_TABLE
-            tablespace $TBSPC_ROTATE
-        as select /* create_table $0 */ *
-            from ${OWNER}.$TABLE
-            where $DT_COLUMN BETWEEN     TO_DATE( '$DT', 'YYYY_MM' )      -- result: first day, first hour
-                            AND LAST_DAY(TO_DATE( '$DT', 'YYYY_MM' )) + 1 -- result: last day, last hour
-        ;
+    create table ${OWNER}.$NEW_TABLE
+        tablespace $TBSPC_ROTATE
+    as select /* create_table $0 */ *
+         from ${OWNER}.$TABLE
+        where $DT_COLUMN BETWEEN      TO_DATE( '$DT', 'YYYY_MM' )      -- result: first day, first hour
+                         AND LAST_DAY(TO_DATE( '$DT', 'YYYY_MM' )) + 1 -- result: last day, last hour
+    ;
+CAT
+
+sqlplus -L $sysdba <<SQL
+    @/tmp/$$.1.sql
 SQL
+
+    err="$?"
+    /bin/rm -f /tmp/$$.1.sql
+    echo "Err [$?]"
+    return $err
 }
 
 purge_data() {
-sqlplus -L -s $sysdba <<SQL
+cat > /tmp/$$.1.sql <<CAT
     WHENEVER SQLERROR EXIT FAILURE
+    set echo on
     set time on
     set timing on
 
@@ -108,7 +145,7 @@ sqlplus -L -s $sysdba <<SQL
       LOOP
         delete /* purge_data $0 */
           from ${OWNER}.$TABLE
-          where $DT_COLUMN BETWEEN     TO_DATE( '$DT', 'YYYY_MM' )      -- result: first day, first hour
+         where $DT_COLUMN BETWEEN      TO_DATE( '$DT', 'YYYY_MM' )      -- result: first day, first hour
                           AND LAST_DAY(TO_DATE( '$DT', 'YYYY_MM' )) + 1 -- result: last day, last hour
            and rownum <= 100000
              ;
@@ -120,16 +157,35 @@ sqlplus -L -s $sysdba <<SQL
       commit ;
     END;
 /
+CAT
+
+sqlplus -L $sysdba <<SQL
+    @/tmp/$$.1.sql
 SQL
+
+    err="$?"
+    /bin/rm -f /tmp/$$.1.sql
+    echo "Err [$?]"
+    return $err
 }
 
 ### Setup
 
-. /u01/app/oracle/config/env-ora.sh
+. /u01/app/oracle/bin/env-ora.sh
 
 # Log
 [ -z $LOG_DIR ] && LOG_DIR=/tmp
 LOG=${LOG_DIR}/${0##*/}.log
+touch $LOG
+
+### Output via cron
+if ! tty -s
+then exec 1>>$LOG
+     exec 2>>$LOG
+fi
+
+#    exec 1>>$LOG
+#    exec 2>>$LOG
 
 # Auto-rotate
 size=$( /bin/ls -l $LOG | awk '{print $5}' ) # size bytes
@@ -160,7 +216,9 @@ log "BEGIN"
 
 ### 1/3
 log "Table [${OWNER}.${NEW_TABLE}]"
-if exists_table > /dev/null
+
+exists_table
+if [ "$?" != "0" ]
 then
     log "Table already exists. Exiting."
     email "Table already exists."
@@ -169,7 +227,7 @@ fi
 
 ### 2/3
 log "Creating new table..."
-if create_table | log
+if create_table
 then log "Table created."
 else
     log "Table error. Check your log."
@@ -179,7 +237,7 @@ fi
 
 ### 3/3
 log "Purging from [${OWNER}.${TABLE}]"
-if purge_data | log
+if purge_data
 then
     log "Purge finished"
 else
