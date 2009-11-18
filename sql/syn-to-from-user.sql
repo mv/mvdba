@@ -4,7 +4,7 @@
 --    create local synonyms OWNER.object for user.synonym
 --
 -- Usage:
---    sqlplus dba/pass@bd @ syn-to-from-user.sql OWNER user
+--    sqlplus dba/pass@bd @ syn-to-from-user.sql user OWNER
 --
 --    Marcus Vinicius Ferreira                  ferreira.mv[ at ] gmail.com
 --    2009-06
@@ -17,8 +17,8 @@ SET VERIFY OFF
 SET TIME OFF
 SET TIMING OFF
 
-DEFINE _owner=&&1
-DEFINE  _user=&&2
+DEFINE  _user=&&1
+DEFINE _owner=&&2
 
 -- owner exists?
 WHENEVER SQLERROR EXIT
