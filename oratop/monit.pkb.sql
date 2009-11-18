@@ -94,18 +94,22 @@ CREATE OR REPLACE PACKAGE BODY monit AS
                      , to_char(p.spid, 99999 )                                  pid
                      ,  lower( nvl(     s.osuser   , 'n/a') )                   osu
                      ,  lower( nvl(trim(s.program) , 'n/a') )                   cmd
-                     ,  lower(decode(nvl(s.terminal, 'n/a') ,'n/a', s.machine
-                                                            , s.terminal
-                                                            ))                  mcn
+                     ,  lower( decode(instr(s.machine,'.')
+                                     , 0 , decode( instr(s.machine,'\')
+                                                 , 0, s.machine
+                                                 , substr(s.machine,instr(s.machine,'\')+1)
+                                                 )
+                                     , substr(s.machine,1,instr(s.machine,'.'))
+                                     )  )                                       mcn
                      ,  substr(lower( nvl(module, ' ')), 1, 16)                 mdl
                      ,  substr(lower( nvl(action, ' ')), 1, 10)                 act
                   from v$session s
                      , v$process p
                  where s.username is not null
                    and s.paddr = p.addr(+)
-                 order by st
-                        , ( select sum(value) from v$sesstat ss where ss.statistic# in (12,40,43) and ss.sid = s.sid) desc
-                        , la desc
+                 order by s.status
+                        , p.spid
+                     -- , ( select sum(value) from v$sesstat ss where ss.statistic# in (12,40,43) and ss.sid = s.sid) desc -- cpu, ip, ipc_cpu
               )
              where rownum < vsize - 10
         ) loop
