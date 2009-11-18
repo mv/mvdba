@@ -40,8 +40,8 @@ do
     print -p "exec system.monit.oratop( $hsize, $vsize );"
 
     # display adjusts
-    let vsize=$vsize-4 # offset of bottom messages
-    clear
+    let vsize=$vsize-2 # offset of bottom messages
+    # clear
 
     # read from session
     for i in {1..$vsize}
@@ -51,7 +51,7 @@ do
     done
 
     # bottom messages
-    echo "Press CTRL-c to exit" # - v: $vsize, h: $hsize"
+    echo "Press CTRL-c to exit - v: $vsize, h: $hsize"
     sleep 2
 
 done
