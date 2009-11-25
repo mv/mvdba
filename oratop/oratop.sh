@@ -28,11 +28,12 @@ print -p "set time off"
 print -p "set timing off"
 print -p "exec dbms_application_info.set_module( 'monit', 'oratop');"
 
+# ksh: force integer for arithmetic
+typeset -i vsize
+typeset -i hsize
+
 while true
 do
-    # ksh: force integer for arithmetic
-    typeset -i vsize
-    typeset -i hsize
     which stty 1>/dev/null && vsize=`stty size|cut -f1 -d" "` || vsize=24
     which stty 1>/dev/null && hsize=`stty size|cut -f2 -d" "` || hsize=80
 
@@ -53,7 +54,6 @@ do
     # bottom messages
     echo "Press CTRL-c to exit - v: $vsize, h: $hsize"
     sleep 2
-
 done
 
 exit 0
