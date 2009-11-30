@@ -6,6 +6,7 @@ set linesize 1000
 set trimspool on
 set verify off
 
+SET SCAN ON
 spool &1..sql
 
 prompt set define off

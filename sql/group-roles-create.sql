@@ -13,6 +13,7 @@
 --    2009-08
 --
 
+SET SCAN ON
 DEFINE _app=&&1
 
 SET FEEDBACK ON

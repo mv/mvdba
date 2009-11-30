@@ -16,6 +16,7 @@ SET VERIFY OFF
 SET TIME    OFF
 SET TIMING  OFF
 
+SET SCAN ON
 DEFINE _user=&&1
 
 select 'alter user '||RPAD(username,31,' ')||' grant connect through &&_user;'

@@ -3,7 +3,9 @@ rem mapper.sql
 rem    mapa da utilizacao de area pelos objetos e de area livre (tablespace)
 rem
 
+SET SCAN ON
 DEFINE tablespace = &tablespace
+
 SET VERIFY OFF
 SET HEADING ON
 

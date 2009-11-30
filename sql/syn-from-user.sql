@@ -17,6 +17,7 @@ SET VERIFY OFF
 SET TIME    OFF
 SET TIMING  OFF
 
+SET SCAN ON
 DEFINE _user=&&1
 
 -- owner exists?
