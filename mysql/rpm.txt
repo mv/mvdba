@@ -1,0 +1,9 @@
+
+# Query
+
+rpm -qa | grep -i mysql
+
+# Remove
+rpm -e --nodeps --allmatches mysql-5.0.77-3.el5
+rpm -e --nodeps --allmatches mysql-devel-5.0.77-3.el5
+
