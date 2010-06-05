@@ -1,0 +1,54 @@
+
+##################################################
+### Logs - 5.0
+##################################################
+
+###
+### Error
+###
+log-error=/mysql-logs/localhost-error.log
+
+###
+### General
+### All comands / Audit
+###     Tip: save into myisam table, for later use. Default=csv table.
+###
+log=/mysql-logs/localhost.log
+
+
+###
+### Slow
+###     set @@global.slow_query_log_file='/home/aluno/mysql-logs/slow2.log';
+###
+log-slow-queries=/mysql-logs/localhost-slow.log
+long-query-time=2
+
+
+
+
+##################################################
+### Logs - 5.1/5.4
+##################################################
+
+###
+### Error
+###
+log-error=/mysql-logs/localhost-error.log
+
+###
+### General
+### All comands / Audit
+###     Tip: save into myisam table, for later use. Default=csv table.
+###
+general-log
+general-log-file=/mysql-logs/localhost.log
+
+###
+### Slow
+###     set @@global.slow_query_log_file='/home/aluno/mysql-logs/slow2.log';
+###
+slow-query-log
+slow-query-log-file=/mysql-logs/localhost-slow.log
+long_query_time=2
+
+log-queries-not-using-index
