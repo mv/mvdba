@@ -1,0 +1,44 @@
+###
+### Binary log: Replication/Redo, i.e., archive log
+###
+log-bin=/u01/mysql-logs/alia-atreides-bin
+
+# size:
+max_binlog_size=100M
+
+# auto-rotate:
+expire_logs_days=2
+
+# server decide between row/statement:
+binlog_format=mixed
+
+###
+### auto-rotate binary logs
+###
+
+# current settings
+show variables like 'expire%';
+set global expire_logs_days=14;
+
+# purge by hand
+show master logs;
+purge master logs to 'binarylog.000999';
+purge master logs before '2008-07-29 22:46:26';
+flush logs;
+
+# via cron 1
+/usr/bin/mysql -e "PURGE MASTER LOGS BEFORE DATE_SUB(CURRENT_DATE, INTERVAL 3 DAY)"
+
+# via cron 2
+/usr/bin/mysql --defaults-file=/root/.my.cnf \
+               -e 'show master logs;
+                   purge master logs before date_sub(now(), interval 21 day);
+                   show master logs;
+                   flush logs;'
+
+# Ref:
+http://jmkgreen.wordpress.com/2008/08/26/when-expire_logs_days-has-no-effect/
+http://dev.mysql.com/doc/refman/5.1/en/binary-log.html
+http://dev.mysql.com/doc/refman/5.1/en/replication-options-binary-log.html
+http://dev.mysql.com/doc/refman/5.1/en/purge-binary-logs.html
+
