@@ -1,0 +1,66 @@
+
+
+[rac1]/u01/home/beta> ps -ef | grep crs
+
+ oracle  1363   999  0 11:23:21 ?  0:00 /u01/crs_home/bin/evmlogger.bin -o /u01
+ oracle   999     1  0 11:21:39 ?  0:01 /u01/crs_home/bin/evmd.bin
+ root    1003     1  0 11:21:39 ?  0:01 /u01/crs_home/bin/crsd.bin
+ oracle  1002     1  0 11:21:39 ?  0:01 /u01/crs_home/bin/ocssd.bin
+
+
+Sequencia:
+
+    /etc/init.d/init.crs
+        Cluster Ready Services
+        enable/disable: automatic boot startup (y/n)
+        start/stop
+
+    /etc/init.d/init.crsd - nao usado em comando de linha
+        CRS Daemon
+
+    /etc/init.d/init.cssd - nao usado em comando de linha
+        Cluster Synchronization Service Daemon
+
+    /etc/init.d/init.evmd - nao usado em comando de linha
+        Event Volume Manager Daemon
+
+OPROCd ?
+    I/O Fencing implementation
+    http://en.wikipedia.org/wiki/Oracle_Clusterware
+
+Comandos:
+---------
+
+$ORA_CRS_HOME/bin/csrctl check crs
+$ORA_CRS_HOME/bin/csrctl check cssd
+$ORA_CRS_HOME/bin/csrctl check crsd
+$ORA_CRS_HOME/bin/csrctl check evmd
+
+                  crsctl enable  crs        - enables startup for all CRS daemons
+                  crsctl disable crs        - disables startup for all CRS daemons
+                  crsctl start crs          - starts all CRS daemons.
+                  crsctl stop  crs          - stops all CRS daemons. Stops CRS resources in case of cluster.
+                  crsctl start resources    - starts CRS resources.
+                  crsctl stop resources     - stops  CRS resources.
+
+# sd, ons, listener, and vip
+srvctl start nodeapps -n (node)
+srvctl start nodeapps -n (node)
+
+Logs
+----
+    /u01/app/oracle/product/10.2.0/crs_1/evm/log/*evmlogger.log
+    /u01/app/oracle/product/10.2.0/crs_1/log/*/alert*log
+    /u01/app/oracle/product/10.2.0/crs_1/log/*/crsd/crsd.log
+    /u01/app/oracle/product/10.2.0/crs_1/log/*/evmd/evmd.log
+    /u01/app/oracle/product/10.2.0/crs_1/log/*/cssd/*cssd.log
+
+tail -f /u01/app/oracle/product/10.2.0/crs_1/evm/log/*evmlogger.log \
+        /u01/app/oracle/product/10.2.0/crs_1/log/*/alert*log        \
+        /u01/app/oracle/product/10.2.0/crs_1/log/*/crsd/crsd.log    \
+        /u01/app/oracle/product/10.2.0/crs_1/log/*/evmd/evmd.log    \
+        /u01/app/oracle/product/10.2.0/crs_1/log/*/cssd/*cssd.log   \
+
+Limpeza Log
+    /u01/app/oracle/product/10.2.0/crs_1/evm/log
+
