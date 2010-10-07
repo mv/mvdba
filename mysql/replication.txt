@@ -8,26 +8,31 @@ flush privileges;
 flush tables with read lock;
 show master status;
 
-+----------------------+----------+--------------+------------------+
-| File                 | Position | Binlog_Do_DB | Binlog_Ignore_DB |
-+----------------------+----------+--------------+------------------+
-| host-db01-bin.000038 |      106 |              |                  |
-+----------------------+----------+--------------+------------------+
+    +----------------------+----------+--------------+------------------+
+    | File                 | Position | Binlog_Do_DB | Binlog_Ignore_DB |
+    +----------------------+----------+--------------+------------------+
+    | host-db01-bin.000038 |      106 |              |                  |
+    +----------------------+----------+--------------+------------------+
 
 # master, after mysqldump
 unlock tables;
 
 # master, shell
-mysqldump --all-databases --lock-all-tables --master-data | gzip -c > host-master.dump.sql.gz
-mysqldump --lock-all-tables --master-data host_production | gzip -c > veja-master.dump.sql.gz
+mysqldump --all-databases --lock-all-tables --master-data                 | gzip -c > host-master.dump.sql.gz
+mysqldump                 --lock-all-tables --master-data host_production | gzip -c > host-master.dump.sql.gz
+mysqldump              --single-transaction --master-data host_production | gzip -c > host-master.dump.sql.gz
 
 # slaves
 stop slave;
 
+---
+--- Carregar dump!!!
+---
+
 change master to
     master_host='172.16.202.master',
     master_user='repl',
-    master_password='*repl!',
+    master_password='pass',
     master_log_file='host-db01-bin.000038',
     master_log_pos=106;
 
