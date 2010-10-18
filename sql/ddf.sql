@@ -7,7 +7,7 @@
 --
 
 column tablespace_name  format a25
-column file_name        format a50
+column file_name        format a55
 column perc_free        format 999
 column perc_used        format 999
 column perc_used_max    format a15 justify right
@@ -28,12 +28,12 @@ select decode (sign( 1024 - ddf.size_mega )
               , 1, LPAD(   round(dfs.free_mega,2) || ' M', 10, ' ')
               , LPAD( round(dfs.free_mega/1024,2) || ' G', 10, ' ')
               )                                     free
+     , round(   free_mega/size_mega ,2)*100         perc_free
+     , round(1-(free_mega/size_mega),2)*100         perc_used
      , decode (sign( 1024 - ddf.maxsize_mega )
               , 1, LPAD(   round(ddf.maxsize_mega,2) || ' M', 10, ' ')
               , LPAD( round(ddf.maxsize_mega/1024,2) || ' G', 10, ' ')
               )                                     max_size
-     , round(   free_mega/size_mega ,2)*100         perc_free
-     , round(1-(free_mega/size_mega),2)*100         perc_used
   from (
         select sum(bytes)/1024/1024    size_mega
              , sum(maxbytes)/1024/1024 maxsize_mega
