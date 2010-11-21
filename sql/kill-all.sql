@@ -11,8 +11,8 @@ set echo off
 
 spool /tmp/1.sql
 
-select 'alter system kill session '||CHR(39)||sid||','
-                                            ||serial#||CHR(39)||';'
+select 'alter system kill session '
+       ||CHR(39)||sid||','||serial#||CHR(39)||';'
   from v$session
  where username NOT IN ('SYS','SYSTEM','MVDBA')
 /

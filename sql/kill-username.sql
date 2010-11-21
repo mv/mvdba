@@ -1,7 +1,7 @@
 --
--- Kill inactive sessions
+-- Kill sessions by username
 --
--- 2009/11
+-- 2010/11
 
 set time off
 set timing off
@@ -14,8 +14,7 @@ spool /tmp/1.sql
 select 'alter system kill session '
        ||CHR(39)||sid||','||serial#||CHR(39)||';'
   from v$session
- where username = UPPER(NVL('&1',username))
-   and status   = 'INACTIVE'
+ where username = UPPER('&1')
 /
 
 spool off
