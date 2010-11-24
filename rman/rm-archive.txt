@@ -31,3 +31,17 @@ Ref:
     http://www.idevelopment.info/data/Oracle/DBA_tips/RMAN_9i/RMAN9_50.shtml#unix%20rman%20backup%20script
     http://www.idevelopment.info/data/Oracle/DBA_tips/RMAN_9i/RMAN9_5.shtml
 
+fra.sql:
+
+    COLUMN name format a15
+
+    SELECT name
+        , number_of_files
+        , space_limit/1024/1024/1024               space_limit_g
+        , space_used/1024/1024/1024                space_used_g
+        , space_reclaimable/1024/1024/1024         reclaimable_g
+        , ROUND(space_used/space_limit*100, 2)     perc_used
+    FROM v$recovery_file_dest
+        ;
+
+
