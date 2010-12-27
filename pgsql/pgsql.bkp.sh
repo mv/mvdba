@@ -26,10 +26,10 @@ PATH=$PATH:/usr/bin:/usr/sbin:/bin:/sbin
 LOGFILE=${LOGDIR}/${FILE%.*}.log
 
 MAIL_FROM="noreply@webcointernet.com"
-  MAIL_TO="marcus.ferreira@abril.com.br"
+  MAIL_TO="mv@example.com"
 
 ### pgsql:
-###     CREATE ROLE backup LOGIN SUPERUSER PASSWORD 'Back-Up#2009';
+###     CREATE ROLE backup LOGIN SUPERUSER PASSWORD 'password';
 ### pg_hba.conf:
 ###     # TYPE  DATABASE    USER        CIDR-ADDRESS          METHOD
 ###     host    all         backup      127.0.0.1/32          trust
