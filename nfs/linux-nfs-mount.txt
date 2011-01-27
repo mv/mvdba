@@ -1,0 +1,14 @@
+
+# Linux NFS
+# using NFS for rman/impdp/expdp
+
+# ORA-27054
+# http://jhdba.wordpress.com/2008/03/04/ora-27054-when-using-rman-to-nasnfs-disks/
+# http://marist89.blogspot.com/2005/10/wicked-ora-27054-solved.html
+
+### /etc/fstab
+172.16.128.246:/ORACLE_RMAN  /mnt/rman  nfs  rw,bg,hard,nointr,timeo=600,rsize=32768,wsize=32768,tcp,vers=3,actimeo=0  0  0
+172.16.128.246:/ORACLE_RMAN  /mnt/rman  nfs  rw,bg,hard,intr,timeo=600,rsize=32768,wsize=32768,tcp,nfsver=3            0  0
+
+# vim:ft=fstab:
+
