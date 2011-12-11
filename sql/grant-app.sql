@@ -2,10 +2,11 @@
 --
 -- grant-app.sql - ABD
 --    grant privileges to app roles:
+--    (do the same as grant-all-to/grant-exec-to/grant-sel-to)
 --        RL_app_READ
 --        RL_app_EXEC
 --        RL_app_FULL
---
+--    
 -- Usage:
 --    connect OWNER/pass
 --    @grant-app app_name
