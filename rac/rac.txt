@@ -1,0 +1,4 @@
+http://asktom.oracle.com/pls/asktom/f?p=100:11:0::::P11_QUESTION_ID:45027162924720
+
+http://www.oracle.com/technology/pub/articles/hunter_rac10gr2.html
+http://www.oracle.com/technology/tech/linux/vmware/index.html

@@ -1,0 +1,18 @@
+
+#### RAC
+## Private: eth0 eth0:1 # http://handsonhowto.com/virt.html
+172.16.11.11        rac1-priv.mvdba.net rac1-priv
+172.16.11.12        rac2-priv.mvdba.net rac2-priv
+
+## Public: eth1 eth1:0
+192.168.101.11      rac1.mvdba.net      rac1
+192.168.101.12      rac2.mvdba.net      rac2
+
+## Virtual
+192.168.101.21      rac1-vip.mvdba.net  rac1-vip
+192.168.101.22      rac2-vip.mvdba.net  rac2-vip
+
+
+## NAS
+192.168.101.11   `  nas1.mvdba.net      nas1
+

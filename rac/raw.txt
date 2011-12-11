@@ -1,0 +1,8 @@
+
+
+/dev/raw/raw1   /dev/oracle/ocr
+/dev/raw/raw2   /dev/oracle/voting
+/dev/raw/raw3   /dev/oracle/spfile_asm
+/dev/raw/raw4   /dev/oracle/spfile_db
+
+
