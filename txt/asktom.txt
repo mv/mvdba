@@ -1,0 +1,16 @@
+
+http://asktom.oracle.com/pls/ask/f?p=4950:8:::::F4950_P8_DISPLAYID:4974573906087
+http://asktom.oracle.com/pls/ask/f?p=4950:8:::::F4950_P8_DISPLAYID:623063677753
+http://asktom.oracle.com/pls/ask/f?p=4950:8:::::F4950_P8_DISPLAYID:1275881575484
+http://asktom.oracle.com/pls/ask/f?p=4950:8:::::F4950_P8_DISPLAYID:17309172009134
+
+
+
+http://asktom.oracle.com/pls/ask/f?p=4950:8:::::F4950_P8_DISPLAYID:623063677753
+http://asktom.oracle.com/pls/ask/f?p=4950:8:::::F4950_P8_DISPLAYID:17309172009134
+
+NOT IN, EXISTS
+http://asktom.oracle.com/pls/asktom/f?p=100:11:758345706365723::::P11_QUESTION_ID:953229842074
+
+Difference between automatic vs manual PGA setting
+http://asktom.oracle.com/pls/asktom/f?p=100:11:0::::P11_QUESTION_ID:8759826405304

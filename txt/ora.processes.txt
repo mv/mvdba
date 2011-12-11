@@ -1,0 +1,21 @@
+﻿Check that the service handlers (e.g. dispatchers) for given SERVICE_NAME are registered with the listener, and that they are properly configured to support the desired protocols and presentations, and are accepting connections.
+You might also want to check if the number of connections reaches the database’s PROCESSES parameter using following Unix command:
+
+ps -ef | grep oracleSID | grep -v grep | wc -l
+
+or
+
+ps aux | grep oracleSID | grep -v grep | wc -l
+
+If the value found is close to the value of the PROCESSES database parameter value, you might want to augment this value using following command:
+
+
+alter system set processes=new value [scope=spfile];
+
+A database bounce is required to let the new value become active.
+
+
+
+http://forums.oracle.com/forums/thread.jspa?threadID=305117
+http://www.dbmotive.com/support/oracle-error-codes/?type=ORA&errcode=12516
+
